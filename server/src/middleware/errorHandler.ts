@@ -12,6 +12,10 @@ export function errorHandler(
     return res.status(err.statusCode).json(fail(err.message, "API_ERROR"));
   }
 
+  if (err?.type === "entity.parse.failed") {
+    return res.status(400).json(fail("Invalid JSON body", "INVALID_JSON"));
+  }
+
   console.log("error:", err);
   return res.status(500).json(fail("Internal Server Error", "INTERNAL_ERROR"));
 }

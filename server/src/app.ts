@@ -1,8 +1,10 @@
 import "dotenv/config";
 import express from "express";
 import cros from "cors";
+import cookieParser from "cookie-parser";
 import { notFound } from "./middleware/notFound";
 import { errorHandler } from "./middleware/errorHandler";
+import { authRouter } from "./modules/auth/auth.routes";
 import { ok } from "./utils/envelope";
 import { env } from "./config/env";
 
@@ -17,13 +19,14 @@ export function mainEntryFunction() {
   );
 
   app.use(express.json());
+  app.use(cookieParser());
 
   app.get("/health", (_req, res) =>
     res.json(ok({ message: "server is healthy" })),
   );
 
   //Auth
-  //   app.use("/auth", authRouter);
+  app.use("/auth", authRouter);
 
   app.use(notFound);
   app.use(errorHandler);
