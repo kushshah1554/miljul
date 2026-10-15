@@ -51,7 +51,11 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
-  User: 'User'
+  User: 'User',
+  Group: 'Group',
+  GroupMember: 'GroupMember',
+  Expense: 'Expense',
+  ExpenseSplit: 'ExpenseSplit'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -81,6 +85,53 @@ export const UserScalarFieldEnum = {
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+export const GroupScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  joinCode: 'joinCode',
+  createdById: 'createdById',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type GroupScalarFieldEnum = (typeof GroupScalarFieldEnum)[keyof typeof GroupScalarFieldEnum]
+
+
+export const GroupMemberScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  groupId: 'groupId',
+  role: 'role',
+  joinedAt: 'joinedAt'
+} as const
+
+export type GroupMemberScalarFieldEnum = (typeof GroupMemberScalarFieldEnum)[keyof typeof GroupMemberScalarFieldEnum]
+
+
+export const ExpenseScalarFieldEnum = {
+  id: 'id',
+  description: 'description',
+  amount: 'amount',
+  paidById: 'paidById',
+  groupId: 'groupId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ExpenseScalarFieldEnum = (typeof ExpenseScalarFieldEnum)[keyof typeof ExpenseScalarFieldEnum]
+
+
+export const ExpenseSplitScalarFieldEnum = {
+  id: 'id',
+  expenseId: 'expenseId',
+  userId: 'userId',
+  amount: 'amount'
+} as const
+
+export type ExpenseSplitScalarFieldEnum = (typeof ExpenseSplitScalarFieldEnum)[keyof typeof ExpenseSplitScalarFieldEnum]
 
 
 export const SortOrder = {

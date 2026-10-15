@@ -9,4 +9,8 @@
  * 🟢 You can import this file directly.
  */
 export type * from './models/User'
+export type * from './models/Group'
+export type * from './models/GroupMember'
+export type * from './models/Expense'
+export type * from './models/ExpenseSplit'
 export type * from './commonInputTypes'

@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import { notFound } from "./middleware/notFound";
 import { errorHandler } from "./middleware/errorHandler";
 import { authRouter } from "./modules/auth/auth.routes";
+import { groupRouter } from "./modules/group/group.routes";
 import { ok } from "./utils/envelope";
 import { env } from "./config/env";
 
@@ -27,6 +28,9 @@ export function mainEntryFunction() {
 
   //Auth
   app.use("/auth", authRouter);
+
+  //Groups
+  app.use("/api/groups", groupRouter);
 
   app.use(notFound);
   app.use(errorHandler);
