@@ -6,6 +6,7 @@ import { parseBody } from "../auth/auth.validation";
 import {
   createGroupSchema,
   groupIdParamSchema,
+  listGroupsQuerySchema,
   updateGroupSchema,
 } from "./group.validation";
 import * as groupService from "./group.service";
@@ -21,8 +22,9 @@ export const create = asyncHandler(async (req: Request, res: Response) => {
 
 export const list = asyncHandler(async (req: Request, res: Response) => {
   const authUser = requireFound(req.user, "Authentication required", 401);
+  const query = parseBody(listGroupsQuerySchema, req.query);
 
-  const groups = await groupService.listGroups(authUser.id);
+  const groups = await groupService.listGroups(authUser.id, query);
 
   res.json(ok({ groups }));
 });
@@ -46,11 +48,20 @@ export const update = asyncHandler(async (req: Request, res: Response) => {
   res.json(ok({ group }));
 });
 
-export const remove = asyncHandler(async (req: Request, res: Response) => {
+export const archive = asyncHandler(async (req: Request, res: Response) => {
   const authUser = requireFound(req.user, "Authentication required", 401);
   const { groupId } = parseBody(groupIdParamSchema, req.params);
 
-  await groupService.deleteGroup(authUser.id, groupId);
+  const group = await groupService.archiveGroup(authUser.id, groupId);
 
-  res.status(204).send();
+  res.json(ok({ group }));
+});
+
+export const restore = asyncHandler(async (req: Request, res: Response) => {
+  const authUser = requireFound(req.user, "Authentication required", 401);
+  const { groupId } = parseBody(groupIdParamSchema, req.params);
+
+  const group = await groupService.restoreGroup(authUser.id, groupId);
+
+  res.json(ok({ group }));
 });

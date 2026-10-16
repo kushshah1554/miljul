@@ -49,6 +49,12 @@ model Group {
   createdAt DateTime      @default(now())
   updatedAt DateTime      @updatedAt
 
+  // Lifecycle: active by default; archived groups keep all historical
+  // records (memberships, expenses, splits) and are read-only until
+  // restored. archivedAt records when the archive happened.
+  isArchived Boolean   @default(false)
+  archivedAt DateTime?
+
   @@index([createdById])
   @@map("groups")
 }

@@ -6,6 +6,7 @@ import { notFound } from "./middleware/notFound";
 import { errorHandler } from "./middleware/errorHandler";
 import { authRouter } from "./modules/auth/auth.routes";
 import { groupRouter } from "./modules/group/group.routes";
+import { groupMemberRouter } from "./modules/group-member/group-member.routes";
 import { ok } from "./utils/envelope";
 import { env } from "./config/env";
 
@@ -31,6 +32,9 @@ export function mainEntryFunction() {
 
   //Groups
   app.use("/api/groups", groupRouter);
+
+  //Group membership (subresource of groups)
+  app.use("/api/groups", groupMemberRouter);
 
   app.use(notFound);
   app.use(errorHandler);

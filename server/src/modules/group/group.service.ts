@@ -3,7 +3,12 @@ import { prisma } from "../../utils/prisma";
 import { AppError } from "../../utils/AppError";
 import { requireFound } from "../../utils/helpers";
 import { Prisma, GroupRole } from "../../generated/prisma/client";
-import type { CreateGroupInput, UpdateGroupInput } from "./group.validation";
+import type {
+  CreateGroupInput,
+  ListGroupsQuery,
+  UpdateGroupInput,
+} from "./group.validation";
+import { GROUP_ARCHIVED_MESSAGE } from "./group.lifecycle";
 
 // Only safe, non-sensitive group fields are ever selected.
 const groupSelect = {
@@ -14,6 +19,8 @@ const groupSelect = {
   createdById: true,
   createdAt: true,
   updatedAt: true,
+  isArchived: true,
+  archivedAt: true,
 } as const satisfies Prisma.GroupSelect;
 
 type GroupScalars = Prisma.GroupGetPayload<{ select: typeof groupSelect }>;
@@ -116,22 +123,13 @@ export async function createGroup(
   throw new AppError(409, "Could not generate a unique join code, please try again");
 }
 
-/** Lists every group the user is a member of. Empty array when none. */
-export async function listGroups(userId: string): Promise<GroupSummary[]> {
-  const groups = await prisma.group.findMany({
-    where: { members: { some: { userId } } },
-    select: metaSelect(userId),
-    orderBy: { createdAt: "desc" },
-  });
-
-  return groups.map(toSummary);
-}
-
 /**
- * Returns one group. Returns 404 for both unknown ids and groups the user
- * is not a member of, so membership cannot be probed by id.
+ * Fetches the summary (scalars + caller's role + member count) of a group
+ * the caller belongs to. Returns 404 for unknown ids and groups the user
+ * is not a member of, so membership cannot be probed by id. Archived
+ * groups remain readable to their members.
  */
-export async function getGroupById(
+async function getSummary(
   userId: string,
   groupId: string,
 ): Promise<GroupSummary> {
@@ -144,27 +142,73 @@ export async function getGroupById(
 }
 
 /**
+ * Lists the groups the user is a member of, filtered by lifecycle state.
+ * The filter defaults to active groups only (see listGroupsQuerySchema),
+ * so archived groups are never returned implicitly; "?status=archived"
+ * and "?status=all" make them reachable. Empty array when none match.
+ */
+export async function listGroups(
+  userId: string,
+  filter: ListGroupsQuery,
+): Promise<GroupSummary[]> {
+  const statusFilter: Prisma.GroupWhereInput =
+    filter.status === "active"
+      ? { isArchived: false }
+      : filter.status === "archived"
+        ? { isArchived: true }
+        : {};
+
+  const groups = await prisma.group.findMany({
+    where: { members: { some: { userId } }, ...statusFilter },
+    select: metaSelect(userId),
+    orderBy: { createdAt: "desc" },
+  });
+
+  return groups.map(toSummary);
+}
+
+/** Returns one group; archived groups remain readable to their members. */
+export async function getGroupById(
+  userId: string,
+  groupId: string,
+): Promise<GroupSummary> {
+  return getSummary(userId, groupId);
+}
+
+/**
  * Partially updates a group. Only OWNER and ADMIN may update; non-members
  * receive 404 (existence is not disclosed), members with insufficient role
- * receive 403. Protected fields (id, createdById, joinCode, timestamps,
- * membership) can never be set from input.
+ * receive 403, and updates to an archived group receive 409 (archived
+ * groups are read-only). Protected fields (id, createdById, joinCode,
+ * timestamps, membership, lifecycle fields) can never be set from input.
  */
 export async function updateGroup(
   userId: string,
   groupId: string,
   input: UpdateGroupInput,
 ): Promise<GroupSummary> {
-  const membership = await prisma.groupMember.findUnique({
-    where: { userId_groupId: { userId, groupId } },
-    select: { role: true },
+  // One query yields existence, membership role and lifecycle state.
+  const existing = await prisma.group.findFirst({
+    where: { id: groupId, members: { some: { userId } } },
+    select: {
+      isArchived: true,
+      members: { where: { userId }, select: { role: true }, take: 1 },
+    },
   });
 
-  if (!membership) {
+  if (!existing) {
     throw new AppError(404, "Group not found");
   }
 
-  if (membership.role !== GroupRole.OWNER && membership.role !== GroupRole.ADMIN) {
+  const role = existing.members[0]?.role;
+  if (role !== GroupRole.OWNER && role !== GroupRole.ADMIN) {
     throw new AppError(403, "Only owners and admins can update this group");
+  }
+
+  // Archived groups are read-only for normal management edits. Permission
+  // is checked before lifecycle state everywhere: 404 -> 403 -> 409.
+  if (existing.isArchived) {
+    throw new AppError(409, GROUP_ARCHIVED_MESSAGE);
   }
 
   const data: Prisma.GroupUpdateInput = {};
@@ -185,28 +229,74 @@ export async function updateGroup(
 }
 
 /**
- * Deletes a group. Only the OWNER may delete; everyone else gets 404/403.
+ * Archives a group: a lifecycle transition, never a delete. Only the OWNER
+ * may archive (non-members get 404, other members 403). The state flip is
+ * a conditional updateMany, so a concurrent duplicate archive can never
+ * both report success - exactly one wins and the other gets 409.
  *
- * The schema cascades group deletion to memberships, expenses and expense
- * splits (see migration: ON DELETE CASCADE on those foreign keys), so a
- * single delete is atomic and cannot leave orphaned rows. The
- * Group.createdBy -> User relation is RESTRICT, which only prevents deleting
- * the *user*; it does not block deleting the group and never deletes
- * unrelated users.
+ * Only isArchived/archivedAt on the group row change: memberships,
+ * expenses, expense splits and every other historical record are
+ * deliberately untouched.
  */
-export async function deleteGroup(userId: string, groupId: string): Promise<void> {
-  const membership = await prisma.groupMember.findUnique({
-    where: { userId_groupId: { userId, groupId } },
-    select: { role: true },
+export async function archiveGroup(
+  userId: string,
+  groupId: string,
+): Promise<GroupSummary> {
+  const existing = await prisma.group.findFirst({
+    where: { id: groupId, members: { some: { userId } } },
+    select: { members: { where: { userId }, select: { role: true }, take: 1 } },
   });
 
-  if (!membership) {
+  if (!existing) {
     throw new AppError(404, "Group not found");
   }
 
-  if (membership.role !== GroupRole.OWNER) {
-    throw new AppError(403, "Only the group owner can delete this group");
+  if (existing.members[0]?.role !== GroupRole.OWNER) {
+    throw new AppError(403, "Only the group owner can archive the group");
   }
 
-  await prisma.group.delete({ where: { id: groupId } });
+  const archived = await prisma.group.updateMany({
+    where: { id: groupId, isArchived: false },
+    data: { isArchived: true, archivedAt: new Date() },
+  });
+
+  if (archived.count === 0) {
+    throw new AppError(409, "Group is already archived");
+  }
+
+  return getSummary(userId, groupId);
+}
+
+/**
+ * Restores an archived group to active. Only the OWNER may restore
+ * (symmetric with archiving); archivedAt is cleared. Uses the same
+ * conditional-write protection as archiving against duplicate restores.
+ */
+export async function restoreGroup(
+  userId: string,
+  groupId: string,
+): Promise<GroupSummary> {
+  const existing = await prisma.group.findFirst({
+    where: { id: groupId, members: { some: { userId } } },
+    select: { members: { where: { userId }, select: { role: true }, take: 1 } },
+  });
+
+  if (!existing) {
+    throw new AppError(404, "Group not found");
+  }
+
+  if (existing.members[0]?.role !== GroupRole.OWNER) {
+    throw new AppError(403, "Only the group owner can restore the group");
+  }
+
+  const restored = await prisma.group.updateMany({
+    where: { id: groupId, isArchived: true },
+    data: { isArchived: false, archivedAt: null },
+  });
+
+  if (restored.count === 0) {
+    throw new AppError(409, "Group is not archived");
+  }
+
+  return getSummary(userId, groupId);
 }

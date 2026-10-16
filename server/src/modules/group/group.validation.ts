@@ -26,7 +26,8 @@ export const updateGroupSchema = z
   });
 
 // Prisma ids are cuids: "c" followed by 20+ base36 characters.
-const cuidPattern = /^c[0-9a-z]{20,}$/;
+// Exported for reuse by the group-member module's param schemas.
+export const cuidPattern = /^c[0-9a-z]{20,}$/;
 
 export const groupIdParamSchema = z.object({
   groupId: z
@@ -35,6 +36,16 @@ export const groupIdParamSchema = z.object({
     .regex(cuidPattern, "Group id must be a valid id"),
 });
 
+// Lifecycle filter for GET /api/groups. Defaults to "active", so archived
+// groups are never returned implicitly; unknown params/values are rejected
+// (strictObject) following the body-validation convention.
+export const listGroupsQuerySchema = z.strictObject({
+  status: z
+    .enum(["active", "archived", "all"])
+    .default("active"),
+});
+
 export type CreateGroupInput = z.infer<typeof createGroupSchema>;
 export type UpdateGroupInput = z.infer<typeof updateGroupSchema>;
 export type GroupIdParam = z.infer<typeof groupIdParamSchema>;
+export type ListGroupsQuery = z.infer<typeof listGroupsQuerySchema>;
