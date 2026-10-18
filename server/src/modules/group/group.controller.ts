@@ -6,6 +6,7 @@ import { parseBody } from "../auth/auth.validation";
 import {
   createGroupSchema,
   groupIdParamSchema,
+  joinGroupSchema,
   listGroupsQuerySchema,
   updateGroupSchema,
 } from "./group.validation";
@@ -28,6 +29,29 @@ export const list = asyncHandler(async (req: Request, res: Response) => {
 
   res.json(ok({ groups }));
 });
+
+export const join = asyncHandler(async (req: Request, res: Response) => {
+  const authUser = requireFound(req.user, "Authentication required", 401);
+  const input = parseBody(joinGroupSchema, req.body);
+
+  const group = await groupService.joinGroupByCode(authUser.id, input);
+
+  res.status(201).json(ok({ group }));
+});
+
+export const regenerateJoinCode = asyncHandler(
+  async (req: Request, res: Response) => {
+    const authUser = requireFound(req.user, "Authentication required", 401);
+    const { groupId } = parseBody(groupIdParamSchema, req.params);
+
+    const group = await groupService.regenerateJoinCode(authUser.id, groupId);
+
+    // The new code is echoed at the top level for convenience; the
+    // authorization check happened in the service, so only OWNER/ADMIN
+    // callers ever see it.
+    res.json(ok({ joinCode: group.joinCode, group }));
+  },
+);
 
 export const getDetails = asyncHandler(async (req: Request, res: Response) => {
   const authUser = requireFound(req.user, "Authentication required", 401);

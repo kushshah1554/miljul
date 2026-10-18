@@ -3,12 +3,17 @@ import { prisma } from "../../utils/prisma";
 import { AppError } from "../../utils/AppError";
 import { requireFound } from "../../utils/helpers";
 import { Prisma, GroupRole } from "../../generated/prisma/client";
+import { JOIN_CODE_LENGTH } from "./group.validation";
 import type {
   CreateGroupInput,
+  JoinGroupInput,
   ListGroupsQuery,
   UpdateGroupInput,
 } from "./group.validation";
-import { GROUP_ARCHIVED_MESSAGE } from "./group.lifecycle";
+import {
+  GROUP_ARCHIVED_MESSAGE,
+  assertGroupActive,
+} from "./group.lifecycle";
 
 // Only safe, non-sensitive group fields are ever selected.
 const groupSelect = {
@@ -32,7 +37,6 @@ export type GroupSummary = GroupScalars & {
 
 // Exclude visually ambiguous characters (0/O, 1/I/L).
 const JOIN_CODE_ALPHABET = "ABCDEFGHJKMNPQRSTUVWXYZ23456789";
-const JOIN_CODE_LENGTH = 8;
 const JOIN_CODE_MAX_ATTEMPTS = 3;
 
 function generateJoinCode(): string {
@@ -47,6 +51,38 @@ function isUniqueConstraintError(error: unknown): error is Prisma.PrismaClientKn
   return (
     error instanceof Prisma.PrismaClientKnownRequestError &&
     error.code === "P2002"
+  );
+}
+
+/**
+ * Generates a fresh join code and hands it to `apply`, retrying when the
+ * rare unique-constraint collision on groups.joinCode (P2002) aborts the
+ * write. A collision never surfaces as a raw Prisma error: after
+ * JOIN_CODE_MAX_ATTEMPTS tries the caller gets a 409.
+ */
+async function withFreshJoinCode<T>(
+  apply: (joinCode: string) => Promise<T>,
+): Promise<T> {
+  for (let attempt = 1; attempt <= JOIN_CODE_MAX_ATTEMPTS; attempt += 1) {
+    try {
+      return await apply(generateJoinCode());
+    } catch (error) {
+      // Unique violation on joinCode: try a new code; anything else aborts.
+      if (!isUniqueConstraintError(error)) {
+        throw error;
+      }
+      if (attempt >= JOIN_CODE_MAX_ATTEMPTS) {
+        throw new AppError(
+          409,
+          "Could not generate a unique join code, please try again",
+        );
+      }
+    }
+  }
+
+  throw new AppError(
+    409,
+    "Could not generate a unique join code, please try again",
   );
 }
 
@@ -80,47 +116,78 @@ function toSummary(group: GroupWithMeta): GroupSummary {
 
 /**
  * Creates a group and the creator's OWNER membership in one transaction.
- * A join code is generated with retries so a rare unique-constraint
- * collision never aborts the request with a raw Prisma error.
+ * The join code is generated through withFreshJoinCode, so a rare
+ * unique-constraint collision never aborts the request with a raw Prisma
+ * error.
  */
 export async function createGroup(
   createdById: string,
   input: CreateGroupInput,
 ): Promise<GroupSummary> {
-  for (let attempt = 1; attempt <= JOIN_CODE_MAX_ATTEMPTS; attempt += 1) {
-    const joinCode = generateJoinCode();
-
-    try {
-      return await prisma.$transaction(async (tx) => {
-        const group = await tx.group.create({
-          data: {
-            name: input.name,
-            description: input.description ?? null,
-            joinCode,
-            createdById,
-          },
-          select: groupSelect,
-        });
-
-        await tx.groupMember.create({
-          data: { userId: createdById, groupId: group.id, role: GroupRole.OWNER },
-        });
-
-        return { ...group, role: GroupRole.OWNER, memberCount: 1 };
+  return withFreshJoinCode((joinCode) =>
+    prisma.$transaction(async (tx) => {
+      const group = await tx.group.create({
+        data: {
+          name: input.name,
+          description: input.description ?? null,
+          joinCode,
+          createdById,
+        },
+        select: groupSelect,
       });
-    } catch (error) {
-      // Unique violation on joinCode: try a new code; anything else aborts.
-      if (isUniqueConstraintError(error) && attempt < JOIN_CODE_MAX_ATTEMPTS) {
-        continue;
-      }
-      if (isUniqueConstraintError(error)) {
-        throw new AppError(409, "Could not generate a unique join code, please try again");
-      }
-      throw error;
-    }
+
+      await tx.groupMember.create({
+        data: { userId: createdById, groupId: group.id, role: GroupRole.OWNER },
+      });
+
+      return { ...group, role: GroupRole.OWNER, memberCount: 1 };
+    }),
+  );
+}
+
+/**
+ * Joins the group behind a shareable join code, as a MEMBER.
+ *
+ * - Input validation has already trimmed and upper-cased the code; a
+ *   well-formed but unknown code answers 404 "Invalid join code" and
+ *   discloses nothing about which codes exist.
+ * - Archived groups are frozen, so joining one is rejected with 409 via
+ *   the shared lifecycle guard (the same guard every group mutation uses).
+ * - Duplicate memberships are prevented by the existing
+ *   @@unique([userId, groupId]) constraint: a repeat join - or two
+ *   concurrent ones - surfaces as P2002 and answers 409.
+ *
+ * Returns the group summary, i.e. only the fields already exposed to
+ * members (no expenses or other private data), plus the caller's fresh
+ * role and the current member count.
+ */
+export async function joinGroupByCode(
+  userId: string,
+  input: JoinGroupInput,
+): Promise<GroupSummary> {
+  const group = await prisma.group.findUnique({
+    where: { joinCode: input.joinCode },
+    select: { id: true },
+  });
+
+  if (!group) {
+    throw new AppError(404, "Invalid join code");
   }
 
-  throw new AppError(409, "Could not generate a unique join code, please try again");
+  await assertGroupActive(prisma, group.id);
+
+  try {
+    await prisma.groupMember.create({
+      data: { userId, groupId: group.id, role: GroupRole.MEMBER },
+    });
+  } catch (error) {
+    if (isUniqueConstraintError(error)) {
+      throw new AppError(409, "You are already a member of this group");
+    }
+    throw error;
+  }
+
+  return getSummary(userId, group.id);
 }
 
 /**
@@ -176,18 +243,19 @@ export async function getGroupById(
 }
 
 /**
- * Partially updates a group. Only OWNER and ADMIN may update; non-members
- * receive 404 (existence is not disclosed), members with insufficient role
- * receive 403, and updates to an archived group receive 409 (archived
- * groups are read-only). Protected fields (id, createdById, joinCode,
- * timestamps, membership, lifecycle fields) can never be set from input.
+ * Shared authorization gate for group-management mutations (details
+ * update, join-code regeneration). One query yields existence,
+ * membership role and lifecycle state:
+ * - non-members and unknown ids get 404 (existence is not disclosed);
+ * - members with insufficient role get 403 naming `action`;
+ * - archived groups get 409 (archived groups are read-only).
+ * Permission is checked before lifecycle state everywhere: 404 -> 403 -> 409.
  */
-export async function updateGroup(
+async function requireManageableGroup(
   userId: string,
   groupId: string,
-  input: UpdateGroupInput,
-): Promise<GroupSummary> {
-  // One query yields existence, membership role and lifecycle state.
+  action: string,
+): Promise<void> {
   const existing = await prisma.group.findFirst({
     where: { id: groupId, members: { some: { userId } } },
     select: {
@@ -202,14 +270,27 @@ export async function updateGroup(
 
   const role = existing.members[0]?.role;
   if (role !== GroupRole.OWNER && role !== GroupRole.ADMIN) {
-    throw new AppError(403, "Only owners and admins can update this group");
+    throw new AppError(403, `Only owners and admins can ${action}`);
   }
 
-  // Archived groups are read-only for normal management edits. Permission
-  // is checked before lifecycle state everywhere: 404 -> 403 -> 409.
   if (existing.isArchived) {
     throw new AppError(409, GROUP_ARCHIVED_MESSAGE);
   }
+}
+
+/**
+ * Partially updates a group. Only OWNER and ADMIN may update; non-members
+ * receive 404 (existence is not disclosed), members with insufficient role
+ * receive 403, and updates to an archived group receive 409 (archived
+ * groups are read-only). Protected fields (id, createdById, joinCode,
+ * timestamps, membership, lifecycle fields) can never be set from input.
+ */
+export async function updateGroup(
+  userId: string,
+  groupId: string,
+  input: UpdateGroupInput,
+): Promise<GroupSummary> {
+  await requireManageableGroup(userId, groupId, "update this group");
 
   const data: Prisma.GroupUpdateInput = {};
   if (input.name !== undefined) {
@@ -226,6 +307,34 @@ export async function updateGroup(
   });
 
   return toSummary(group);
+}
+
+/**
+ * Rotates a group's join code. Only OWNER and ADMIN may rotate it
+ * (non-members get 404, other members 403, archived groups 409), so the
+ * new code is only ever revealed to authorized callers. The previous code
+ * stops working the instant the row is updated - the old value is
+ * overwritten, never copied - and a rare unique-code collision is retried
+ * through withFreshJoinCode (409 if retries are exhausted).
+ *
+ * Returns the caller's group summary, whose joinCode field now carries
+ * the new code.
+ */
+export async function regenerateJoinCode(
+  userId: string,
+  groupId: string,
+): Promise<GroupSummary> {
+  await requireManageableGroup(userId, groupId, "regenerate the join code");
+
+  return withFreshJoinCode(async (joinCode) => {
+    await prisma.group.update({
+      where: { id: groupId },
+      data: { joinCode },
+      select: { id: true },
+    });
+
+    return getSummary(userId, groupId);
+  });
 }
 
 /**
