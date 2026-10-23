@@ -8,6 +8,7 @@ import { authRouter } from "./modules/auth/auth.routes";
 import { groupRouter } from "./modules/group/group.routes";
 import { groupMemberRouter } from "./modules/group-member/group-member.routes";
 import { expenseRouter } from "./modules/expense/expense.routes";
+import { balanceRouter } from "./modules/balance/balance.routes";
 import { ok } from "./utils/envelope";
 import { env } from "./config/env";
 
@@ -39,6 +40,9 @@ export function mainEntryFunction() {
 
   //Expenses (subresource of groups)
   app.use("/api/groups", expenseRouter);
+
+  //Balances (subresource of groups)
+  app.use("/api/groups", balanceRouter);
 
   app.use(notFound);
   app.use(errorHandler);
