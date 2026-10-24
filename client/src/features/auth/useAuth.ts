@@ -1,9 +1,9 @@
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import { login, signup, logout } from "@/api/auth.api";
-import { useAuthStore } from "@/store/authStore";
-import type { LoginBody, SignupBody } from "@/api/auth.api";
+import { login, signup, logout } from "@/features/auth/auth.api";
+import { useAuthStore } from "@/features/auth/authStore";
+import type { LoginBody, SignupBody } from "@/features/auth/auth.api";
 
 // ─── Login ────────────────────────────────────────────────────────────────────
 export function useLogin() {

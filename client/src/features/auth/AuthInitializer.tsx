@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { refreshToken } from "@/api/auth.api";
-import { useAuthStore } from "@/store/authStore";
+import { refreshToken } from "@/features/auth/auth.api";
+import { useAuthStore } from "@/features/auth/authStore";
 
 interface AuthInitializerProps {
   children: React.ReactNode;

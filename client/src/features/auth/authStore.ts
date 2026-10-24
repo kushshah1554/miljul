@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { setTokenGetter } from "@/api/api";
+import { setTokenGetter } from "@/lib/api";
 import type { AuthUser } from "@/lib/types";
 
 // ─── State shape ─────────────────────────────────────────────────────────────

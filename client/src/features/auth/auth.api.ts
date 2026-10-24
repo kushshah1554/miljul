@@ -1,4 +1,4 @@
-import { apiGet, apiPost } from "@/api/api";
+import { apiGet, apiPost } from "@/lib/api";
 import type { AuthUser } from "@/lib/types";
 
 // ─── Response shapes (matches API_DOCS.md) ───────────────────────────────────

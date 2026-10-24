@@ -1,17 +1,23 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
-import { PublicRoute } from "@/routes/PublicRoute";
-import { PrivateRoute } from "@/routes/PrivateRoute";
+import { PublicRoute } from "@/components/routes/PublicRoute";
+import { PrivateRoute } from "@/components/routes/PrivateRoute";
 import LoginPage from "@/pages/auth/LoginPage";
 import SignupPage from "@/pages/auth/SignupPage";
 import DashboardPage from "@/pages/dashboard/DashboardPage";
+import { AuthLayout } from "@/components/layout/AuthLayout";
 
 export const router = createBrowserRouter([
   // ─── Public routes (redirect to /dashboard if already logged in) ─────────
   {
     element: <PublicRoute />,
     children: [
-      { path: "/login", element: <LoginPage /> },
-      { path: "/signup", element: <SignupPage /> },
+      {
+        element: <AuthLayout />,
+        children: [
+          { path: "/login", element: <LoginPage /> },
+          { path: "/signup", element: <SignupPage /> },
+        ],
+      },
     ],
   },
 

@@ -1,5 +1,5 @@
-import { useAuthStore } from "@/store/authStore";
-import { useLogout } from "@/hooks/useAuth";
+import { useAuthStore } from "@/features/auth/authStore";
+import { useLogout } from "@/features/auth/useAuth";
 import { Button } from "@/components/ui/button";
 
 export default function DashboardPage() {
