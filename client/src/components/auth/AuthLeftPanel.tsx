@@ -10,7 +10,7 @@ export default function AuthLeftPanel() {
         className="absolute inset-0 z-0 w-full h-full object-cover"
       />
       {/* Gradient Overlay */}
-      <div className="absolute inset-0 z-0 bg-gradient-to-b from-slate-900/40 via-slate-900/60 to-slate-900/95" />
+      <div className="absolute inset-0 z-0 bg-linear-to-b from-slate-900/40 via-slate-900/60 to-slate-900/95" />
 
       {/* Content */}
       <div className="relative z-10">
