@@ -1,0 +1,309 @@
+/* ─── External imports (must be first) ─────────────────────────────────────── */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap");
+
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ─── Design tokens ─────────────────────────────────────────────────────────── */
+/* Using oklch — consistent with shadcn Nova preset                             */
+:root {
+  /* ── Light mode (unused — app is dark-only, but required by shadcn) ──────── */
+  --background:          oklch(1 0 0);
+  --foreground:          oklch(0.145 0 0);
+  --card:                oklch(1 0 0);
+  --card-foreground:     oklch(0.145 0 0);
+  --popover:             oklch(1 0 0);
+  --popover-foreground:  oklch(0.145 0 0);
+  --primary:             oklch(0.205 0 0);
+  --primary-foreground:  oklch(0.985 0 0);
+  --secondary:           oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted:               oklch(0.97 0 0);
+  --muted-foreground:    oklch(0.556 0 0);
+  --accent:              oklch(0.97 0 0);
+  --accent-foreground:   oklch(0.205 0 0);
+  --destructive:         oklch(0.577 0.245 27.325);
+  --border:              oklch(0.922 0 0);
+  --input:               oklch(0.922 0 0);
+  --ring:                oklch(0.708 0 0);
+  --radius:              0.625rem;
+  --radius-sm:           calc(var(--radius) - 2px);
+  --radius-md:           var(--radius);
+  --radius-lg:           calc(var(--radius) + 2px);
+  --radius-xl:           calc(var(--radius) + 4px);
+
+  /* Charts */
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+
+  /* Sidebar */
+  --sidebar:                   oklch(0.985 0 0);
+  --sidebar-foreground:        oklch(0.145 0 0);
+  --sidebar-primary:           oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent:            oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border:            oklch(0.922 0 0);
+  --sidebar-ring:              oklch(0.708 0 0);
+}
+
+.dark {
+  /* ── Dark glassmorphism palette ────────────────────────────────────────────── */
+  --background:          oklch(0.12 0.025 265);   /* deep navy  */
+  --foreground:          oklch(0.95 0.008 260);   /* near-white */
+  --card:                oklch(0.16 0.022 265);
+  --card-foreground:     oklch(0.95 0.008 260);
+  --popover:             oklch(0.16 0.022 265);
+  --popover-foreground:  oklch(0.95 0.008 260);
+
+  /* Primary — vivid violet */
+  --primary:             oklch(0.62 0.22 278);    /* #7c4dff */
+  --primary-foreground:  oklch(0.98 0 0);
+
+  --secondary:           oklch(0.22 0.02 265);
+  --secondary-foreground: oklch(0.88 0.01 260);
+
+  --muted:               oklch(0.20 0.018 265);
+  --muted-foreground:    oklch(0.60 0.012 265);
+
+  --accent:              oklch(0.26 0.04 278);
+  --accent-foreground:   oklch(0.80 0.12 278);
+
+  --destructive:         oklch(0.55 0.22 27);
+  --border:              oklch(0.24 0.018 265);
+  --input:               oklch(0.20 0.018 265);
+  --ring:                oklch(0.62 0.22 278);
+
+  /* Charts */
+  --chart-1: oklch(0.62 0.22 278);
+  --chart-2: oklch(0.55 0.18 245);
+  --chart-3: oklch(0.48 0.15 215);
+  --chart-4: oklch(0.42 0.12 190);
+  --chart-5: oklch(0.35 0.10 160);
+
+  /* Sidebar */
+  --sidebar:                   oklch(0.14 0.022 265);
+  --sidebar-foreground:        oklch(0.95 0.008 260);
+  --sidebar-primary:           oklch(0.62 0.22 278);
+  --sidebar-primary-foreground: oklch(0.98 0 0);
+  --sidebar-accent:            oklch(0.20 0.018 265);
+  --sidebar-accent-foreground: oklch(0.88 0.01 260);
+  --sidebar-border:            oklch(0.22 0.018 265);
+  --sidebar-ring:              oklch(0.62 0.22 278);
+}
+
+/* ─── App shell — force dark mode ──────────────────────────────────────────── */
+/* Add `dark` class to <html> at app level so shadcn dark tokens apply globally  */
+
+/* ─── Base styles ───────────────────────────────────────────────────────────── */
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+    box-sizing: border-box;
+  }
+  html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: "Inter", system-ui, sans-serif;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/* ─── Auth page background ──────────────────────────────────────────────────── */
+.auth-bg {
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse at 50% 0%, oklch(0.62 0.22 278 / 0.2) 0%, transparent 65%),
+    radial-gradient(ellipse at 85% 85%, oklch(0.55 0.2 245 / 0.12) 0%, transparent 55%),
+    var(--background);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Animated blobs */
+.auth-bg::before,
+.auth-bg::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  pointer-events: none;
+  will-change: transform;
+}
+
+.auth-bg::before {
+  width: 520px;
+  height: 520px;
+  background: oklch(0.62 0.22 278 / 0.1);
+  top: -120px;
+  left: -120px;
+  animation: blob-drift 14s ease-in-out infinite alternate;
+}
+
+.auth-bg::after {
+  width: 420px;
+  height: 420px;
+  background: oklch(0.55 0.2 245 / 0.08);
+  bottom: -90px;
+  right: -90px;
+  animation: blob-drift 18s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes blob-drift {
+  from { transform: translate(0, 0) scale(1); }
+  to   { transform: translate(28px, 18px) scale(1.06); }
+}
+
+/* ─── Glass card ────────────────────────────────────────────────────────────── */
+.glass-card {
+  background: oklch(0.16 0.022 265 / 0.65);
+  border: 1px solid oklch(0.62 0.22 278 / 0.18);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-radius: 1.25rem;
+  box-shadow:
+    0 0 0 1px oklch(0.62 0.22 278 / 0.06),
+    0 24px 64px oklch(0 0 0 / 0.55),
+    0 0 80px oklch(0.62 0.22 278 / 0.05);
+  animation: card-in 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes card-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.975);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ─── Gradient brand text ───────────────────────────────────────────────────── */
+.brand-gradient {
+  background: linear-gradient(135deg, oklch(0.72 0.22 278), oklch(0.58 0.2 245), oklch(0.65 0.22 256));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── Primary gradient button ───────────────────────────────────────────────── */
+.btn-gradient {
+  background: linear-gradient(135deg, oklch(0.62 0.22 278), oklch(0.55 0.2 245));
+  color: oklch(0.98 0 0);
+  border: none;
+  position: relative;
+  overflow: hidden;
+  transition: opacity 0.2s, transform 0.15s, box-shadow 0.2s;
+  box-shadow: 0 4px 20px oklch(0.62 0.22 278 / 0.3);
+}
+
+.btn-gradient:hover {
+  box-shadow: 0 6px 28px oklch(0.62 0.22 278 / 0.45);
+  opacity: 0.92;
+}
+
+.btn-gradient:active {
+  transform: translateY(1px);
+}
+
+.btn-gradient:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ─── Input overrides for glass look ────────────────────────────────────────── */
+/* Applied via className on Input component — adds glass background              */
+.input-glass {
+  background: oklch(0.18 0.018 265 / 0.5) !important;
+  border-color: oklch(0.28 0.02 265) !important;
+  color: oklch(0.95 0.008 260) !important;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.input-glass::placeholder {
+  color: oklch(0.55 0.012 265);
+}
+
+.input-glass:focus-visible {
+  border-color: oklch(0.62 0.22 278) !important;
+  box-shadow: 0 0 0 3px oklch(0.62 0.22 278 / 0.2) !important;
+}
+
+/* ─── Password toggle button ────────────────────────────────────────────────── */
+.pw-toggle {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: oklch(0.55 0.012 265);
+  display: flex;
+  align-items: center;
+  padding: 0;
+  line-height: 1;
+  transition: color 0.15s;
+}
+
+.pw-toggle:hover {
+  color: oklch(0.80 0.008 260);
+}
+
+/* ─── Field error ───────────────────────────────────────────────────────────── */
+.field-error {
+  font-size: 0.75rem;
+  color: oklch(0.55 0.22 27);
+  margin-top: 0.25rem;
+}
+
+/* ─── Auth divider ──────────────────────────────────────────────────────────── */
+.auth-divider {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: oklch(0.50 0.01 265);
+  font-size: 0.8rem;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: oklch(0.24 0.018 265);
+}
+
+/* ─── Loading spinner ───────────────────────────────────────────────────────── */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.spinner {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  border: 2px solid oklch(0.98 0 0 / 0.3);
+  border-top-color: oklch(0.98 0 0);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
