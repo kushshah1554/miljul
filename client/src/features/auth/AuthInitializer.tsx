@@ -31,15 +31,7 @@ export function AuthInitializer({ children }: AuthInitializerProps) {
 
   if (!isReady) {
     return (
-      <div
-        style={{
-          minHeight: "100vh",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          background: "hsl(222 47% 6%)",
-        }}
-      >
+      <div className="min-h-screen flex items-center justify-center bg-background">
         <span className="spinner" style={{ width: "2rem", height: "2rem" }} />
       </div>
     );
