@@ -13,6 +13,7 @@ import type {
   ListExpensesQuery,
   UpdateExpenseBody,
 } from "@/features/expense/expense.api";
+import { balanceKeys } from "@/features/balance/useBalances";
 import { groupKeys } from "@/features/group/useGroups";
 
 // ─── Query keys ───────────────────────────────────────────────────────────────
@@ -25,10 +26,13 @@ export const expenseKeys = {
     [...expenseKeys.all(groupId), "detail", expenseId] as const,
 };
 
-/** Any expense change can move balances too, so refetch the whole expenses subtree. */
+/** Any expense change moves balances too, so refetch both subtrees. */
 function useRefreshExpenses(groupId: string) {
   const queryClient = useQueryClient();
-  return () => queryClient.invalidateQueries({ queryKey: expenseKeys.all(groupId) });
+  return () => {
+    queryClient.invalidateQueries({ queryKey: expenseKeys.all(groupId) });
+    queryClient.invalidateQueries({ queryKey: balanceKeys.all(groupId) });
+  };
 }
 
 // ─── Queries ──────────────────────────────────────────────────────────────────

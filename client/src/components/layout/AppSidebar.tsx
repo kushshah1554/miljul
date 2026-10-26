@@ -7,6 +7,7 @@ import {
   LogOut,
   Mountain,
   Receipt,
+  Scale,
   Settings,
   Users,
 } from "lucide-react";
@@ -194,6 +195,7 @@ function GroupNav({ groupId, onNavigate }: { groupId: string; onNavigate: () => 
   const items = [
     { title: "Overview", to: base, icon: House },
     { title: "Expenses", to: `${base}/expenses`, icon: Receipt },
+    { title: "Balances", to: `${base}/balances`, icon: Scale },
     { title: "Members", to: `${base}/members`, icon: Users },
     // Settings (join code, edit, archive) are owner-only
     ...(group && isOwner(group.role)

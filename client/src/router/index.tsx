@@ -8,6 +8,7 @@ import GroupsPage from "@/pages/groups/GroupsPage";
 import GroupLayout from "@/pages/groups/GroupLayout";
 import GroupOverviewPage from "@/pages/groups/GroupOverviewPage";
 import GroupExpensesPage from "@/pages/groups/GroupExpensesPage";
+import GroupBalancesPage from "@/pages/groups/GroupBalancesPage";
 import GroupMembersPage from "@/pages/groups/GroupMembersPage";
 import GroupSettingsPage from "@/pages/groups/GroupSettingsPage";
 import { AuthLayout } from "@/components/layout/AuthLayout";
@@ -43,6 +44,7 @@ export const router = createBrowserRouter([
             children: [
               { index: true, element: <GroupOverviewPage /> },
               { path: "expenses", element: <GroupExpensesPage /> },
+              { path: "balances", element: <GroupBalancesPage /> },
               { path: "members", element: <GroupMembersPage /> },
               { path: "settings", element: <GroupSettingsPage /> },
             ],
