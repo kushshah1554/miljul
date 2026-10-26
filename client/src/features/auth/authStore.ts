@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { setTokenGetter } from "@/lib/api";
+import { queryClient } from "@/lib/queryClient";
 import type { AuthUser } from "@/lib/types";
 
 // ─── State shape ─────────────────────────────────────────────────────────────
@@ -25,6 +26,8 @@ export const useAuthStore = create<AuthState>((set) => ({
 
   clearAuth: () => {
     set({ user: null, accessToken: null, isAuthenticated: false });
+    // Drop cached server data so the next account never sees this user's groups/roles
+    queryClient.clear();
   },
 }));
 
