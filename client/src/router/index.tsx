@@ -5,7 +5,11 @@ import LoginPage from "@/pages/auth/LoginPage";
 import SignupPage from "@/pages/auth/SignupPage";
 import DashboardPage from "@/pages/dashboard/DashboardPage";
 import GroupsPage from "@/pages/groups/GroupsPage";
-import GroupDetailPage from "@/pages/groups/GroupDetailPage";
+import GroupLayout from "@/pages/groups/GroupLayout";
+import GroupOverviewPage from "@/pages/groups/GroupOverviewPage";
+import GroupExpensesPage from "@/pages/groups/GroupExpensesPage";
+import GroupMembersPage from "@/pages/groups/GroupMembersPage";
+import GroupSettingsPage from "@/pages/groups/GroupSettingsPage";
 import { AuthLayout } from "@/components/layout/AuthLayout";
 import { AppLayout } from "@/components/layout/AppLayout";
 
@@ -33,7 +37,16 @@ export const router = createBrowserRouter([
         children: [
           { path: "/dashboard", element: <DashboardPage /> },
           { path: "/groups", element: <GroupsPage /> },
-          { path: "/groups/:groupId", element: <GroupDetailPage /> },
+          {
+            path: "/groups/:groupId",
+            element: <GroupLayout />,
+            children: [
+              { index: true, element: <GroupOverviewPage /> },
+              { path: "expenses", element: <GroupExpensesPage /> },
+              { path: "members", element: <GroupMembersPage /> },
+              { path: "settings", element: <GroupSettingsPage /> },
+            ],
+          },
           // Add more protected routes here as the app grows
         ],
       },

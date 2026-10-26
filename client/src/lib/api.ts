@@ -45,25 +45,37 @@ function normaliseError(err: unknown): Error {
 }
 
 // ─── Envelope unwrapping (shared by every helper below) ─────────────────────
-async function request<TResponse>(
+async function requestWithMeta<TResponse>(
   config: AxiosRequestConfig,
-): Promise<TResponse> {
+): Promise<{ data: TResponse; meta: ApiEnvelope<TResponse>["meta"] }> {
   try {
     const res = await api.request<ApiEnvelope<TResponse>>(config);
     // 204 No Content (e.g. DELETE member) has no envelope to unwrap
-    if (res.status === 204) return undefined as TResponse;
+    if (res.status === 204) return { data: undefined as TResponse, meta: undefined };
     if (res.data.status === "error" || res.data.data == null) {
       throw new Error(res.data.errors?.[0]?.message ?? "Response error");
     }
-    return res.data.data;
+    return { data: res.data.data, meta: res.data.meta };
   } catch (err) {
     throw normaliseError(err);
   }
 }
 
+async function request<TResponse>(config: AxiosRequestConfig): Promise<TResponse> {
+  return (await requestWithMeta<TResponse>(config)).data;
+}
+
 // ─── Generic helpers ─────────────────────────────────────────────────────────
 export function apiGet<TResponse>(url: string, config?: AxiosRequestConfig) {
   return request<TResponse>({ ...config, method: "get", url });
+}
+
+/** GET that also returns the envelope's `meta` (e.g. pagination). */
+export function apiGetWithMeta<TResponse, TMeta>(url: string, config?: AxiosRequestConfig) {
+  return requestWithMeta<TResponse>({ ...config, method: "get", url }) as Promise<{
+    data: TResponse;
+    meta: TMeta;
+  }>;
 }
 
 export function apiPost<TResponse, TBody = unknown>(

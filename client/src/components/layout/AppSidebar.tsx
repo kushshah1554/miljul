@@ -1,9 +1,13 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useMatch } from "react-router-dom";
 import {
+  ArrowLeft,
   ChevronsUpDown,
+  House,
   LayoutDashboard,
   LogOut,
   Mountain,
+  Receipt,
+  Settings,
   Users,
 } from "lucide-react";
 
@@ -33,7 +37,8 @@ import {
 
 import { useAuthStore } from "@/features/auth/authStore";
 import { useLogout } from "@/features/auth/useAuth";
-import { useGroups } from "@/features/group/useGroups";
+import { useGroup, useGroups } from "@/features/group/useGroups";
+import { isOwner } from "@/lib/roles";
 
 const NAV_ITEMS = [
   { title: "Dashboard", to: "/dashboard", icon: LayoutDashboard },
@@ -41,11 +46,11 @@ const NAV_ITEMS = [
 ];
 
 export function AppSidebar() {
-  const { pathname } = useLocation();
   const { isMobile, setOpenMobile } = useSidebar();
   const user = useAuthStore((s) => s.user);
   const { mutate: handleLogout, isPending: isLoggingOut } = useLogout();
-  const { data: groups, isPending: groupsLoading } = useGroups("active");
+  // Inside a group the sidebar switches to that group's own menu
+  const groupMatch = useMatch("/groups/:groupId/*");
 
   // On mobile the sidebar is a sheet — close it after picking a page
   const closeOnMobile = () => setOpenMobile(false);
@@ -67,56 +72,11 @@ export function AppSidebar() {
         </SidebarMenu>
       </SidebarHeader>
 
-      <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupLabel>Menu</SidebarGroupLabel>
-          <SidebarMenu>
-            {NAV_ITEMS.map((item) => (
-              <SidebarMenuItem key={item.to}>
-                <SidebarMenuButton
-                  asChild
-                  isActive={pathname === item.to}
-                  tooltip={item.title}
-                >
-                  <Link to={item.to} onClick={closeOnMobile}>
-                    <item.icon />
-                    <span>{item.title}</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            ))}
-          </SidebarMenu>
-        </SidebarGroup>
-
-        <SidebarGroup className="group-data-[collapsible=icon]:hidden">
-          <SidebarGroupLabel>Your groups</SidebarGroupLabel>
-          <SidebarMenu>
-            {groupsLoading &&
-              Array.from({ length: 3 }, (_, i) => (
-                <SidebarMenuItem key={i}>
-                  <SidebarMenuSkeleton />
-                </SidebarMenuItem>
-              ))}
-            {groups?.length === 0 && (
-              <p className="px-2 text-xs text-muted-foreground">
-                No active groups yet
-              </p>
-            )}
-            {groups?.map((group) => (
-              <SidebarMenuItem key={group.id}>
-                <SidebarMenuButton
-                  asChild
-                  isActive={pathname.startsWith(`/groups/${group.id}`)}
-                >
-                  <Link to={`/groups/${group.id}`} onClick={closeOnMobile}>
-                    <span className="truncate">{group.name}</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            ))}
-          </SidebarMenu>
-        </SidebarGroup>
-      </SidebarContent>
+      {groupMatch?.params.groupId ? (
+        <GroupNav groupId={groupMatch.params.groupId} onNavigate={closeOnMobile} />
+      ) : (
+        <MainNav onNavigate={closeOnMobile} />
+      )}
 
       <SidebarFooter>
         <SidebarMenu>
@@ -165,5 +125,114 @@ export function AppSidebar() {
 
       <SidebarRail />
     </Sidebar>
+  );
+}
+
+function MainNav({ onNavigate }: { onNavigate: () => void }) {
+  const { pathname } = useLocation();
+  const { data: groups, isPending: groupsLoading } = useGroups("active");
+
+  return (
+    <SidebarContent>
+      <SidebarGroup>
+        <SidebarGroupLabel>Menu</SidebarGroupLabel>
+        <SidebarMenu>
+          {NAV_ITEMS.map((item) => (
+            <SidebarMenuItem key={item.to}>
+              <SidebarMenuButton
+                asChild
+                isActive={pathname === item.to}
+                tooltip={item.title}
+              >
+                <Link to={item.to} onClick={onNavigate}>
+                  <item.icon />
+                  <span>{item.title}</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          ))}
+        </SidebarMenu>
+      </SidebarGroup>
+
+      <SidebarGroup className="group-data-[collapsible=icon]:hidden">
+        <SidebarGroupLabel>Your groups</SidebarGroupLabel>
+        <SidebarMenu>
+          {groupsLoading &&
+            Array.from({ length: 3 }, (_, i) => (
+              <SidebarMenuItem key={i}>
+                <SidebarMenuSkeleton />
+              </SidebarMenuItem>
+            ))}
+          {groups?.length === 0 && (
+            <p className="px-2 text-xs text-muted-foreground">
+              No active groups yet
+            </p>
+          )}
+          {groups?.map((group) => (
+            <SidebarMenuItem key={group.id}>
+              <SidebarMenuButton
+                asChild
+                isActive={pathname.startsWith(`/groups/${group.id}`)}
+              >
+                <Link to={`/groups/${group.id}`} onClick={onNavigate}>
+                  <span className="truncate">{group.name}</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          ))}
+        </SidebarMenu>
+      </SidebarGroup>
+    </SidebarContent>
+  );
+}
+
+function GroupNav({ groupId, onNavigate }: { groupId: string; onNavigate: () => void }) {
+  const { pathname } = useLocation();
+  const { data: group } = useGroup(groupId);
+  const base = `/groups/${groupId}`;
+
+  const items = [
+    { title: "Overview", to: base, icon: House },
+    { title: "Expenses", to: `${base}/expenses`, icon: Receipt },
+    { title: "Members", to: `${base}/members`, icon: Users },
+    // Settings (join code, edit, archive) are owner-only
+    ...(group && isOwner(group.role)
+      ? [{ title: "Settings", to: `${base}/settings`, icon: Settings }]
+      : []),
+  ];
+
+  return (
+    <SidebarContent>
+      <SidebarGroup>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild tooltip="All groups">
+              <Link to="/groups" onClick={onNavigate}>
+                <ArrowLeft />
+                <span>All groups</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarGroup>
+
+      <SidebarGroup>
+        <SidebarGroupLabel className="truncate">
+          {group?.name ?? "Loading…"}
+        </SidebarGroupLabel>
+        <SidebarMenu>
+          {items.map((item) => (
+            <SidebarMenuItem key={item.to}>
+              <SidebarMenuButton asChild isActive={pathname === item.to} tooltip={item.title}>
+                <Link to={item.to} onClick={onNavigate}>
+                  <item.icon />
+                  <span>{item.title}</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          ))}
+        </SidebarMenu>
+      </SidebarGroup>
+    </SidebarContent>
   );
 }

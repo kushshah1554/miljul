@@ -1,20 +1,12 @@
-import { Link, useParams } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import {
-  ArrowLeft,
-  Archive,
-  ArchiveRestore,
-  Copy,
-  RefreshCw,
-  Users,
-} from "lucide-react";
+import { Archive, ArchiveRestore, Copy, RefreshCw } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { MembersCard } from "@/components/group/MembersCard";
 
 import {
   groupFormSchema,
@@ -22,73 +14,31 @@ import {
 } from "@/features/group/group.schema";
 import {
   useArchiveGroup,
-  useGroup,
   useRegenerateJoinCode,
   useRestoreGroup,
   useUpdateGroup,
 } from "@/features/group/useGroups";
 import { isOwner } from "@/lib/roles";
 import type { Group } from "@/lib/types";
+import { useCurrentGroup } from "@/pages/groups/GroupLayout";
 
-export default function GroupDetailPage() {
-  const { groupId = "" } = useParams();
-  const { data: group, isPending, isError, error } = useGroup(groupId);
+export default function GroupSettingsPage() {
+  const group = useCurrentGroup();
+
+  // Settings are owner-only; members land on the overview instead
+  if (!isOwner(group.role)) return <Navigate to=".." relative="path" replace />;
 
   return (
-    <div className="w-full max-w-3xl mx-auto px-4 py-6 md:py-8 space-y-6">
-      <Button variant="ghost" size="sm" asChild>
-        <Link to="/groups">
-          <ArrowLeft /> All groups
-        </Link>
-      </Button>
-
-      {isPending && <p className="text-muted-foreground">Loading group…</p>}
-      {isError && <p className="text-destructive">{error.message}</p>}
-
-      {group && (
+    <>
+      {!group.isArchived && (
         <>
-          <header className="space-y-2">
-            <div className="flex flex-wrap items-center gap-3">
-              <h1 className="text-2xl font-bold">{group.name}</h1>
-              <span className="rounded-md bg-muted px-2 py-0.5 text-xs font-medium">
-                {group.role}
-              </span>
-              {group.isArchived && (
-                <span className="flex items-center gap-1 rounded-md bg-destructive/10 px-2 py-0.5 text-xs font-medium text-destructive">
-                  <Archive className="size-3.5" /> Archived
-                </span>
-              )}
-            </div>
-            {group.description && (
-              <p className="text-muted-foreground">{group.description}</p>
-            )}
-            <p className="flex items-center gap-1 text-sm text-muted-foreground">
-              <Users className="size-4" /> {group.memberCount} member
-              {group.memberCount === 1 ? "" : "s"} · created{" "}
-              {new Date(group.createdAt).toLocaleDateString()}
-            </p>
-          </header>
-
-          {group.isArchived && (
-            <p className="rounded-xl border border-border p-4 text-sm text-muted-foreground">
-              This group is archived and read-only. Its history is preserved.
-            </p>
-          )}
-
-          <MembersCard group={group} />
-
-          {isOwner(group.role) && !group.isArchived && (
-            <>
-              <JoinCodeCard group={group} />
-              {/* key resets the form to the saved values after each update */}
-              <EditGroupForm key={group.updatedAt} group={group} />
-            </>
-          )}
-
-          {isOwner(group.role) && <LifecycleCard group={group} />}
+          <JoinCodeCard group={group} />
+          {/* key resets the form to the saved values after each update */}
+          <EditGroupForm key={group.updatedAt} group={group} />
         </>
       )}
-    </div>
+      <LifecycleCard group={group} />
+    </>
   );
 }
 
