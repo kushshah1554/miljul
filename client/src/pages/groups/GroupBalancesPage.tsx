@@ -9,7 +9,7 @@ import { useCurrentGroup } from "@/pages/groups/GroupLayout";
 /** Positive = owed money (green), negative = owes money (red). */
 function balanceTone(net: string) {
   const n = Number(net);
-  return n > 0 ? "text-emerald-600 dark:text-emerald-400" : n < 0 ? "text-destructive" : "";
+  return n > 0 ? "text-success" : n < 0 ? "text-destructive" : "";
 }
 
 export default function GroupBalancesPage() {
@@ -22,13 +22,13 @@ export default function GroupBalancesPage() {
 
   return (
     <>
-      <section className="rounded-xl border border-border p-4 space-y-2">
-        <h2 className="font-semibold">Your balance</h2>
+      <section className="surface surface-glow space-y-2">
+        <h2 className="text-lg font-semibold">Your balance</h2>
         {mine.isPending && <Skeleton className="h-10 w-40" />}
         {mine.isError && <p className="text-sm text-destructive">{mine.error.message}</p>}
         {mine.data && (
           <>
-            <p className={cn("font-mono text-2xl font-semibold", balanceTone(mine.data.netBalance))}>
+            <p className={cn("font-mono text-3xl font-bold", balanceTone(mine.data.netBalance))}>
               {mine.data.netBalance}
             </p>
             <p className="text-sm text-muted-foreground">
@@ -39,16 +39,16 @@ export default function GroupBalancesPage() {
         )}
       </section>
 
-      <section className="rounded-xl border border-border p-4 space-y-3">
-        <h2 className="font-semibold">Suggested settlements</h2>
+      <section className="surface space-y-3">
+        <h2 className="text-lg font-semibold">Suggested settlements</h2>
         {all.isPending && <Skeleton className="h-12 w-full" />}
         {all.isError && <p className="text-sm text-destructive">{all.error.message}</p>}
         {all.data?.suggestedSettlements.length === 0 && (
           <p className="text-sm text-muted-foreground">Everyone is settled up.</p>
         )}
-        <ul className="divide-y divide-border">
+        <ul className="space-y-1">
           {all.data?.suggestedSettlements.map((s) => (
-            <li key={`${s.fromUserId}-${s.toUserId}`} className="flex items-center gap-2 py-3 text-sm">
+            <li key={`${s.fromUserId}-${s.toUserId}`} className="flex items-center gap-2 rounded-2xl px-3 py-3 text-sm hover:bg-background/60">
               <span className="min-w-0 truncate font-medium">
                 {s.fromUserId === myUserId ? "You" : s.fromName}
               </span>
@@ -62,12 +62,12 @@ export default function GroupBalancesPage() {
         </ul>
       </section>
 
-      <section className="rounded-xl border border-border p-4 space-y-3">
-        <h2 className="font-semibold">All members</h2>
+      <section className="surface space-y-3">
+        <h2 className="text-lg font-semibold">All members</h2>
         {all.isPending && <Skeleton className="h-24 w-full" />}
-        <ul className="divide-y divide-border">
+        <ul className="space-y-1">
           {all.data?.balances.map((b) => (
-            <li key={b.userId} className="flex items-center gap-3 py-3">
+            <li key={b.userId} className="flex items-center gap-3 rounded-2xl px-3 py-3 hover:bg-background/60">
               <div className="min-w-0 flex-1">
                 <p className="truncate text-sm font-medium">
                   {b.name}

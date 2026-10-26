@@ -15,6 +15,9 @@ import {
 import { useSignup } from "@/features/auth/useAuth";
 import { GoogleIcon } from "../../components/auth/GoogleIcon";
 
+// Soft grey pill fields, matching the app's cards
+const FIELD = "h-12 rounded-2xl border-transparent bg-card pl-11 shadow-none";
+
 export default function SignupPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
@@ -37,14 +40,14 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="w-full md:w-1/2 flex flex-col p-8 sm:p-12 lg:p-16">
+    <div className="flex w-full flex-col px-6 py-8 sm:px-12 md:w-1/2 lg:px-16">
       <div className="text-right mb-8">
-        <span className="text-sm text-slate-500">
+        <span className="text-sm text-muted-foreground">
           Already have an account?{" "}
         </span>
         <Link
           to="/login"
-          className="text-sm font-semibold text-indigo-600 hover:text-indigo-700 transition-colors"
+          className="text-sm font-semibold text-foreground underline-offset-4 hover:underline"
         >
           Sign in
         </Link>
@@ -52,10 +55,10 @@ export default function SignupPage() {
 
       <div className="max-w-md w-full mx-auto flex-1 flex flex-col justify-center">
         <div className="mb-8">
-          <h2 className="text-3xl font-bold text-slate-900 mb-2 flex items-center gap-2">
+          <h2 className="mb-2 flex items-center gap-2 text-4xl font-bold tracking-tight">
             Create an account <span className="text-2xl">✨</span>
           </h2>
-          <p className="text-slate-500">Enter your details to get started</p>
+          <p className="text-muted-foreground">Enter your details to get started</p>
         </div>
 
         <form
@@ -67,24 +70,24 @@ export default function SignupPage() {
           <div className="space-y-2">
             <Label
               htmlFor="signup-name"
-              className="text-sm font-medium text-slate-700"
+              className="text-sm font-semibold"
             >
               Full name
             </Label>
             <div className="relative">
-              <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 pointer-events-none" />
+              <User className="absolute left-3.5 top-1/2 -translate-y-1/2 size-5 text-muted-foreground pointer-events-none" />
               <Input
                 id="signup-name"
                 type="text"
                 autoComplete="name"
                 placeholder="Kush Shah"
-                className="pl-11 h-12 rounded-xl border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus-visible:outline-none focus-visible:ring-0"
+                className={FIELD}
                 aria-invalid={!!errors.name}
                 {...register("name")}
               />
             </div>
             {errors.name && (
-              <p className="text-sm text-red-500">{errors.name.message}</p>
+              <p className="text-sm text-destructive">{errors.name.message}</p>
             )}
           </div>
 
@@ -92,24 +95,24 @@ export default function SignupPage() {
           <div className="space-y-2">
             <Label
               htmlFor="signup-email"
-              className="text-sm font-medium text-slate-700"
+              className="text-sm font-semibold"
             >
               Email address
             </Label>
             <div className="relative">
-              <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 pointer-events-none" />
+              <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 size-5 text-muted-foreground pointer-events-none" />
               <Input
                 id="signup-email"
                 type="email"
                 autoComplete="email"
                 placeholder="you@example.com"
-                className="pl-11 h-12 rounded-xl border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus-visible:outline-none focus-visible:ring-0"
+                className={FIELD}
                 aria-invalid={!!errors.email}
                 {...register("email")}
               />
             </div>
             {errors.email && (
-              <p className="text-sm text-red-500">{errors.email.message}</p>
+              <p className="text-sm text-destructive">{errors.email.message}</p>
             )}
           </div>
 
@@ -117,28 +120,29 @@ export default function SignupPage() {
           <div className="space-y-2">
             <Label
               htmlFor="signup-password"
-              className="text-sm font-medium text-slate-700 flex justify-between"
+              className="flex justify-between text-sm font-semibold"
             >
               Password
-              <span className="text-xs font-normal text-slate-500">
+              <span className="text-xs font-normal text-muted-foreground">
                 (min 6 characters)
               </span>
             </Label>
             <div className="relative">
-              <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 pointer-events-none" />
+              <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 size-5 text-muted-foreground pointer-events-none" />
               <Input
                 id="signup-password"
                 type={showPassword ? "text" : "password"}
                 autoComplete="new-password"
                 placeholder="Create a password"
-                className="pl-11 pr-11 h-12 rounded-xl border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus-visible:outline-none focus-visible:ring-0"
+                className={`${FIELD} pr-11`}
                 aria-invalid={!!errors.password}
                 {...register("password")}
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                aria-label={showPassword ? "Hide password" : "Show password"}
+                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
               >
                 {showPassword ? (
                   <EyeOff className="w-5 h-5" />
@@ -148,7 +152,7 @@ export default function SignupPage() {
               </button>
             </div>
             {errors.password && (
-              <p className="text-sm text-red-500">{errors.password.message}</p>
+              <p className="text-sm text-destructive">{errors.password.message}</p>
             )}
           </div>
 
@@ -156,25 +160,26 @@ export default function SignupPage() {
           <div className="space-y-2">
             <Label
               htmlFor="signup-confirm-password"
-              className="text-sm font-medium text-slate-700"
+              className="text-sm font-semibold"
             >
               Confirm password
             </Label>
             <div className="relative">
-              <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 pointer-events-none" />
+              <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 size-5 text-muted-foreground pointer-events-none" />
               <Input
                 id="signup-confirm-password"
                 type={showConfirm ? "text" : "password"}
                 autoComplete="new-password"
                 placeholder="Confirm your password"
-                className="pl-11 pr-11 h-12 rounded-xl border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus-visible:outline-none focus-visible:ring-0"
+                className={`${FIELD} pr-11`}
                 aria-invalid={!!errors.confirmPassword}
                 {...register("confirmPassword")}
               />
               <button
                 type="button"
                 onClick={() => setShowConfirm(!showConfirm)}
-                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                aria-label={showConfirm ? "Hide password" : "Show password"}
+                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
               >
                 {showConfirm ? (
                   <EyeOff className="w-5 h-5" />
@@ -184,7 +189,7 @@ export default function SignupPage() {
               </button>
             </div>
             {errors.confirmPassword && (
-              <p className="text-sm text-red-500">
+              <p className="text-sm text-destructive">
                 {errors.confirmPassword.message}
               </p>
             )}
@@ -193,29 +198,30 @@ export default function SignupPage() {
           <Button
             type="submit"
             disabled={isPending}
-            className="w-full h-12 rounded-xl bg-[#3b41e3] hover:bg-[#3237c5] text-white font-medium text-base mt-2 transition-colors"
+            size="lg"
+            className="mt-4 h-12 w-full"
           >
             {isPending ? (
               "Creating account..."
             ) : (
               <>
-                Create account <ArrowRight className="w-4 h-4 ml-2" />
+                Create account <ArrowRight />
               </>
             )}
           </Button>
         </form>
 
         <div className="flex items-center gap-4 my-6">
-          <div className="flex-1 border-t border-slate-200" />
-          <span className="text-sm text-slate-400">or</span>
-          <div className="flex-1 border-t border-slate-200" />
+          <div className="flex-1 border-t border-border" />
+          <span className="text-sm text-muted-foreground">or</span>
+          <div className="flex-1 border-t border-border" />
         </div>
 
         <Button
           variant="outline"
-          className="w-full h-12 rounded-xl border-slate-200 bg-white hover:bg-slate-50 text-slate-700 font-medium transition-colors"
+          className="h-12 w-full"
         >
-          <GoogleIcon className="w-5 h-5 mr-3" />
+          <GoogleIcon className="size-5" />
           Sign up with Google
         </Button>
       </div>

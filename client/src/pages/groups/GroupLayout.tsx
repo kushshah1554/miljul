@@ -10,26 +10,26 @@ export default function GroupLayout() {
   const { data: group, isPending, isError, error } = useGroup(groupId);
 
   return (
-    <div className="w-full max-w-3xl mx-auto px-4 py-6 md:py-8 space-y-6">
+    <div className="w-full max-w-3xl mx-auto px-4 py-6 md:px-6 md:py-10 space-y-5">
       {isPending && <p className="text-muted-foreground">Loading group…</p>}
       {isError && <p className="text-destructive">{error.message}</p>}
 
       {group && (
         <>
           <header className="flex flex-wrap items-center gap-3">
-            <h1 className="text-2xl font-bold">{group.name}</h1>
-            <span className="rounded-md bg-muted px-2 py-0.5 text-xs font-medium">
+            <h1 className="text-3xl font-bold tracking-tight">{group.name}</h1>
+            <span className="rounded-full bg-card px-3 py-1 text-xs font-semibold">
               {group.role}
             </span>
             {group.isArchived && (
-              <span className="flex items-center gap-1 rounded-md bg-destructive/10 px-2 py-0.5 text-xs font-medium text-destructive">
+              <span className="flex items-center gap-1 rounded-full bg-destructive/10 px-3 py-1 text-xs font-semibold text-destructive">
                 <Archive className="size-3.5" /> Archived
               </span>
             )}
           </header>
 
           {group.isArchived && (
-            <p className="rounded-xl border border-border p-4 text-sm text-muted-foreground">
+            <p className="surface text-sm text-muted-foreground">
               This group is archived and read-only. Its history is preserved.
             </p>
           )}

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Plus, X } from "lucide-react";
+import { Plus, Receipt, X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -37,9 +37,9 @@ export default function GroupExpensesPage() {
   const [editing, setEditing] = useState<ExpenseDetail | null | undefined>(undefined);
 
   return (
-    <section className="rounded-xl border border-border p-4 space-y-3">
+    <section className="surface space-y-3">
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <h2 className="font-semibold">Expenses</h2>
+        <h2 className="text-lg font-semibold">Expenses</h2>
         {!group.isArchived && (
           <Button size="sm" onClick={() => setEditing(null)}>
             <Plus /> Add expense
@@ -169,23 +169,26 @@ function ExpenseList({
         </p>
       )}
 
-      <ul className="divide-y divide-border">
+      <ul className="space-y-1">
         {data?.expenses.map((expense) => (
           <li key={expense.id}>
             <button
               type="button"
               onClick={() => onSelect(expense.id)}
-              className="flex w-full items-center gap-3 rounded-md px-1 py-3 text-left hover:bg-muted/50"
+              className="flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 text-left transition-colors hover:bg-background/70"
             >
+              <span className="grid size-11 shrink-0 place-items-center rounded-full bg-background">
+                <Receipt className="size-5" />
+              </span>
               <div className="min-w-0 flex-1">
-                <p className="truncate text-sm font-medium">{expense.description}</p>
+                <p className="truncate text-sm font-semibold">{expense.description}</p>
                 <p className="truncate text-xs text-muted-foreground">
                   Paid by {expense.paidBy.name} ·{" "}
                   {new Date(expense.createdAt).toLocaleDateString()} · split{" "}
                   {expense.splits.length} way{expense.splits.length === 1 ? "" : "s"}
                 </p>
               </div>
-              <span className="shrink-0 font-mono text-sm font-medium">{expense.amount}</span>
+              <span className="shrink-0 font-mono text-sm font-semibold">{expense.amount}</span>
             </button>
           </li>
         ))}

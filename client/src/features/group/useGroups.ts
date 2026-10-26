@@ -49,6 +49,7 @@ export function useGroup(groupId: string) {
     queryKey: groupKeys.detail(groupId),
     queryFn: () => getGroup(groupId),
     select: (data) => data.group,
+    enabled: !!groupId, // the nav calls this outside group pages too
   });
 }
 

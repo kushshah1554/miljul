@@ -68,13 +68,13 @@ function JoinCodeCard({ group }: { group: Group }) {
   };
 
   return (
-    <section className="rounded-xl border border-border p-4 space-y-3">
-      <h2 className="font-semibold">Join code</h2>
+    <section className="surface space-y-3">
+      <h2 className="text-lg font-semibold">Join code</h2>
       <p className="text-sm text-muted-foreground">
         Share this code so others can join the group.
       </p>
       <div className="flex flex-wrap items-center gap-2">
-        <code className="rounded-lg bg-muted px-3 py-1.5 font-mono text-lg tracking-widest select-all">
+        <code className="rounded-full bg-background px-4 py-1.5 font-mono text-lg tracking-widest select-all">
           {group.joinCode ?? "—"}
         </code>
         <Button
@@ -117,10 +117,10 @@ function EditGroupForm({ group }: { group: Group }) {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="rounded-xl border border-border p-4 space-y-4"
+      className="surface space-y-4"
       noValidate
     >
-      <h2 className="font-semibold">Group details</h2>
+      <h2 className="text-lg font-semibold">Group details</h2>
 
       <div className="space-y-2">
         <Label htmlFor="edit-name">Name</Label>
@@ -170,8 +170,8 @@ function LifecycleCard({ group }: { group: Group }) {
   };
 
   return (
-    <section className="rounded-xl border border-border p-4 space-y-3">
-      <h2 className="font-semibold">
+    <section className="surface space-y-3">
+      <h2 className="text-lg font-semibold">
         {group.isArchived ? "Restore group" : "Archive group"}
       </h2>
       <p className="text-sm text-muted-foreground">

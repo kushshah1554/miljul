@@ -1,5 +1,5 @@
 /* ─── External imports (must be first) ─────────────────────────────────────── */
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap");
 
 @import "tailwindcss";
 @import "tw-animate-css";
@@ -8,94 +8,150 @@
 @custom-variant dark (&:is(.dark *));
 
 /* ─── Design tokens ─────────────────────────────────────────────────────────── */
-/* Using oklch — consistent with shadcn Nova preset                             */
+/* Soft "smart home" look: grey page, white rounded frame, grey cards, navy accents */
 :root {
-  /* ── Light mode (unused — app is dark-only, but required by shadcn) ──────── */
-  --background:          oklch(1 0 0);
-  --foreground:          oklch(0.145 0 0);
-  --card:                oklch(1 0 0);
-  --card-foreground:     oklch(0.145 0 0);
+  --page-from:           oklch(0.94 0.002 270);   /* page behind the frame */
+  --page-to:             oklch(0.82 0.003 270);
+  --glow-from:           oklch(0.91 0.022 275);   /* lavender → cream highlight card */
+  --glow-to:             oklch(0.95 0.028 85);
+
+  --background:          oklch(1 0 0);            /* the white frame */
+  --foreground:          oklch(0.2 0.025 265);
+  --card:                oklch(0.935 0.004 270);  /* grey panels */
+  --card-foreground:     oklch(0.2 0.025 265);
   --popover:             oklch(1 0 0);
-  --popover-foreground:  oklch(0.145 0 0);
-  --primary:             oklch(0.205 0 0);
-  --primary-foreground:  oklch(0.985 0 0);
-  --secondary:           oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted:               oklch(0.97 0 0);
-  --muted-foreground:    oklch(0.556 0 0);
-  --accent:              oklch(0.97 0 0);
-  --accent-foreground:   oklch(0.205 0 0);
-  --destructive:         oklch(0.577 0.245 27.325);
-  --border:              oklch(0.922 0 0);
-  --input:               oklch(0.922 0 0);
-  --ring:                oklch(0.708 0 0);
-  --radius:              0.625rem;
-  --radius-sm:           calc(var(--radius) - 2px);
-  --radius-md:           var(--radius);
-  --radius-lg:           calc(var(--radius) + 2px);
+  --popover-foreground:  oklch(0.2 0.025 265);
+  --primary:             oklch(0.22 0.04 265);    /* deep navy */
+  --primary-foreground:  oklch(0.99 0 0);
+  --secondary:           oklch(0.955 0.003 270);
+  --secondary-foreground: oklch(0.2 0.025 265);
+  --muted:               oklch(0.955 0.003 270);
+  --muted-foreground:    oklch(0.55 0.012 270);
+  --accent:              oklch(0.955 0.003 270);
+  --accent-foreground:   oklch(0.2 0.025 265);
+  --destructive:         oklch(0.577 0.2 27);
+  --success:             oklch(0.55 0.13 160);
+  --border:              oklch(0.9 0.004 270);
+  --input:               oklch(0.9 0.004 270);
+  --ring:                oklch(0.22 0.04 265);
+  --radius:              1rem;
+  --radius-sm:           calc(var(--radius) - 4px);
+  --radius-md:           calc(var(--radius) - 2px);
+  --radius-lg:           var(--radius);
   --radius-xl:           calc(var(--radius) + 4px);
 
   /* Charts */
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
+  --chart-1: oklch(0.22 0.04 265);
+  --chart-2: oklch(0.55 0.012 270);
+  --chart-3: oklch(0.7 0.03 275);
+  --chart-4: oklch(0.8 0.04 85);
+  --chart-5: oklch(0.88 0.004 270);
 
   /* Sidebar */
-  --sidebar:                   oklch(0.985 0 0);
-  --sidebar-foreground:        oklch(0.145 0 0);
-  --sidebar-primary:           oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent:            oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border:            oklch(0.922 0 0);
-  --sidebar-ring:              oklch(0.708 0 0);
+  --sidebar:                   oklch(1 0 0);
+  --sidebar-foreground:        oklch(0.2 0.025 265);
+  --sidebar-primary:           oklch(0.22 0.04 265);
+  --sidebar-primary-foreground: oklch(0.99 0 0);
+  --sidebar-accent:            oklch(0.955 0.003 270);
+  --sidebar-accent-foreground: oklch(0.2 0.025 265);
+  --sidebar-border:            oklch(0.9 0.004 270);
+  --sidebar-ring:              oklch(0.22 0.04 265);
 }
 
 .dark {
-  /* ── Dark glassmorphism palette ────────────────────────────────────────────── */
-  --background:          oklch(0.12 0.025 265);   /* deep navy  */
-  --foreground:          oklch(0.95 0.008 260);   /* near-white */
-  --card:                oklch(0.16 0.022 265);
-  --card-foreground:     oklch(0.95 0.008 260);
-  --popover:             oklch(0.16 0.022 265);
-  --popover-foreground:  oklch(0.95 0.008 260);
+  /* Same layout, charcoal instead of white; primary flips to near-white */
+  --page-from:           oklch(0.16 0.005 270);
+  --page-to:             oklch(0.1 0.005 270);
+  --glow-from:           oklch(0.32 0.03 275);
+  --glow-to:             oklch(0.3 0.025 70);
 
-  /* Primary — vivid violet */
-  --primary:             oklch(0.62 0.22 278);    /* #7c4dff */
-  --primary-foreground:  oklch(0.98 0 0);
-
-  --secondary:           oklch(0.22 0.02 265);
-  --secondary-foreground: oklch(0.88 0.01 260);
-
-  --muted:               oklch(0.20 0.018 265);
-  --muted-foreground:    oklch(0.60 0.012 265);
-
-  --accent:              oklch(0.26 0.04 278);
-  --accent-foreground:   oklch(0.80 0.12 278);
-
-  --destructive:         oklch(0.55 0.22 27);
-  --border:              oklch(0.24 0.018 265);
-  --input:               oklch(0.20 0.018 265);
-  --ring:                oklch(0.62 0.22 278);
+  --background:          oklch(0.21 0.006 270);
+  --foreground:          oklch(0.96 0.003 270);
+  --card:                oklch(0.26 0.007 270);
+  --card-foreground:     oklch(0.96 0.003 270);
+  --popover:             oklch(0.25 0.007 270);
+  --popover-foreground:  oklch(0.96 0.003 270);
+  --primary:             oklch(0.95 0.004 270);
+  --primary-foreground:  oklch(0.2 0.03 265);
+  --secondary:           oklch(0.3 0.008 270);
+  --secondary-foreground: oklch(0.96 0.003 270);
+  --muted:               oklch(0.3 0.008 270);
+  --muted-foreground:    oklch(0.7 0.01 270);
+  --accent:              oklch(0.3 0.008 270);
+  --accent-foreground:   oklch(0.96 0.003 270);
+  --destructive:         oklch(0.65 0.19 25);
+  --success:             oklch(0.72 0.13 160);
+  --border:              oklch(0.32 0.008 270);
+  --input:               oklch(0.34 0.008 270);
+  --ring:                oklch(0.7 0.01 270);
 
   /* Charts */
-  --chart-1: oklch(0.62 0.22 278);
-  --chart-2: oklch(0.55 0.18 245);
-  --chart-3: oklch(0.48 0.15 215);
-  --chart-4: oklch(0.42 0.12 190);
-  --chart-5: oklch(0.35 0.10 160);
+  --chart-1: oklch(0.95 0.004 270);
+  --chart-2: oklch(0.7 0.01 270);
+  --chart-3: oklch(0.6 0.05 275);
+  --chart-4: oklch(0.7 0.06 85);
+  --chart-5: oklch(0.4 0.008 270);
 
   /* Sidebar */
-  --sidebar:                   oklch(0.14 0.022 265);
-  --sidebar-foreground:        oklch(0.95 0.008 260);
-  --sidebar-primary:           oklch(0.62 0.22 278);
-  --sidebar-primary-foreground: oklch(0.98 0 0);
-  --sidebar-accent:            oklch(0.20 0.018 265);
-  --sidebar-accent-foreground: oklch(0.88 0.01 260);
-  --sidebar-border:            oklch(0.22 0.018 265);
-  --sidebar-ring:              oklch(0.62 0.22 278);
+  --sidebar:                   oklch(0.21 0.006 270);
+  --sidebar-foreground:        oklch(0.96 0.003 270);
+  --sidebar-primary:           oklch(0.95 0.004 270);
+  --sidebar-primary-foreground: oklch(0.2 0.03 265);
+  --sidebar-accent:            oklch(0.3 0.008 270);
+  --sidebar-accent-foreground: oklch(0.96 0.003 270);
+  --sidebar-border:            oklch(0.32 0.008 270);
+  --sidebar-ring:              oklch(0.7 0.01 270);
+}
+
+/* ─── Expose tokens to Tailwind (bg-primary, text-muted-foreground, …) ─────── */
+@theme inline {
+  --font-sans: "Manrope", system-ui, sans-serif;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-success: var(--success);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+/* ─── Shared surfaces ───────────────────────────────────────────────────────── */
+/* Big soft grey panel — the building block of every page */
+@utility surface {
+  border-radius: 1.75rem;
+  background-color: var(--card);
+  color: var(--card-foreground);
+  padding: 1.25rem;
+}
+
+/* Lavender → cream wash for the one highlight card on a page */
+@utility surface-glow {
+  background-image: linear-gradient(160deg, var(--glow-from), var(--glow-to));
 }
 
 /* ─── App shell — force dark mode ──────────────────────────────────────────── */
@@ -115,9 +171,9 @@
     scroll-behavior: smooth;
   }
   body {
-    background-color: var(--background);
+    background: linear-gradient(180deg, var(--page-from), var(--page-to)) fixed;
     color: var(--foreground);
-    font-family: "Inter", system-ui, sans-serif;
+    font-family: var(--font-sans);
     min-height: 100vh;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;

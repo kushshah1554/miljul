@@ -33,9 +33,9 @@ export function MembersCard({ group }: { group: Group }) {
   };
 
   return (
-    <section className="rounded-xl border border-border p-4 space-y-3">
+    <section className="surface space-y-3">
       <div className="flex items-center justify-between gap-2">
-        <h2 className="font-semibold">Members</h2>
+        <h2 className="text-lg font-semibold">Members</h2>
         <Button variant="ghost" size="sm" onClick={handleLeave} disabled={leave.isPending}>
           <LogOut /> {leave.isPending ? "Leaving…" : "Leave group"}
         </Button>
@@ -50,7 +50,7 @@ export function MembersCard({ group }: { group: Group }) {
       )}
       {isError && <p className="text-sm text-destructive">{error.message}</p>}
 
-      <ul className="divide-y divide-border">
+      <ul className="space-y-1">
         {members?.map((member) => (
           <MemberRow
             key={member.id}
@@ -98,9 +98,9 @@ function MemberRow({
   };
 
   return (
-    <li className="flex items-center gap-3 py-3">
-      <Avatar className="size-9">
-        <AvatarFallback>{member.user.name.charAt(0).toUpperCase()}</AvatarFallback>
+    <li className="flex items-center gap-3 rounded-2xl px-3 py-2.5 hover:bg-background/60">
+      <Avatar className="size-11">
+        <AvatarFallback className="bg-background font-semibold">{member.user.name.charAt(0).toUpperCase()}</AvatarFallback>
       </Avatar>
       <div className="min-w-0 flex-1">
         <p className="truncate text-sm font-medium">
@@ -109,7 +109,7 @@ function MemberRow({
         </p>
         <p className="truncate text-xs text-muted-foreground">{member.user.email}</p>
       </div>
-      <span className="flex shrink-0 items-center gap-1 rounded-md bg-muted px-2 py-0.5 text-xs font-medium">
+      <span className="flex shrink-0 items-center gap-1 rounded-full bg-background px-3 py-1 text-xs font-semibold">
         {member.role === "OWNER" && <Crown className="size-3.5" />}
         {member.role}
       </span>

@@ -1,74 +1,50 @@
 import { Mountain, Users, ShieldCheck, Zap } from "lucide-react";
 
+const PILLS = [
+  { icon: Users, label: "Groups" },
+  { icon: ShieldCheck, label: "Private" },
+  { icon: Zap, label: "Instant" },
+];
+
 export default function AuthLeftPanel() {
   return (
-    <div className="hidden md:flex md:w-1/2 relative flex-col justify-between p-12 lg:p-16 text-white overflow-hidden">
-      {/* Background Image */}
+    <div className="relative hidden flex-col justify-between overflow-hidden rounded-[2rem] p-6 md:flex md:w-1/2 lg:p-8">
       <img
         src="/imgs/mountain.jpg"
-        alt="Mountain landscape"
-        className="absolute inset-0 z-0 w-full h-full object-cover"
+        alt=""
+        className="absolute inset-0 z-0 h-full w-full object-cover"
       />
-      {/* Gradient Overlay */}
-      <div className="absolute inset-0 z-0 bg-linear-to-b from-slate-900/40 via-slate-900/60 to-slate-900/95" />
+      {/* Darken only the bottom so the headline stays readable */}
+      <div className="absolute inset-0 z-0 bg-linear-to-b from-black/5 via-black/10 to-black/70" />
 
-      {/* Content */}
-      <div className="relative z-10">
-        {/* Logo */}
-        <div className="flex items-center gap-2 mb-16">
-          <Mountain className="w-8 h-8" />
-          <span className="text-2xl font-bold tracking-tight">Miljul</span>
+      {/* Top row: brand chip + frosted feature pills */}
+      <div className="relative z-10 flex flex-wrap items-center justify-between gap-3">
+        <span className="flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-semibold text-slate-900 shadow-sm">
+          <Mountain className="size-4" /> Miljul
+        </span>
+        <div className="flex flex-wrap gap-2">
+          {PILLS.map(({ icon: Icon, label }) => (
+            <span
+              key={label}
+              className="flex items-center gap-2 rounded-full bg-white/60 px-4 py-2 text-sm font-medium text-slate-900 backdrop-blur-md"
+            >
+              <Icon className="size-4" /> {label}
+            </span>
+          ))}
         </div>
-
-        {/* Hero Text */}
-        <h1 className="text-4xl lg:text-5xl font-bold leading-tight mb-6">
-          Better together,
-          <br />
-          <span className="text-indigo-300">simpler</span> always.
-        </h1>
-        <p className="text-slate-300 text-lg max-w-md leading-relaxed">
-          Manage your shared expenses, keep track of what you owe and what
-          you're owed — all in one place.
-        </p>
       </div>
 
-      {/* Features List */}
-      <div className="relative z-10 space-y-6 mt-12">
-        <div className="flex items-start gap-4">
-          <div className="p-3 rounded-full bg-white/10 backdrop-blur-sm border border-white/10">
-            <Users className="w-5 h-5 text-indigo-200" />
-          </div>
-          <div>
-            <h3 className="font-semibold text-white">Keep everyone in sync</h3>
-            <p className="text-sm text-slate-400 mt-1">
-              Track expenses and balances with your group.
-            </p>
-          </div>
-        </div>
-
-        <div className="flex items-start gap-4">
-          <div className="p-3 rounded-full bg-white/10 backdrop-blur-sm border border-white/10">
-            <ShieldCheck className="w-5 h-5 text-indigo-200" />
-          </div>
-          <div>
-            <h3 className="font-semibold text-white">Secure & private</h3>
-            <p className="text-sm text-slate-400 mt-1">
-              Your data stays safe and protected.
-            </p>
-          </div>
-        </div>
-
-        <div className="flex items-start gap-4">
-          <div className="p-3 rounded-full bg-white/10 backdrop-blur-sm border border-white/10">
-            <Zap className="w-5 h-5 text-indigo-200" />
-          </div>
-          <div>
-            <h3 className="font-semibold text-white">Simple to use</h3>
-            <p className="text-sm text-slate-400 mt-1">
-              Get started in seconds, not hours.
-            </p>
-          </div>
-        </div>
+      {/* Bottom: headline */}
+      <div className="relative z-10 space-y-4 text-white">
+        <h1 className="text-4xl leading-tight font-bold tracking-tight lg:text-5xl">
+          Better together,
+          <br />
+          simpler always.
+        </h1>
+        <p className="max-w-md text-lg leading-relaxed text-white/80">
+          Manage shared expenses, keep track of what you owe and what you're
+          owed — all in one place.
+        </p>
       </div>
     </div>
   );

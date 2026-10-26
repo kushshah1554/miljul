@@ -84,15 +84,15 @@ function ExpenseDetailBody({
 
         {expense && (
           <>
-            <p className="font-mono text-2xl font-semibold">{expense.amount}</p>
+            <p className="font-mono text-3xl font-bold">{expense.amount}</p>
             <div className="space-y-2">
               <h3 className="text-sm font-medium">
                 Split between {expense.splits.length}{" "}
                 {expense.splits.length === 1 ? "person" : "people"}
               </h3>
-              <ul className="divide-y divide-border rounded-lg border border-border">
+              <ul className="space-y-1 rounded-2xl bg-card p-1.5">
                 {expense.splits.map((split) => (
-                  <li key={split.id} className="flex items-center justify-between gap-3 px-3 py-2">
+                  <li key={split.id} className="flex items-center justify-between gap-3 rounded-xl bg-background px-3 py-2.5">
                     <span className="truncate text-sm">{split.user.name}</span>
                     <span className="font-mono text-sm">{split.amount}</span>
                   </li>

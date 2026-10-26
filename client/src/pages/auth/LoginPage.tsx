@@ -13,6 +13,9 @@ import { loginSchema, type LoginFormValues } from "@/features/auth/auth.schema";
 import { useLogin } from "@/features/auth/useAuth";
 import { GoogleIcon } from "../../components/auth/GoogleIcon";
 
+// Soft grey pill fields, matching the app's cards
+const FIELD = "h-12 rounded-2xl border-transparent bg-card pl-11 shadow-none";
+
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const { mutate: handleLogin, isPending } = useLogin();
@@ -30,12 +33,12 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="w-full md:w-1/2 flex flex-col p-8 sm:p-12 lg:p-16">
+    <div className="flex w-full flex-col px-6 py-8 sm:px-12 md:w-1/2 lg:px-16">
       <div className="text-right mb-8">
-        <span className="text-sm text-slate-500">Don't have an account? </span>
+        <span className="text-sm text-muted-foreground">Don't have an account? </span>
         <Link
           to="/signup"
-          className="text-sm font-semibold text-indigo-600 hover:text-indigo-700 transition-colors"
+          className="text-sm font-semibold text-foreground underline-offset-4 hover:underline"
         >
           Sign up
         </Link>
@@ -43,10 +46,10 @@ export default function LoginPage() {
 
       <div className="max-w-md w-full mx-auto flex-1 flex flex-col justify-center">
         <div className="mb-8">
-          <h2 className="text-3xl font-bold text-slate-900 mb-2 flex items-center gap-2">
+          <h2 className="mb-2 flex items-center gap-2 text-4xl font-bold tracking-tight">
             Welcome back <span className="text-2xl">👋</span>
           </h2>
-          <p className="text-slate-500">Sign in to your account to continue</p>
+          <p className="text-muted-foreground">Sign in to your account to continue</p>
         </div>
 
         <form
@@ -58,23 +61,23 @@ export default function LoginPage() {
           <div className="space-y-2">
             <Label
               htmlFor="email"
-              className="text-sm font-medium text-slate-700"
+              className="text-sm font-semibold"
             >
               Email address
             </Label>
             <div className="relative">
-              <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 pointer-events-none" />
+              <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 size-5 text-muted-foreground pointer-events-none" />
               <Input
                 id="email"
                 type="email"
                 placeholder="you@example.com"
-                className="pl-11 h-12 rounded-xl border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus-visible:outline-none focus-visible:ring-0"
+                className={FIELD}
                 aria-invalid={!!errors.email}
                 {...register("email")}
               />
             </div>
             {errors.email && (
-              <p className="text-sm text-red-500">{errors.email.message}</p>
+              <p className="text-sm text-destructive">{errors.email.message}</p>
             )}
           </div>
 
@@ -82,24 +85,25 @@ export default function LoginPage() {
           <div className="space-y-2">
             <Label
               htmlFor="password"
-              className="text-sm font-medium text-slate-700"
+              className="text-sm font-semibold"
             >
               Password
             </Label>
             <div className="relative">
-              <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 pointer-events-none" />
+              <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 size-5 text-muted-foreground pointer-events-none" />
               <Input
                 id="password"
                 type={showPassword ? "text" : "password"}
                 placeholder="Enter your password"
-                className="pl-11 pr-11 h-12 rounded-xl border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus-visible:outline-none focus-visible:ring-0"
+                className={`${FIELD} pr-11`}
                 aria-invalid={!!errors.password}
                 {...register("password")}
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                aria-label={showPassword ? "Hide password" : "Show password"}
+                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
               >
                 {showPassword ? (
                   <EyeOff className="w-5 h-5" />
@@ -109,27 +113,24 @@ export default function LoginPage() {
               </button>
             </div>
             {errors.password && (
-              <p className="text-sm text-red-500">{errors.password.message}</p>
+              <p className="text-sm text-destructive">{errors.password.message}</p>
             )}
           </div>
 
           {/* Remember Me & Forgot Password */}
           <div className="flex items-center justify-between pt-2">
             <div className="flex items-center space-x-2">
-              <Checkbox
-                id="remember"
-                className="border-slate-300 data-[state=checked]:bg-indigo-600 data-[state=checked]:border-indigo-600"
-              />
+              <Checkbox id="remember" />
               <label
                 htmlFor="remember"
-                className="text-sm font-medium leading-none text-slate-600"
+                className="text-sm leading-none font-medium text-muted-foreground"
               >
                 Remember me
               </label>
             </div>
             <Link
               to="#"
-              className="text-sm font-medium text-indigo-600 hover:text-indigo-700 transition-colors"
+              className="text-sm font-semibold text-foreground underline-offset-4 hover:underline"
             >
               Forgot password?
             </Link>
@@ -138,29 +139,30 @@ export default function LoginPage() {
           <Button
             type="submit"
             disabled={isPending}
-            className="w-full h-12 rounded-xl bg-[#3b41e3] hover:bg-[#3237c5] text-white font-medium text-base mt-4 transition-colors"
+            size="lg"
+            className="mt-4 h-12 w-full"
           >
             {isPending ? (
               "Signing in..."
             ) : (
               <>
-                Sign in <ArrowRight className="w-4 h-4 ml-2" />
+                Sign in <ArrowRight />
               </>
             )}
           </Button>
         </form>
 
         <div className="flex items-center gap-4 my-8">
-          <div className="flex-1 border-t border-slate-200" />
-          <span className="text-sm text-slate-400">or</span>
-          <div className="flex-1 border-t border-slate-200" />
+          <div className="flex-1 border-t border-border" />
+          <span className="text-sm text-muted-foreground">or</span>
+          <div className="flex-1 border-t border-border" />
         </div>
 
         <Button
           variant="outline"
-          className="w-full h-12 rounded-xl border-slate-200 bg-white hover:bg-slate-50 text-slate-700 font-medium transition-colors"
+          className="h-12 w-full"
         >
-          <GoogleIcon className="w-5 h-5 mr-3" />
+          <GoogleIcon className="size-5" />
           Continue with Google
         </Button>
       </div>

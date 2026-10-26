@@ -1,31 +1,20 @@
 import { Outlet } from "react-router-dom";
-import { Separator } from "@/components/ui/separator";
-import {
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger,
-} from "@/components/ui/sidebar";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { AppSidebar } from "./AppSidebar";
-import { ThemeToggle } from "./ThemeToggle";
+import { AppSidebar, MobileHeader } from "./AppSidebar";
 
 export function AppLayout() {
   return (
     <TooltipProvider>
-      <SidebarProvider>
-        <AppSidebar />
-        <SidebarInset>
-          <header className="sticky top-0 z-10 flex h-14 shrink-0 items-center gap-2 border-b border-border bg-background/80 px-4 backdrop-blur">
-            <SidebarTrigger className="-ml-1" />
-            <Separator orientation="vertical" className="mr-2 h-4" />
-            <span className="font-semibold md:hidden">Miljul</span>
-            <div className="ml-auto">
-              <ThemeToggle />
-            </div>
-          </header>
-          <Outlet />
-        </SidebarInset>
-      </SidebarProvider>
+      {/* Grey page → white rounded frame holding the icon rail and content */}
+      <div className="min-h-svh md:p-5">
+        <div className="flex min-h-svh flex-col bg-background md:min-h-[calc(100svh-2.5rem)] md:flex-row md:rounded-[2.5rem] md:shadow-2xl md:shadow-black/10">
+          <AppSidebar />
+          <MobileHeader />
+          <main className="flex min-w-0 flex-1 flex-col">
+            <Outlet />
+          </main>
+        </div>
+      </div>
     </TooltipProvider>
   );
 }

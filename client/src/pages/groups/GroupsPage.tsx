@@ -28,8 +28,8 @@ export default function GroupsPage() {
   const { data: groups, isPending, isError, error } = useGroups(status);
 
   return (
-    <div className="w-full max-w-5xl mx-auto px-4 py-6 md:py-8 space-y-8">
-      <h1 className="text-2xl font-bold">My groups</h1>
+    <div className="w-full max-w-5xl mx-auto px-4 py-6 md:px-6 md:py-10 space-y-8">
+      <h1 className="text-3xl font-bold tracking-tight">My groups</h1>
 
       <div className="grid gap-8 md:grid-cols-[1fr_320px]">
         {/* Group list */}
@@ -63,11 +63,11 @@ export default function GroupsPage() {
               <li key={group.id}>
                 <Link
                   to={`/groups/${group.id}`}
-                  className="block rounded-xl border border-border p-4 hover:bg-muted/50 transition-colors"
+                  className="block surface transition-shadow hover:shadow-lg hover:shadow-black/5"
                 >
                   <div className="flex items-start justify-between gap-4">
                     <div className="min-w-0">
-                      <h2 className="font-semibold truncate">{group.name}</h2>
+                      <h2 className="text-lg font-semibold truncate">{group.name}</h2>
                       {group.description && (
                         <p className="text-sm text-muted-foreground line-clamp-2">
                           {group.description}
@@ -83,7 +83,7 @@ export default function GroupsPage() {
                       <span className="flex items-center gap-1">
                         <Users className="size-3.5" /> {group.memberCount}
                       </span>
-                      <span className="rounded-md bg-muted px-2 py-0.5 font-medium">
+                      <span className="rounded-full bg-background px-3 py-1 font-semibold">
                         {group.role}
                       </span>
                     </div>
@@ -121,10 +121,10 @@ function CreateGroupForm() {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="rounded-xl border border-border p-4 space-y-4"
+      className="surface space-y-4"
       noValidate
     >
-      <h2 className="font-semibold">Create a group</h2>
+      <h2 className="text-lg font-semibold">Create a group</h2>
 
       <div className="space-y-2">
         <Label htmlFor="create-name">Name</Label>
@@ -175,10 +175,10 @@ function JoinGroupForm() {
   return (
     <form
       onSubmit={handleSubmit((data) => handleJoin(data))}
-      className="rounded-xl border border-border p-4 space-y-4"
+      className="surface space-y-4"
       noValidate
     >
-      <h2 className="font-semibold">Join with a code</h2>
+      <h2 className="text-lg font-semibold">Join with a code</h2>
 
       <div className="space-y-2">
         <Label htmlFor="join-code">Join code</Label>
