@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   Sheet,
@@ -192,18 +193,25 @@ function ExpenseForm({
 
       <div className="space-y-2">
         <Label htmlFor="expense-paid-by">Paid by</Label>
-        <select
-          id="expense-paid-by"
-          className="h-10 w-full rounded-xl border border-input bg-background px-3 text-sm shadow-xs outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
-          {...register("paidById")}
-        >
-          {members.map((m) => (
-            <option key={m.userId} value={m.userId}>
-              {m.user.name}
-              {m.userId === myUserId ? " (you)" : ""}
-            </option>
-          ))}
-        </select>
+        <Controller
+          control={control}
+          name="paidById"
+          render={({ field }) => (
+            <Select value={field.value} onValueChange={field.onChange}>
+              <SelectTrigger id="expense-paid-by" aria-invalid={!!errors.paidById} onBlur={field.onBlur}>
+                <SelectValue placeholder="Select a member" />
+              </SelectTrigger>
+              <SelectContent>
+                {members.map((m) => (
+                  <SelectItem key={m.userId} value={m.userId}>
+                    {m.user.name}
+                    {m.userId === myUserId ? " (you)" : ""}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          )}
+        />
         {errors.paidById && (
           <p className="text-sm text-destructive">{errors.paidById.message}</p>
         )}
