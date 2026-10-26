@@ -138,7 +138,8 @@ function Label({ expanded, children }: { expanded: boolean; children: React.Reac
 
 function RailLink({ item, expanded }: { item: NavItem; expanded: boolean }) {
   return (
-    <Tooltip>
+    // Close on trigger leave: while expanded there is no content to leave, so hovers would stay "open"
+    <Tooltip disableHoverableContent>
       <TooltipTrigger asChild>
         <NavLink
           to={item.to}
