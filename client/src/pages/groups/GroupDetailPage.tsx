@@ -14,6 +14,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { MembersCard } from "@/components/group/MembersCard";
 
 import {
   groupFormSchema,
@@ -26,7 +27,7 @@ import {
   useRestoreGroup,
   useUpdateGroup,
 } from "@/features/group/useGroups";
-import { canManageGroup, isOwner } from "@/lib/roles";
+import { isOwner } from "@/lib/roles";
 import type { Group } from "@/lib/types";
 
 export default function GroupDetailPage() {
@@ -74,7 +75,9 @@ export default function GroupDetailPage() {
             </p>
           )}
 
-          {canManageGroup(group.role) && !group.isArchived && (
+          <MembersCard group={group} />
+
+          {isOwner(group.role) && !group.isArchived && (
             <>
               <JoinCodeCard group={group} />
               {/* key resets the form to the saved values after each update */}

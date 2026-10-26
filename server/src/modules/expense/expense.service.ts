@@ -284,7 +284,7 @@ export async function getExpenseById(
 }
 
 /**
- * Partially updates an expense.  Authorization: OWNER or ADMIN only.
+ * Partially updates an expense.  Authorization: OWNER only.
  *
  * If `splits` are provided they completely replace the old splits and must
  * sum to the final expense amount.  If `amount` changes but `splits` are
@@ -302,10 +302,10 @@ export async function updateExpense(
   }
 
   return prisma.$transaction(async (tx) => {
-    // 1. Verify caller is a member and has OWNER/ADMIN role.
+    // 1. Verify caller is a member and has OWNER role.
     const callerRole = await requireMember(tx, authUserId, groupId);
-    if (callerRole !== GroupRole.OWNER && callerRole !== GroupRole.ADMIN) {
-      throw new AppError(403, "Only owners and admins can edit expenses");
+    if (callerRole !== GroupRole.OWNER) {
+      throw new AppError(403, "Only owners can edit expenses");
     }
 
     // 2. Verify the group is active.
@@ -381,7 +381,7 @@ export async function updateExpense(
 
 /**
  * Deletes an expense (and its splits, via cascade).
- * Authorization: OWNER or ADMIN only.
+ * Authorization: OWNER only.
  */
 export async function deleteExpense(
   authUserId: string,
@@ -389,10 +389,10 @@ export async function deleteExpense(
   expenseId: string,
 ): Promise<void> {
   return prisma.$transaction(async (tx) => {
-    // 1. Verify caller is a member and has OWNER/ADMIN role.
+    // 1. Verify caller is a member and has OWNER role.
     const callerRole = await requireMember(tx, authUserId, groupId);
-    if (callerRole !== GroupRole.OWNER && callerRole !== GroupRole.ADMIN) {
-      throw new AppError(403, "Only owners and admins can delete expenses");
+    if (callerRole !== GroupRole.OWNER) {
+      throw new AppError(403, "Only owners can delete expenses");
     }
 
     // 2. Verify the group is active.

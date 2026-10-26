@@ -21,11 +21,6 @@ groupMemberRouter.get(
   requireAuth,
   groupMemberController.me,
 );
-groupMemberRouter.patch(
-  "/:groupId/members/:userId/role",
-  requireAuth,
-  groupMemberController.changeRole,
-);
 groupMemberRouter.delete(
   "/:groupId/members/:userId",
   requireAuth,

@@ -194,13 +194,13 @@ describe("regenerateJoinCode", () => {
     expect(error).toBeInstanceOf(AppError);
     expect(error.statusCode).toBe(403);
     expect(error.message).toBe(
-      "Only owners and admins can regenerate the join code",
+      "Only owners can regenerate the join code",
     );
     expect(prismaMock.group.update).not.toHaveBeenCalled();
   });
 
   it("refuses to rotate the code of an archived group with 409", async () => {
-    mockManageableGroup(GroupRole.ADMIN, true);
+    mockManageableGroup(GroupRole.OWNER, true);
 
     const error = await catchError(
       groupService.regenerateJoinCode(USER_ID, GROUP_ID),
@@ -212,7 +212,7 @@ describe("regenerateJoinCode", () => {
     expect(prismaMock.group.update).not.toHaveBeenCalled();
   });
 
-  it.each([GroupRole.OWNER, GroupRole.ADMIN])(
+  it.each([GroupRole.OWNER])(
     "lets an %s rotate the code and returns the new one",
     async (role) => {
       let writtenCode: string | undefined;

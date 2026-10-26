@@ -2,10 +2,7 @@ import { prisma } from "../../utils/prisma";
 import { AppError } from "../../utils/AppError";
 import { requireFound } from "../../utils/helpers";
 import { Prisma, GroupRole } from "../../generated/prisma/client";
-import type {
-  ChangeRoleInput,
-  TransferOwnershipInput,
-} from "./group-member.validation";
+import type { TransferOwnershipInput } from "./group-member.validation";
 import { assertGroupActive } from "../group/group.lifecycle";
 
 // Safe, non-sensitive user fields exposed to fellow group members.
@@ -128,7 +125,7 @@ export async function listGroupMembers(
     select: {
       members: {
         select: membershipSelect,
-        // PostgreSQL orders enums by declaration order: OWNER, ADMIN, MEMBER.
+        // PostgreSQL orders enums by declaration order: OWNER, MEMBER.
         orderBy: [{ role: "asc" }, { joinedAt: "asc" }],
       },
     },
@@ -158,90 +155,6 @@ export async function getMyMembership(
 }
 
 /**
- * Changes one member's role.
- *
- * Authorization policy (enforced entirely server-side):
- * - OWNER and ADMIN may change roles; MEMBER always gets 403.
- * - OWNER may promote MEMBER -> ADMIN and demote ADMIN -> MEMBER, and may
- *   demote a fellow OWNER only while another owner remains.
- * - ADMIN may promote MEMBER -> ADMIN and demote ADMIN -> MEMBER, but can
- *   never assign OWNER and can never change the OWNER's role.
- * - OWNER is rejected up front: ownership can only move through a
- *   dedicated ownership-transfer operation, never a normal role update.
- * - The last OWNER can never be demoted (409), including self-demotion.
- *
- * Only the target GroupMember.role column is written - global user roles
- * and other memberships are untouched. The count + update pair runs in a
- * SERIALIZABLE transaction so concurrent demotions cannot strip a group
- * of its final owner.
- */
-export async function changeMemberRole(
-  authUserId: string,
-  groupId: string,
-  targetUserId: string,
-  input: ChangeRoleInput,
-): Promise<GroupMemberRecord> {
-  if (input.role === GroupRole.OWNER) {
-    throw new AppError(
-      403,
-      "Ownership cannot be changed here, transfer it through a dedicated ownership-transfer process",
-    );
-  }
-
-  return runSerializable(async (tx) => {
-    const caller = await tx.groupMember.findUnique({
-      where: { userId_groupId: { userId: authUserId, groupId } },
-      select: { role: true },
-    });
-
-    // Caller not in group (or group missing): same 404, no disclosure.
-    if (!caller) {
-      throw new AppError(404, "Group not found");
-    }
-
-    if (caller.role !== GroupRole.OWNER && caller.role !== GroupRole.ADMIN) {
-      throw new AppError(403, "Only owners and admins can change member roles");
-    }
-
-    // Lifecycle guard: role changes are blocked while the group is archived
-    // (409), regardless of the caller's role.
-    await assertGroupActive(tx, groupId);
-
-    const target = await tx.groupMember.findUnique({
-      where: { userId_groupId: { userId: targetUserId, groupId } },
-      select: { id: true, role: true },
-    });
-
-    // Covers both "target user does not exist" and "not a member here".
-    if (!target) {
-      throw new AppError(404, "Member not found");
-    }
-
-    if (target.role === GroupRole.OWNER && caller.role !== GroupRole.OWNER) {
-      throw new AppError(403, "An admin cannot change the owner's role");
-    }
-
-    if (target.role === GroupRole.OWNER) {
-      const ownerCount = await tx.groupMember.count({
-        where: { groupId, role: GroupRole.OWNER },
-      });
-      if (ownerCount <= 1) {
-        throw new AppError(
-          409,
-          "The last owner's role cannot be changed, transfer ownership first",
-        );
-      }
-    }
-
-    return tx.groupMember.update({
-      where: { id: target.id },
-      data: { role: input.role },
-      select: membershipSelect,
-    });
-  });
-}
-
-/**
  * Removes a membership row (removing someone or leaving the group)
  * without ever deleting the User account or any financial history.
  *
@@ -253,10 +166,8 @@ export async function changeMemberRole(
  * row identified by its primary key is deleted.
  *
  * Authorization policy:
- * - OWNER may remove anyone (ADMIN, MEMBER, or a fellow OWNER while
- *   another owner remains) and may leave unless they are the last owner.
- * - ADMIN may remove MEMBERs and may leave; cannot remove the OWNER and
- *   cannot remove another ADMIN.
+ * - OWNER may remove anyone (a MEMBER, or a fellow OWNER while another
+ *   owner remains) and may leave unless they are the last owner.
  * - MEMBER cannot remove anyone else but may leave (self-removal).
  * - The last OWNER can never be removed or leave (409): ownership must be
  *   transferred first.
@@ -291,17 +202,8 @@ export async function removeMember(
 
     const isSelf = authUserId === targetUserId;
 
-    if (caller.role === GroupRole.MEMBER) {
-      if (!isSelf) {
-        throw new AppError(403, "Only owners and admins can remove members");
-      }
-    } else if (caller.role === GroupRole.ADMIN) {
-      if (target.role === GroupRole.OWNER) {
-        throw new AppError(403, "The group owner cannot be removed");
-      }
-      if (!isSelf && target.role === GroupRole.ADMIN) {
-        throw new AppError(403, "An admin cannot remove another admin");
-      }
+    if (caller.role === GroupRole.MEMBER && !isSelf) {
+      throw new AppError(403, "Only owners can remove members");
     }
 
     // Lifecycle guard: archived groups are frozen for every membership
@@ -334,7 +236,7 @@ export async function removeMember(
  *
  * Security rules, all enforced server-side inside one SERIALIZABLE
  * transaction:
- * - Only an authenticated OWNER may initiate a transfer; admins, members
+ * - Only an authenticated OWNER may initiate a transfer; members
  *   and non-members get 403/404.
  * - The caller's identity comes solely from the verified auth context;
  *   the body only ever names the *target*.

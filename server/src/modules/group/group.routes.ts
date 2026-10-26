@@ -18,7 +18,7 @@ groupRouter.post("/join", requireAuth, groupController.join);
 groupRouter.patch("/:groupId/archive", requireAuth, groupController.archive);
 groupRouter.patch("/:groupId/restore", requireAuth, groupController.restore);
 
-// Rotates the join code (OWNER/ADMIN only); the previous code stops
+// Rotates the join code (OWNER only); the previous code stops
 // working immediately. Registered with the other specific paths, before
 // the generic "/:groupId" routes below.
 groupRouter.post(

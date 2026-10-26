@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { GroupRole } from "../../generated/prisma/client";
 import { cuidPattern, groupIdParamSchema } from "../group/group.validation";
 
 // Prisma user id (cuid), same format as the group module's groupId.
@@ -15,12 +14,6 @@ export const memberParamsSchema = z.object({
   userId: userIdSchema,
 });
 
-// Roles are validated against the actual Prisma GroupRole enum, so a value
-// the schema does not define can never reach the service.
-export const changeRoleSchema = z.strictObject({
-  role: z.enum(GroupRole),
-});
-
 // Body of the dedicated ownership-transfer endpoint. The target is always
 // taken from the authenticated request context plus this body field -
 // never from a client-supplied identity for the caller.
@@ -29,5 +22,4 @@ export const transferOwnershipSchema = z.strictObject({
 });
 
 export type MemberParams = z.infer<typeof memberParamsSchema>;
-export type ChangeRoleInput = z.infer<typeof changeRoleSchema>;
 export type TransferOwnershipInput = z.infer<typeof transferOwnershipSchema>;

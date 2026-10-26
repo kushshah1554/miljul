@@ -269,8 +269,8 @@ async function requireManageableGroup(
   }
 
   const role = existing.members[0]?.role;
-  if (role !== GroupRole.OWNER && role !== GroupRole.ADMIN) {
-    throw new AppError(403, `Only owners and admins can ${action}`);
+  if (role !== GroupRole.OWNER) {
+    throw new AppError(403, `Only owners can ${action}`);
   }
 
   if (existing.isArchived) {
@@ -279,7 +279,7 @@ async function requireManageableGroup(
 }
 
 /**
- * Partially updates a group. Only OWNER and ADMIN may update; non-members
+ * Partially updates a group. Only OWNER may update; non-members
  * receive 404 (existence is not disclosed), members with insufficient role
  * receive 403, and updates to an archived group receive 409 (archived
  * groups are read-only). Protected fields (id, createdById, joinCode,
@@ -310,7 +310,7 @@ export async function updateGroup(
 }
 
 /**
- * Rotates a group's join code. Only OWNER and ADMIN may rotate it
+ * Rotates a group's join code. Only OWNER may rotate it
  * (non-members get 404, other members 403, archived groups 409), so the
  * new code is only ever revealed to authorized callers. The previous code
  * stops working the instant the row is updated - the old value is

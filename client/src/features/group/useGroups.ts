@@ -87,7 +87,7 @@ export function useJoinGroup() {
   });
 }
 
-// ─── Group settings (OWNER / ADMIN) ───────────────────────────────────────────
+// ─── Group settings (OWNER) ───────────────────────────────────────────
 export function useUpdateGroup(groupId: string) {
   const syncGroup = useSyncGroup();
 

@@ -54,7 +54,7 @@ export function getGroup(groupId: string) {
   return apiGet<GroupPayload>(`/api/groups/${groupId}`);
 }
 
-/** PATCH /api/groups/:groupId — OWNER/ADMIN */
+/** PATCH /api/groups/:groupId — OWNER */
 export function updateGroup(groupId: string, body: UpdateGroupBody) {
   return apiPatch<GroupPayload, UpdateGroupBody>(`/api/groups/${groupId}`, body);
 }
@@ -69,7 +69,7 @@ export function restoreGroup(groupId: string) {
   return apiPatch<GroupPayload>(`/api/groups/${groupId}/restore`);
 }
 
-/** POST /api/groups/:groupId/join-code/regenerate — OWNER/ADMIN */
+/** POST /api/groups/:groupId/join-code/regenerate — OWNER */
 export function regenerateJoinCode(groupId: string) {
   return apiPost<RegenerateJoinCodePayload>(
     `/api/groups/${groupId}/join-code/regenerate`,

@@ -47,7 +47,7 @@ export const regenerateJoinCode = asyncHandler(
     const group = await groupService.regenerateJoinCode(authUser.id, groupId);
 
     // The new code is echoed at the top level for convenience; the
-    // authorization check happened in the service, so only OWNER/ADMIN
+    // authorization check happened in the service, so only OWNER
     // callers ever see it.
     res.json(ok({ joinCode: group.joinCode, group }));
   },

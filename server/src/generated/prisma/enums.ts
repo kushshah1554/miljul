@@ -11,7 +11,6 @@
 
 export const GroupRole = {
   OWNER: 'OWNER',
-  ADMIN: 'ADMIN',
   MEMBER: 'MEMBER'
 } as const
 

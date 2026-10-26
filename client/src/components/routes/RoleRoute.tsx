@@ -17,7 +17,7 @@ interface RoleRouteProps {
 /**
  * RoleRoute — extends PrivateRoute with role-based access control.
  *
- * Usage: wrap a route with <RoleRoute allowedRoles={["OWNER", "ADMIN"]} />.
+ * Usage: wrap a route with <RoleRoute allowedRoles={["OWNER"]} />.
  *
  * NOTE: Because group roles are per-group (not global on the user), this guard
  * is primarily for future global role fields (e.g. app-level admin). For

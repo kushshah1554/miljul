@@ -44,83 +44,57 @@ function normaliseError(err: unknown): Error {
   return new Error("Request failed", { cause: err });
 }
 
+// ─── Envelope unwrapping (shared by every helper below) ─────────────────────
+async function request<TResponse>(
+  config: AxiosRequestConfig,
+): Promise<TResponse> {
+  try {
+    const res = await api.request<ApiEnvelope<TResponse>>(config);
+    // 204 No Content (e.g. DELETE member) has no envelope to unwrap
+    if (res.status === 204) return undefined as TResponse;
+    if (res.data.status === "error" || res.data.data == null) {
+      throw new Error(res.data.errors?.[0]?.message ?? "Response error");
+    }
+    return res.data.data;
+  } catch (err) {
+    throw normaliseError(err);
+  }
+}
+
 // ─── Generic helpers ─────────────────────────────────────────────────────────
-export async function apiGet<TResponse>(
-  url: string,
-  config?: AxiosRequestConfig,
-): Promise<TResponse> {
-  try {
-    const res = await api.get<ApiEnvelope<TResponse>>(url, config);
-    if (res.data.status === "error" || res.data.data == null) {
-      throw new Error(res.data.errors?.[0]?.message ?? "Response error");
-    }
-    return res.data.data;
-  } catch (err) {
-    throw normaliseError(err);
-  }
+export function apiGet<TResponse>(url: string, config?: AxiosRequestConfig) {
+  return request<TResponse>({ ...config, method: "get", url });
 }
 
-export async function apiPost<TResponse, TBody = unknown>(
+export function apiPost<TResponse, TBody = unknown>(
   url: string,
   body?: TBody,
   config?: AxiosRequestConfig,
-): Promise<TResponse> {
-  try {
-    const res = await api.post<ApiEnvelope<TResponse>>(url, body, config);
-    if (res.data.status === "error" || res.data.data == null) {
-      throw new Error(res.data.errors?.[0]?.message ?? "Response error");
-    }
-    return res.data.data;
-  } catch (err) {
-    throw normaliseError(err);
-  }
+) {
+  return request<TResponse>({ ...config, method: "post", url, data: body });
 }
 
-export async function apiPatch<TResponse, TBody = unknown>(
+export function apiPatch<TResponse, TBody = unknown>(
   url: string,
   body?: TBody,
   config?: AxiosRequestConfig,
-): Promise<TResponse> {
-  try {
-    const res = await api.patch<ApiEnvelope<TResponse>>(url, body, config);
-    if (res.data.status === "error" || res.data.data == null) {
-      throw new Error(res.data.errors?.[0]?.message ?? "Response error");
-    }
-    return res.data.data;
-  } catch (err) {
-    throw normaliseError(err);
-  }
+) {
+  return request<TResponse>({ ...config, method: "patch", url, data: body });
 }
 
-export async function apiPut<TResponse, TBody = unknown>(
+export function apiPut<TResponse, TBody = unknown>(
   url: string,
   body?: TBody,
   config?: AxiosRequestConfig,
-): Promise<TResponse> {
-  try {
-    const res = await api.put<ApiEnvelope<TResponse>>(url, body, config);
-    if (res.data.status === "error" || res.data.data == null) {
-      throw new Error(res.data.errors?.[0]?.message ?? "Response error");
-    }
-    return res.data.data;
-  } catch (err) {
-    throw normaliseError(err);
-  }
+) {
+  return request<TResponse>({ ...config, method: "put", url, data: body });
 }
 
-export async function apiDelete<TResponse>(
+export function apiDelete<TResponse = void>(
   url: string,
   config?: AxiosRequestConfig,
-): Promise<TResponse> {
-  try {
-    const res = await api.delete<ApiEnvelope<TResponse>>(url, config);
-    if (res.data.status === "error" || res.data.data == null) {
-      throw new Error(res.data.errors?.[0]?.message ?? "Response error");
-    }
-    return res.data.data;
-  } catch (err) {
-    throw normaliseError(err);
-  }
+) {
+  return request<TResponse>({ ...config, method: "delete", url });
 }
 
 export default api;

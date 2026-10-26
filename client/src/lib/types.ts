@@ -7,7 +7,7 @@ export type ApiEnvelope<T> = {
 
 // ─── Enums ───────────────────────────────────────────────────────────────────
 
-export type GroupRole = "OWNER" | "ADMIN" | "MEMBER";
+export type GroupRole = "OWNER" | "MEMBER";
 
 // ─── Domain Models ───────────────────────────────────────────────────────────
 
@@ -23,7 +23,7 @@ export type Group = {
   id: string;
   name: string;
   description: string | null;
-  /** 8-character uppercase join code. Only visible to OWNER/ADMIN */
+  /** 8-character uppercase join code. Only visible to OWNER */
   joinCode: string | null;
   createdById: string;
   createdAt: string; // ISO date string
