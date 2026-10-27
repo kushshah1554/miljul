@@ -34,6 +34,8 @@ export type GroupMinAggregateOutputType = {
   updatedAt: Date | null
   isArchived: boolean | null
   archivedAt: Date | null
+  timezone: string | null
+  choresPausedAt: Date | null
 }
 
 export type GroupMaxAggregateOutputType = {
@@ -46,6 +48,8 @@ export type GroupMaxAggregateOutputType = {
   updatedAt: Date | null
   isArchived: boolean | null
   archivedAt: Date | null
+  timezone: string | null
+  choresPausedAt: Date | null
 }
 
 export type GroupCountAggregateOutputType = {
@@ -58,6 +62,8 @@ export type GroupCountAggregateOutputType = {
   updatedAt: number
   isArchived: number
   archivedAt: number
+  timezone: number
+  choresPausedAt: number
   _all: number
 }
 
@@ -72,6 +78,8 @@ export type GroupMinAggregateInputType = {
   updatedAt?: true
   isArchived?: true
   archivedAt?: true
+  timezone?: true
+  choresPausedAt?: true
 }
 
 export type GroupMaxAggregateInputType = {
@@ -84,6 +92,8 @@ export type GroupMaxAggregateInputType = {
   updatedAt?: true
   isArchived?: true
   archivedAt?: true
+  timezone?: true
+  choresPausedAt?: true
 }
 
 export type GroupCountAggregateInputType = {
@@ -96,6 +106,8 @@ export type GroupCountAggregateInputType = {
   updatedAt?: true
   isArchived?: true
   archivedAt?: true
+  timezone?: true
+  choresPausedAt?: true
   _all?: true
 }
 
@@ -181,6 +193,8 @@ export type GroupGroupByOutputType = {
   updatedAt: Date
   isArchived: boolean
   archivedAt: Date | null
+  timezone: string
+  choresPausedAt: Date | null
   _count: GroupCountAggregateOutputType | null
   _min: GroupMinAggregateOutputType | null
   _max: GroupMaxAggregateOutputType | null
@@ -214,9 +228,13 @@ export type GroupWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"Group"> | Date | string
   isArchived?: Prisma.BoolFilter<"Group"> | boolean
   archivedAt?: Prisma.DateTimeNullableFilter<"Group"> | Date | string | null
+  timezone?: Prisma.StringFilter<"Group"> | string
+  choresPausedAt?: Prisma.DateTimeNullableFilter<"Group"> | Date | string | null
   createdBy?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   expenses?: Prisma.ExpenseListRelationFilter
   members?: Prisma.GroupMemberListRelationFilter
+  chores?: Prisma.ChoreListRelationFilter
+  chorePauses?: Prisma.ChorePauseListRelationFilter
 }
 
 export type GroupOrderByWithRelationInput = {
@@ -229,9 +247,13 @@ export type GroupOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   isArchived?: Prisma.SortOrder
   archivedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  timezone?: Prisma.SortOrder
+  choresPausedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdBy?: Prisma.UserOrderByWithRelationInput
   expenses?: Prisma.ExpenseOrderByRelationAggregateInput
   members?: Prisma.GroupMemberOrderByRelationAggregateInput
+  chores?: Prisma.ChoreOrderByRelationAggregateInput
+  chorePauses?: Prisma.ChorePauseOrderByRelationAggregateInput
 }
 
 export type GroupWhereUniqueInput = Prisma.AtLeast<{
@@ -247,9 +269,13 @@ export type GroupWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"Group"> | Date | string
   isArchived?: Prisma.BoolFilter<"Group"> | boolean
   archivedAt?: Prisma.DateTimeNullableFilter<"Group"> | Date | string | null
+  timezone?: Prisma.StringFilter<"Group"> | string
+  choresPausedAt?: Prisma.DateTimeNullableFilter<"Group"> | Date | string | null
   createdBy?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   expenses?: Prisma.ExpenseListRelationFilter
   members?: Prisma.GroupMemberListRelationFilter
+  chores?: Prisma.ChoreListRelationFilter
+  chorePauses?: Prisma.ChorePauseListRelationFilter
 }, "id" | "joinCode">
 
 export type GroupOrderByWithAggregationInput = {
@@ -262,6 +288,8 @@ export type GroupOrderByWithAggregationInput = {
   updatedAt?: Prisma.SortOrder
   isArchived?: Prisma.SortOrder
   archivedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  timezone?: Prisma.SortOrder
+  choresPausedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.GroupCountOrderByAggregateInput
   _max?: Prisma.GroupMaxOrderByAggregateInput
   _min?: Prisma.GroupMinOrderByAggregateInput
@@ -280,6 +308,8 @@ export type GroupScalarWhereWithAggregatesInput = {
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Group"> | Date | string
   isArchived?: Prisma.BoolWithAggregatesFilter<"Group"> | boolean
   archivedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Group"> | Date | string | null
+  timezone?: Prisma.StringWithAggregatesFilter<"Group"> | string
+  choresPausedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Group"> | Date | string | null
 }
 
 export type GroupCreateInput = {
@@ -291,9 +321,13 @@ export type GroupCreateInput = {
   updatedAt?: Date | string
   isArchived?: boolean
   archivedAt?: Date | string | null
+  timezone?: string
+  choresPausedAt?: Date | string | null
   createdBy: Prisma.UserCreateNestedOneWithoutGroupsCreatedInput
   expenses?: Prisma.ExpenseCreateNestedManyWithoutGroupInput
   members?: Prisma.GroupMemberCreateNestedManyWithoutGroupInput
+  chores?: Prisma.ChoreCreateNestedManyWithoutGroupInput
+  chorePauses?: Prisma.ChorePauseCreateNestedManyWithoutGroupInput
 }
 
 export type GroupUncheckedCreateInput = {
@@ -306,8 +340,12 @@ export type GroupUncheckedCreateInput = {
   updatedAt?: Date | string
   isArchived?: boolean
   archivedAt?: Date | string | null
+  timezone?: string
+  choresPausedAt?: Date | string | null
   expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutGroupInput
   members?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutGroupInput
+  chores?: Prisma.ChoreUncheckedCreateNestedManyWithoutGroupInput
+  chorePauses?: Prisma.ChorePauseUncheckedCreateNestedManyWithoutGroupInput
 }
 
 export type GroupUpdateInput = {
@@ -319,9 +357,13 @@ export type GroupUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isArchived?: Prisma.BoolFieldUpdateOperationsInput | boolean
   archivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  choresPausedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdBy?: Prisma.UserUpdateOneRequiredWithoutGroupsCreatedNestedInput
   expenses?: Prisma.ExpenseUpdateManyWithoutGroupNestedInput
   members?: Prisma.GroupMemberUpdateManyWithoutGroupNestedInput
+  chores?: Prisma.ChoreUpdateManyWithoutGroupNestedInput
+  chorePauses?: Prisma.ChorePauseUpdateManyWithoutGroupNestedInput
 }
 
 export type GroupUncheckedUpdateInput = {
@@ -334,8 +376,12 @@ export type GroupUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isArchived?: Prisma.BoolFieldUpdateOperationsInput | boolean
   archivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  choresPausedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutGroupNestedInput
   members?: Prisma.GroupMemberUncheckedUpdateManyWithoutGroupNestedInput
+  chores?: Prisma.ChoreUncheckedUpdateManyWithoutGroupNestedInput
+  chorePauses?: Prisma.ChorePauseUncheckedUpdateManyWithoutGroupNestedInput
 }
 
 export type GroupCreateManyInput = {
@@ -348,6 +394,8 @@ export type GroupCreateManyInput = {
   updatedAt?: Date | string
   isArchived?: boolean
   archivedAt?: Date | string | null
+  timezone?: string
+  choresPausedAt?: Date | string | null
 }
 
 export type GroupUpdateManyMutationInput = {
@@ -359,6 +407,8 @@ export type GroupUpdateManyMutationInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isArchived?: Prisma.BoolFieldUpdateOperationsInput | boolean
   archivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  choresPausedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type GroupUncheckedUpdateManyInput = {
@@ -371,6 +421,8 @@ export type GroupUncheckedUpdateManyInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isArchived?: Prisma.BoolFieldUpdateOperationsInput | boolean
   archivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  choresPausedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type GroupListRelationFilter = {
@@ -393,6 +445,8 @@ export type GroupCountOrderByAggregateInput = {
   updatedAt?: Prisma.SortOrder
   isArchived?: Prisma.SortOrder
   archivedAt?: Prisma.SortOrder
+  timezone?: Prisma.SortOrder
+  choresPausedAt?: Prisma.SortOrder
 }
 
 export type GroupMaxOrderByAggregateInput = {
@@ -405,6 +459,8 @@ export type GroupMaxOrderByAggregateInput = {
   updatedAt?: Prisma.SortOrder
   isArchived?: Prisma.SortOrder
   archivedAt?: Prisma.SortOrder
+  timezone?: Prisma.SortOrder
+  choresPausedAt?: Prisma.SortOrder
 }
 
 export type GroupMinOrderByAggregateInput = {
@@ -417,6 +473,8 @@ export type GroupMinOrderByAggregateInput = {
   updatedAt?: Prisma.SortOrder
   isArchived?: Prisma.SortOrder
   archivedAt?: Prisma.SortOrder
+  timezone?: Prisma.SortOrder
+  choresPausedAt?: Prisma.SortOrder
 }
 
 export type GroupScalarRelationFilter = {
@@ -502,6 +560,34 @@ export type GroupUpdateOneRequiredWithoutExpensesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.GroupUpdateToOneWithWhereWithoutExpensesInput, Prisma.GroupUpdateWithoutExpensesInput>, Prisma.GroupUncheckedUpdateWithoutExpensesInput>
 }
 
+export type GroupCreateNestedOneWithoutChoresInput = {
+  create?: Prisma.XOR<Prisma.GroupCreateWithoutChoresInput, Prisma.GroupUncheckedCreateWithoutChoresInput>
+  connectOrCreate?: Prisma.GroupCreateOrConnectWithoutChoresInput
+  connect?: Prisma.GroupWhereUniqueInput
+}
+
+export type GroupUpdateOneRequiredWithoutChoresNestedInput = {
+  create?: Prisma.XOR<Prisma.GroupCreateWithoutChoresInput, Prisma.GroupUncheckedCreateWithoutChoresInput>
+  connectOrCreate?: Prisma.GroupCreateOrConnectWithoutChoresInput
+  upsert?: Prisma.GroupUpsertWithoutChoresInput
+  connect?: Prisma.GroupWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.GroupUpdateToOneWithWhereWithoutChoresInput, Prisma.GroupUpdateWithoutChoresInput>, Prisma.GroupUncheckedUpdateWithoutChoresInput>
+}
+
+export type GroupCreateNestedOneWithoutChorePausesInput = {
+  create?: Prisma.XOR<Prisma.GroupCreateWithoutChorePausesInput, Prisma.GroupUncheckedCreateWithoutChorePausesInput>
+  connectOrCreate?: Prisma.GroupCreateOrConnectWithoutChorePausesInput
+  connect?: Prisma.GroupWhereUniqueInput
+}
+
+export type GroupUpdateOneRequiredWithoutChorePausesNestedInput = {
+  create?: Prisma.XOR<Prisma.GroupCreateWithoutChorePausesInput, Prisma.GroupUncheckedCreateWithoutChorePausesInput>
+  connectOrCreate?: Prisma.GroupCreateOrConnectWithoutChorePausesInput
+  upsert?: Prisma.GroupUpsertWithoutChorePausesInput
+  connect?: Prisma.GroupWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.GroupUpdateToOneWithWhereWithoutChorePausesInput, Prisma.GroupUpdateWithoutChorePausesInput>, Prisma.GroupUncheckedUpdateWithoutChorePausesInput>
+}
+
 export type GroupCreateWithoutCreatedByInput = {
   id?: string
   name: string
@@ -511,8 +597,12 @@ export type GroupCreateWithoutCreatedByInput = {
   updatedAt?: Date | string
   isArchived?: boolean
   archivedAt?: Date | string | null
+  timezone?: string
+  choresPausedAt?: Date | string | null
   expenses?: Prisma.ExpenseCreateNestedManyWithoutGroupInput
   members?: Prisma.GroupMemberCreateNestedManyWithoutGroupInput
+  chores?: Prisma.ChoreCreateNestedManyWithoutGroupInput
+  chorePauses?: Prisma.ChorePauseCreateNestedManyWithoutGroupInput
 }
 
 export type GroupUncheckedCreateWithoutCreatedByInput = {
@@ -524,8 +614,12 @@ export type GroupUncheckedCreateWithoutCreatedByInput = {
   updatedAt?: Date | string
   isArchived?: boolean
   archivedAt?: Date | string | null
+  timezone?: string
+  choresPausedAt?: Date | string | null
   expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutGroupInput
   members?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutGroupInput
+  chores?: Prisma.ChoreUncheckedCreateNestedManyWithoutGroupInput
+  chorePauses?: Prisma.ChorePauseUncheckedCreateNestedManyWithoutGroupInput
 }
 
 export type GroupCreateOrConnectWithoutCreatedByInput = {
@@ -567,6 +661,8 @@ export type GroupScalarWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"Group"> | Date | string
   isArchived?: Prisma.BoolFilter<"Group"> | boolean
   archivedAt?: Prisma.DateTimeNullableFilter<"Group"> | Date | string | null
+  timezone?: Prisma.StringFilter<"Group"> | string
+  choresPausedAt?: Prisma.DateTimeNullableFilter<"Group"> | Date | string | null
 }
 
 export type GroupCreateWithoutMembersInput = {
@@ -578,8 +674,12 @@ export type GroupCreateWithoutMembersInput = {
   updatedAt?: Date | string
   isArchived?: boolean
   archivedAt?: Date | string | null
+  timezone?: string
+  choresPausedAt?: Date | string | null
   createdBy: Prisma.UserCreateNestedOneWithoutGroupsCreatedInput
   expenses?: Prisma.ExpenseCreateNestedManyWithoutGroupInput
+  chores?: Prisma.ChoreCreateNestedManyWithoutGroupInput
+  chorePauses?: Prisma.ChorePauseCreateNestedManyWithoutGroupInput
 }
 
 export type GroupUncheckedCreateWithoutMembersInput = {
@@ -592,7 +692,11 @@ export type GroupUncheckedCreateWithoutMembersInput = {
   updatedAt?: Date | string
   isArchived?: boolean
   archivedAt?: Date | string | null
+  timezone?: string
+  choresPausedAt?: Date | string | null
   expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutGroupInput
+  chores?: Prisma.ChoreUncheckedCreateNestedManyWithoutGroupInput
+  chorePauses?: Prisma.ChorePauseUncheckedCreateNestedManyWithoutGroupInput
 }
 
 export type GroupCreateOrConnectWithoutMembersInput = {
@@ -620,8 +724,12 @@ export type GroupUpdateWithoutMembersInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isArchived?: Prisma.BoolFieldUpdateOperationsInput | boolean
   archivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  choresPausedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdBy?: Prisma.UserUpdateOneRequiredWithoutGroupsCreatedNestedInput
   expenses?: Prisma.ExpenseUpdateManyWithoutGroupNestedInput
+  chores?: Prisma.ChoreUpdateManyWithoutGroupNestedInput
+  chorePauses?: Prisma.ChorePauseUpdateManyWithoutGroupNestedInput
 }
 
 export type GroupUncheckedUpdateWithoutMembersInput = {
@@ -634,7 +742,11 @@ export type GroupUncheckedUpdateWithoutMembersInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isArchived?: Prisma.BoolFieldUpdateOperationsInput | boolean
   archivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  choresPausedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutGroupNestedInput
+  chores?: Prisma.ChoreUncheckedUpdateManyWithoutGroupNestedInput
+  chorePauses?: Prisma.ChorePauseUncheckedUpdateManyWithoutGroupNestedInput
 }
 
 export type GroupCreateWithoutExpensesInput = {
@@ -646,8 +758,12 @@ export type GroupCreateWithoutExpensesInput = {
   updatedAt?: Date | string
   isArchived?: boolean
   archivedAt?: Date | string | null
+  timezone?: string
+  choresPausedAt?: Date | string | null
   createdBy: Prisma.UserCreateNestedOneWithoutGroupsCreatedInput
   members?: Prisma.GroupMemberCreateNestedManyWithoutGroupInput
+  chores?: Prisma.ChoreCreateNestedManyWithoutGroupInput
+  chorePauses?: Prisma.ChorePauseCreateNestedManyWithoutGroupInput
 }
 
 export type GroupUncheckedCreateWithoutExpensesInput = {
@@ -660,7 +776,11 @@ export type GroupUncheckedCreateWithoutExpensesInput = {
   updatedAt?: Date | string
   isArchived?: boolean
   archivedAt?: Date | string | null
+  timezone?: string
+  choresPausedAt?: Date | string | null
   members?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutGroupInput
+  chores?: Prisma.ChoreUncheckedCreateNestedManyWithoutGroupInput
+  chorePauses?: Prisma.ChorePauseUncheckedCreateNestedManyWithoutGroupInput
 }
 
 export type GroupCreateOrConnectWithoutExpensesInput = {
@@ -688,8 +808,12 @@ export type GroupUpdateWithoutExpensesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isArchived?: Prisma.BoolFieldUpdateOperationsInput | boolean
   archivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  choresPausedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdBy?: Prisma.UserUpdateOneRequiredWithoutGroupsCreatedNestedInput
   members?: Prisma.GroupMemberUpdateManyWithoutGroupNestedInput
+  chores?: Prisma.ChoreUpdateManyWithoutGroupNestedInput
+  chorePauses?: Prisma.ChorePauseUpdateManyWithoutGroupNestedInput
 }
 
 export type GroupUncheckedUpdateWithoutExpensesInput = {
@@ -702,7 +826,179 @@ export type GroupUncheckedUpdateWithoutExpensesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isArchived?: Prisma.BoolFieldUpdateOperationsInput | boolean
   archivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  choresPausedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   members?: Prisma.GroupMemberUncheckedUpdateManyWithoutGroupNestedInput
+  chores?: Prisma.ChoreUncheckedUpdateManyWithoutGroupNestedInput
+  chorePauses?: Prisma.ChorePauseUncheckedUpdateManyWithoutGroupNestedInput
+}
+
+export type GroupCreateWithoutChoresInput = {
+  id?: string
+  name: string
+  description?: string | null
+  joinCode?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  isArchived?: boolean
+  archivedAt?: Date | string | null
+  timezone?: string
+  choresPausedAt?: Date | string | null
+  createdBy: Prisma.UserCreateNestedOneWithoutGroupsCreatedInput
+  expenses?: Prisma.ExpenseCreateNestedManyWithoutGroupInput
+  members?: Prisma.GroupMemberCreateNestedManyWithoutGroupInput
+  chorePauses?: Prisma.ChorePauseCreateNestedManyWithoutGroupInput
+}
+
+export type GroupUncheckedCreateWithoutChoresInput = {
+  id?: string
+  name: string
+  description?: string | null
+  joinCode?: string | null
+  createdById: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  isArchived?: boolean
+  archivedAt?: Date | string | null
+  timezone?: string
+  choresPausedAt?: Date | string | null
+  expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutGroupInput
+  members?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutGroupInput
+  chorePauses?: Prisma.ChorePauseUncheckedCreateNestedManyWithoutGroupInput
+}
+
+export type GroupCreateOrConnectWithoutChoresInput = {
+  where: Prisma.GroupWhereUniqueInput
+  create: Prisma.XOR<Prisma.GroupCreateWithoutChoresInput, Prisma.GroupUncheckedCreateWithoutChoresInput>
+}
+
+export type GroupUpsertWithoutChoresInput = {
+  update: Prisma.XOR<Prisma.GroupUpdateWithoutChoresInput, Prisma.GroupUncheckedUpdateWithoutChoresInput>
+  create: Prisma.XOR<Prisma.GroupCreateWithoutChoresInput, Prisma.GroupUncheckedCreateWithoutChoresInput>
+  where?: Prisma.GroupWhereInput
+}
+
+export type GroupUpdateToOneWithWhereWithoutChoresInput = {
+  where?: Prisma.GroupWhereInput
+  data: Prisma.XOR<Prisma.GroupUpdateWithoutChoresInput, Prisma.GroupUncheckedUpdateWithoutChoresInput>
+}
+
+export type GroupUpdateWithoutChoresInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  joinCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isArchived?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  archivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  choresPausedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdBy?: Prisma.UserUpdateOneRequiredWithoutGroupsCreatedNestedInput
+  expenses?: Prisma.ExpenseUpdateManyWithoutGroupNestedInput
+  members?: Prisma.GroupMemberUpdateManyWithoutGroupNestedInput
+  chorePauses?: Prisma.ChorePauseUpdateManyWithoutGroupNestedInput
+}
+
+export type GroupUncheckedUpdateWithoutChoresInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  joinCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdById?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isArchived?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  archivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  choresPausedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutGroupNestedInput
+  members?: Prisma.GroupMemberUncheckedUpdateManyWithoutGroupNestedInput
+  chorePauses?: Prisma.ChorePauseUncheckedUpdateManyWithoutGroupNestedInput
+}
+
+export type GroupCreateWithoutChorePausesInput = {
+  id?: string
+  name: string
+  description?: string | null
+  joinCode?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  isArchived?: boolean
+  archivedAt?: Date | string | null
+  timezone?: string
+  choresPausedAt?: Date | string | null
+  createdBy: Prisma.UserCreateNestedOneWithoutGroupsCreatedInput
+  expenses?: Prisma.ExpenseCreateNestedManyWithoutGroupInput
+  members?: Prisma.GroupMemberCreateNestedManyWithoutGroupInput
+  chores?: Prisma.ChoreCreateNestedManyWithoutGroupInput
+}
+
+export type GroupUncheckedCreateWithoutChorePausesInput = {
+  id?: string
+  name: string
+  description?: string | null
+  joinCode?: string | null
+  createdById: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  isArchived?: boolean
+  archivedAt?: Date | string | null
+  timezone?: string
+  choresPausedAt?: Date | string | null
+  expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutGroupInput
+  members?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutGroupInput
+  chores?: Prisma.ChoreUncheckedCreateNestedManyWithoutGroupInput
+}
+
+export type GroupCreateOrConnectWithoutChorePausesInput = {
+  where: Prisma.GroupWhereUniqueInput
+  create: Prisma.XOR<Prisma.GroupCreateWithoutChorePausesInput, Prisma.GroupUncheckedCreateWithoutChorePausesInput>
+}
+
+export type GroupUpsertWithoutChorePausesInput = {
+  update: Prisma.XOR<Prisma.GroupUpdateWithoutChorePausesInput, Prisma.GroupUncheckedUpdateWithoutChorePausesInput>
+  create: Prisma.XOR<Prisma.GroupCreateWithoutChorePausesInput, Prisma.GroupUncheckedCreateWithoutChorePausesInput>
+  where?: Prisma.GroupWhereInput
+}
+
+export type GroupUpdateToOneWithWhereWithoutChorePausesInput = {
+  where?: Prisma.GroupWhereInput
+  data: Prisma.XOR<Prisma.GroupUpdateWithoutChorePausesInput, Prisma.GroupUncheckedUpdateWithoutChorePausesInput>
+}
+
+export type GroupUpdateWithoutChorePausesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  joinCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isArchived?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  archivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  choresPausedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdBy?: Prisma.UserUpdateOneRequiredWithoutGroupsCreatedNestedInput
+  expenses?: Prisma.ExpenseUpdateManyWithoutGroupNestedInput
+  members?: Prisma.GroupMemberUpdateManyWithoutGroupNestedInput
+  chores?: Prisma.ChoreUpdateManyWithoutGroupNestedInput
+}
+
+export type GroupUncheckedUpdateWithoutChorePausesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  joinCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdById?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isArchived?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  archivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  choresPausedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutGroupNestedInput
+  members?: Prisma.GroupMemberUncheckedUpdateManyWithoutGroupNestedInput
+  chores?: Prisma.ChoreUncheckedUpdateManyWithoutGroupNestedInput
 }
 
 export type GroupCreateManyCreatedByInput = {
@@ -714,6 +1010,8 @@ export type GroupCreateManyCreatedByInput = {
   updatedAt?: Date | string
   isArchived?: boolean
   archivedAt?: Date | string | null
+  timezone?: string
+  choresPausedAt?: Date | string | null
 }
 
 export type GroupUpdateWithoutCreatedByInput = {
@@ -725,8 +1023,12 @@ export type GroupUpdateWithoutCreatedByInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isArchived?: Prisma.BoolFieldUpdateOperationsInput | boolean
   archivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  choresPausedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expenses?: Prisma.ExpenseUpdateManyWithoutGroupNestedInput
   members?: Prisma.GroupMemberUpdateManyWithoutGroupNestedInput
+  chores?: Prisma.ChoreUpdateManyWithoutGroupNestedInput
+  chorePauses?: Prisma.ChorePauseUpdateManyWithoutGroupNestedInput
 }
 
 export type GroupUncheckedUpdateWithoutCreatedByInput = {
@@ -738,8 +1040,12 @@ export type GroupUncheckedUpdateWithoutCreatedByInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isArchived?: Prisma.BoolFieldUpdateOperationsInput | boolean
   archivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  choresPausedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutGroupNestedInput
   members?: Prisma.GroupMemberUncheckedUpdateManyWithoutGroupNestedInput
+  chores?: Prisma.ChoreUncheckedUpdateManyWithoutGroupNestedInput
+  chorePauses?: Prisma.ChorePauseUncheckedUpdateManyWithoutGroupNestedInput
 }
 
 export type GroupUncheckedUpdateManyWithoutCreatedByInput = {
@@ -751,6 +1057,8 @@ export type GroupUncheckedUpdateManyWithoutCreatedByInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isArchived?: Prisma.BoolFieldUpdateOperationsInput | boolean
   archivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  choresPausedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 
@@ -761,11 +1069,15 @@ export type GroupUncheckedUpdateManyWithoutCreatedByInput = {
 export type GroupCountOutputType = {
   expenses: number
   members: number
+  chores: number
+  chorePauses: number
 }
 
 export type GroupCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   expenses?: boolean | GroupCountOutputTypeCountExpensesArgs
   members?: boolean | GroupCountOutputTypeCountMembersArgs
+  chores?: boolean | GroupCountOutputTypeCountChoresArgs
+  chorePauses?: boolean | GroupCountOutputTypeCountChorePausesArgs
 }
 
 /**
@@ -792,6 +1104,20 @@ export type GroupCountOutputTypeCountMembersArgs<ExtArgs extends runtime.Types.E
   where?: Prisma.GroupMemberWhereInput
 }
 
+/**
+ * GroupCountOutputType without action
+ */
+export type GroupCountOutputTypeCountChoresArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ChoreWhereInput
+}
+
+/**
+ * GroupCountOutputType without action
+ */
+export type GroupCountOutputTypeCountChorePausesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ChorePauseWhereInput
+}
+
 
 export type GroupSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -803,9 +1129,13 @@ export type GroupSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   updatedAt?: boolean
   isArchived?: boolean
   archivedAt?: boolean
+  timezone?: boolean
+  choresPausedAt?: boolean
   createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   expenses?: boolean | Prisma.Group$expensesArgs<ExtArgs>
   members?: boolean | Prisma.Group$membersArgs<ExtArgs>
+  chores?: boolean | Prisma.Group$choresArgs<ExtArgs>
+  chorePauses?: boolean | Prisma.Group$chorePausesArgs<ExtArgs>
   _count?: boolean | Prisma.GroupCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["group"]>
 
@@ -819,6 +1149,8 @@ export type GroupSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   updatedAt?: boolean
   isArchived?: boolean
   archivedAt?: boolean
+  timezone?: boolean
+  choresPausedAt?: boolean
   createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["group"]>
 
@@ -832,6 +1164,8 @@ export type GroupSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   updatedAt?: boolean
   isArchived?: boolean
   archivedAt?: boolean
+  timezone?: boolean
+  choresPausedAt?: boolean
   createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["group"]>
 
@@ -845,13 +1179,17 @@ export type GroupSelectScalar = {
   updatedAt?: boolean
   isArchived?: boolean
   archivedAt?: boolean
+  timezone?: boolean
+  choresPausedAt?: boolean
 }
 
-export type GroupOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "description" | "joinCode" | "createdById" | "createdAt" | "updatedAt" | "isArchived" | "archivedAt", ExtArgs["result"]["group"]>
+export type GroupOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "description" | "joinCode" | "createdById" | "createdAt" | "updatedAt" | "isArchived" | "archivedAt" | "timezone" | "choresPausedAt", ExtArgs["result"]["group"]>
 export type GroupInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   expenses?: boolean | Prisma.Group$expensesArgs<ExtArgs>
   members?: boolean | Prisma.Group$membersArgs<ExtArgs>
+  chores?: boolean | Prisma.Group$choresArgs<ExtArgs>
+  chorePauses?: boolean | Prisma.Group$chorePausesArgs<ExtArgs>
   _count?: boolean | Prisma.GroupCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type GroupIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -867,6 +1205,8 @@ export type $GroupPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     createdBy: Prisma.$UserPayload<ExtArgs>
     expenses: Prisma.$ExpensePayload<ExtArgs>[]
     members: Prisma.$GroupMemberPayload<ExtArgs>[]
+    chores: Prisma.$ChorePayload<ExtArgs>[]
+    chorePauses: Prisma.$ChorePausePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -878,6 +1218,8 @@ export type $GroupPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     updatedAt: Date
     isArchived: boolean
     archivedAt: Date | null
+    timezone: string
+    choresPausedAt: Date | null
   }, ExtArgs["result"]["group"]>
   composites: {}
 }
@@ -1275,6 +1617,8 @@ export interface Prisma__GroupClient<T, Null = never, ExtArgs extends runtime.Ty
   createdBy<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   expenses<T extends Prisma.Group$expensesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Group$expensesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ExpensePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   members<T extends Prisma.Group$membersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Group$membersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$GroupMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  chores<T extends Prisma.Group$choresArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Group$choresArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ChorePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  chorePauses<T extends Prisma.Group$chorePausesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Group$chorePausesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ChorePausePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1313,6 +1657,8 @@ export interface GroupFieldRefs {
   readonly updatedAt: Prisma.FieldRef<"Group", 'DateTime'>
   readonly isArchived: Prisma.FieldRef<"Group", 'Boolean'>
   readonly archivedAt: Prisma.FieldRef<"Group", 'DateTime'>
+  readonly timezone: Prisma.FieldRef<"Group", 'String'>
+  readonly choresPausedAt: Prisma.FieldRef<"Group", 'DateTime'>
 }
     
 
@@ -1759,6 +2105,54 @@ export type Group$membersArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   take?: number
   skip?: number
   distinct?: Prisma.GroupMemberScalarFieldEnum | Prisma.GroupMemberScalarFieldEnum[]
+}
+
+/**
+ * Group.chores
+ */
+export type Group$choresArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Chore
+   */
+  select?: Prisma.ChoreSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Chore
+   */
+  omit?: Prisma.ChoreOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ChoreInclude<ExtArgs> | null
+  where?: Prisma.ChoreWhereInput
+  orderBy?: Prisma.ChoreOrderByWithRelationInput | Prisma.ChoreOrderByWithRelationInput[]
+  cursor?: Prisma.ChoreWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ChoreScalarFieldEnum | Prisma.ChoreScalarFieldEnum[]
+}
+
+/**
+ * Group.chorePauses
+ */
+export type Group$chorePausesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ChorePause
+   */
+  select?: Prisma.ChorePauseSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ChorePause
+   */
+  omit?: Prisma.ChorePauseOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ChorePauseInclude<ExtArgs> | null
+  where?: Prisma.ChorePauseWhereInput
+  orderBy?: Prisma.ChorePauseOrderByWithRelationInput | Prisma.ChorePauseOrderByWithRelationInput[]
+  cursor?: Prisma.ChorePauseWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ChorePauseScalarFieldEnum | Prisma.ChorePauseScalarFieldEnum[]
 }
 
 /**

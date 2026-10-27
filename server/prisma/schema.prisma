@@ -31,6 +31,17 @@ model User {
   expensesPaid     Expense[]
   expenseSplits    ExpenseSplit[]
 
+  choresCreated          Chore[]            @relation("ChoreCreator")
+  choreParticipations    ChoreParticipant[]
+  choreAssignments       ChoreAssignment[]  @relation("ChoreAssignee")
+  choreAssignmentsClosed ChoreAssignment[]  @relation("ChoreAssignmentCloser")
+  choreReviews           ChoreReview[]      @relation("ChoreReviewer")
+  choreFinesOwed         ChoreFine[]        @relation("ChoreFinePayer")
+  choreFinesVoided       ChoreFine[]        @relation("ChoreFineVoider")
+  choreFineShares        ChoreFineShare[]   @relation("ChoreFineRecipient")
+  chorePausesStarted     ChorePause[]       @relation("ChorePausedBy")
+  chorePausesEnded       ChorePause[]       @relation("ChoreResumedBy")
+
   @@map("users")
 }
 
@@ -53,6 +64,13 @@ model Group {
   // restored. archivedAt records when the archive happened.
   isArchived Boolean   @default(false)
   archivedAt DateTime?
+
+  // IANA timezone used for every chore deadline/rotation calculation.
+  timezone       String       @default("Asia/Kathmandu")
+  // Non-null while a group-wide chore pause is active.
+  choresPausedAt DateTime?
+  chores         Chore[]
+  chorePauses    ChorePause[]
 
   @@index([createdById])
   @@map("groups")
@@ -106,4 +124,253 @@ model ExpenseSplit {
   @@unique([expenseId, userId])
   @@index([userId])
   @@map("expense_splits")
+}
+
+// ─── Chores ───────────────────────────────────────────────────────────────────
+// Every chore record references User.id (never GroupMember.id) because
+// leaving a group deletes the GroupMember row; history must survive that.
+
+enum ChoreStatus {
+  ACTIVE
+  PAUSED // individually paused by the owner
+  NEEDS_ATTENTION // nobody eligible for the next turn; rotation stalled
+  ARCHIVED
+}
+
+// Overdue is NOT a status: it is derived (PENDING && now > deadlineAt).
+// "Completed" = APPROVED.
+enum ChoreAssignmentStatus {
+  PENDING
+  SUBMITTED
+  APPROVED
+  REJECTED // terminal; corrected only by a re-review
+  SKIPPED
+  WAIVED // owner excused it (e.g. covered by someone's late work)
+}
+
+enum ChoreSkipMode {
+  DEFER // member moves to the end of the current cycle and still owes a turn
+  FORFEIT // member's turn for this cycle counts as used
+}
+
+enum ChoreReviewDecision {
+  APPROVED
+  REJECTED
+}
+
+enum ChoreFineReason {
+  OVERDUE
+  QUALITY
+}
+
+enum ChoreFineStatus {
+  ACTIVE
+  VOIDED
+}
+
+model Chore {
+  id              String      @id @default(cuid())
+  groupId         String
+  name            String
+  description     String?
+  intervalDays    Int
+  // Local time of day for deadlines, in minutes after midnight: 690 = 11:30.
+  deadlineMinutes Int         @default(690)
+  finePerMember   Decimal     @default(20) @db.Decimal(12, 2)
+  status          ChoreStatus @default(ACTIVE)
+  // When the chore's clock stopped (individual OR group pause); on resume
+  // deadlines and the current slot end shift by (now - frozenAt).
+  frozenAt        DateTime?
+  createdById     String
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  // The turn in progress. Its endsAt is the next rotation time and its
+  // cycleId is the current cycle, so neither is stored separately.
+  currentAssignmentId String?          @unique
+  currentAssignment   ChoreAssignment? @relation("CurrentAssignment", fields: [currentAssignmentId], references: [id], onDelete: Restrict)
+
+  group        Group                @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  createdBy    User                 @relation("ChoreCreator", fields: [createdById], references: [id], onDelete: Restrict)
+  participants ChoreParticipant[]
+  cycles       ChoreCycle[]
+  assignments  ChoreAssignment[]    @relation("ChoreAssignments")
+  checklist    ChoreChecklistItem[]
+  pauses       ChorePause[]
+
+  @@index([groupId, status])
+  @@index([createdById])
+  @@map("chores")
+}
+
+// Original (permanent) queue = rows with removedAt null, ordered by position.
+model ChoreParticipant {
+  id                String    @id @default(cuid())
+  choreId           String
+  userId            String
+  position          Int
+  joinedAt          DateTime  @default(now())
+  removedAt         DateTime?
+  unavailableUntil  DateTime?
+  unavailableReason String?
+
+  chore Chore @relation(fields: [choreId], references: [id], onDelete: Cascade)
+  user  User  @relation(fields: [userId], references: [id], onDelete: Restrict)
+
+  @@unique([choreId, userId])
+  @@index([userId])
+  @@map("chore_participants")
+}
+
+// Current-cycle queue (userIds). Owner swaps/moves edit `order` only.
+// Invariant: order = [members who took their turn, in turn order] ++ [pending].
+model ChoreCycle {
+  id        String    @id @default(cuid())
+  choreId   String
+  number    Int
+  order     String[]
+  startedAt DateTime  @default(now())
+  endedAt   DateTime?
+
+  chore       Chore             @relation(fields: [choreId], references: [id], onDelete: Cascade)
+  assignments ChoreAssignment[]
+
+  @@unique([choreId, number])
+  @@map("chore_cycles")
+}
+
+model ChoreAssignment {
+  id         String                @id @default(cuid())
+  choreId    String
+  cycleId    String
+  userId     String
+  startsAt   DateTime
+  endsAt     DateTime
+  deadlineAt DateTime
+  status     ChoreAssignmentStatus @default(PENDING)
+
+  // Set once and never reset; decides lateness.
+  firstSubmittedAt DateTime?
+  submittedAt      DateTime?
+  submissionNote   String?
+
+  skipRequestedAt   DateTime?
+  skipRequestReason String?
+
+  // Shared by SKIPPED and WAIVED: who closed it and why.
+  skipMode     ChoreSkipMode?
+  closedById   String?
+  closedAt     DateTime?
+  closeReason  String?
+  replacedById String?        @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  chore      Chore            @relation("ChoreAssignments", fields: [choreId], references: [id], onDelete: Cascade)
+  cycle      ChoreCycle       @relation(fields: [cycleId], references: [id], onDelete: Cascade)
+  user       User             @relation("ChoreAssignee", fields: [userId], references: [id], onDelete: Restrict)
+  closedBy   User?            @relation("ChoreAssignmentCloser", fields: [closedById], references: [id], onDelete: Restrict)
+  replacedBy ChoreAssignment? @relation("Takeover", fields: [replacedById], references: [id], onDelete: Restrict)
+  replaces   ChoreAssignment? @relation("Takeover")
+  currentOf  Chore?           @relation("CurrentAssignment")
+  reviews    ChoreReview[]
+  fine       ChoreFine?
+
+  @@index([choreId, startsAt])
+  @@index([cycleId])
+  @@index([userId, status])
+  @@index([status, deadlineAt])
+  @@map("chore_assignments")
+}
+
+model ChoreChecklistItem {
+  id         String    @id @default(cuid())
+  choreId    String
+  label      String
+  position   Int
+  archivedAt DateTime?
+
+  chore Chore @relation(fields: [choreId], references: [id], onDelete: Cascade)
+
+  @@index([choreId, position])
+  @@map("chore_checklist_items")
+}
+
+// Append-only: the latest row is the effective decision. Reviewer is the
+// owner, or any other member when the owner is the assignee; never the assignee.
+model ChoreReview {
+  id           String              @id @default(cuid())
+  assignmentId String
+  reviewerId   String
+  decision     ChoreReviewDecision
+  // Snapshot so checklist edits never rewrite history: [{ itemId, label, passed }]
+  results      Json
+  feedback     String?
+  createdAt    DateTime            @default(now())
+
+  assignment ChoreAssignment @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
+  reviewer   User            @relation("ChoreReviewer", fields: [reviewerId], references: [id], onDelete: Restrict)
+
+  @@index([assignmentId, createdAt])
+  @@index([reviewerId])
+  @@map("chore_reviews")
+}
+
+// One fine per assignment (unique) so repeated deadline jobs and review
+// edits can never double-charge. Total = sum of shares.
+model ChoreFine {
+  id           String            @id @default(cuid())
+  assignmentId String            @unique
+  payerId      String
+  reasons      ChoreFineReason[]
+  status       ChoreFineStatus   @default(ACTIVE)
+  voidedById   String?
+  voidReason   String?
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @updatedAt
+
+  assignment ChoreAssignment  @relation(fields: [assignmentId], references: [id], onDelete: Restrict)
+  payer      User             @relation("ChoreFinePayer", fields: [payerId], references: [id], onDelete: Restrict)
+  voidedBy   User?            @relation("ChoreFineVoider", fields: [voidedById], references: [id], onDelete: Restrict)
+  shares     ChoreFineShare[]
+
+  @@index([payerId])
+  @@map("chore_fines")
+}
+
+// Recipients snapshot: group members (except the payer) when the fine was created.
+model ChoreFineShare {
+  id          String  @id @default(cuid())
+  fineId      String
+  recipientId String
+  amount      Decimal @db.Decimal(12, 2)
+
+  fine      ChoreFine @relation(fields: [fineId], references: [id], onDelete: Cascade)
+  recipient User      @relation("ChoreFineRecipient", fields: [recipientId], references: [id], onDelete: Restrict)
+
+  @@unique([fineId, recipientId])
+  @@index([recipientId])
+  @@map("chore_fine_shares")
+}
+
+// Pause history only; live state is Chore.status/frozenAt and Group.choresPausedAt.
+model ChorePause {
+  id           String    @id @default(cuid())
+  groupId      String
+  choreId      String? // null = group-wide pause
+  pausedById   String
+  pausedAt     DateTime  @default(now())
+  reason       String?
+  resumedById  String?
+  resumedAt    DateTime?
+  resumeReason String?
+
+  group     Group  @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  chore     Chore? @relation(fields: [choreId], references: [id], onDelete: Cascade)
+  pausedBy  User   @relation("ChorePausedBy", fields: [pausedById], references: [id], onDelete: Restrict)
+  resumedBy User?  @relation("ChoreResumedBy", fields: [resumedById], references: [id], onDelete: Restrict)
+
+  @@index([groupId, choreId, resumedAt])
+  @@map("chore_pauses")
 }

@@ -15,3 +15,57 @@ export const GroupRole = {
 } as const
 
 export type GroupRole = (typeof GroupRole)[keyof typeof GroupRole]
+
+
+export const ChoreStatus = {
+  ACTIVE: 'ACTIVE',
+  PAUSED: 'PAUSED',
+  NEEDS_ATTENTION: 'NEEDS_ATTENTION',
+  ARCHIVED: 'ARCHIVED'
+} as const
+
+export type ChoreStatus = (typeof ChoreStatus)[keyof typeof ChoreStatus]
+
+
+export const ChoreAssignmentStatus = {
+  PENDING: 'PENDING',
+  SUBMITTED: 'SUBMITTED',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED',
+  SKIPPED: 'SKIPPED',
+  WAIVED: 'WAIVED'
+} as const
+
+export type ChoreAssignmentStatus = (typeof ChoreAssignmentStatus)[keyof typeof ChoreAssignmentStatus]
+
+
+export const ChoreSkipMode = {
+  DEFER: 'DEFER',
+  FORFEIT: 'FORFEIT'
+} as const
+
+export type ChoreSkipMode = (typeof ChoreSkipMode)[keyof typeof ChoreSkipMode]
+
+
+export const ChoreReviewDecision = {
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED'
+} as const
+
+export type ChoreReviewDecision = (typeof ChoreReviewDecision)[keyof typeof ChoreReviewDecision]
+
+
+export const ChoreFineReason = {
+  OVERDUE: 'OVERDUE',
+  QUALITY: 'QUALITY'
+} as const
+
+export type ChoreFineReason = (typeof ChoreFineReason)[keyof typeof ChoreFineReason]
+
+
+export const ChoreFineStatus = {
+  ACTIVE: 'ACTIVE',
+  VOIDED: 'VOIDED'
+} as const
+
+export type ChoreFineStatus = (typeof ChoreFineStatus)[keyof typeof ChoreFineStatus]

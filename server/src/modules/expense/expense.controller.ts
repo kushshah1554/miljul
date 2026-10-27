@@ -1,6 +1,7 @@
 import type { Request, Response } from "express";
 import { asyncHandler } from "../../utils/asyncHandler";
 import { ok } from "../../utils/envelope";
+import { pageMeta } from "../../utils/pagination";
 import { requireFound } from "../../utils/helpers";
 import { parseBody } from "../auth/auth.validation";
 import { groupIdParamSchema } from "../group/group.validation";
@@ -32,12 +33,7 @@ export const list = asyncHandler(async (req: Request, res: Response) => {
   res.json(
     ok(
       { expenses: result.expenses },
-      {
-        total: result.total,
-        page: result.page,
-        limit: result.limit,
-        totalPages: Math.ceil(result.total / result.limit),
-      },
+      pageMeta(result.total, result.page, result.limit),
     ),
   );
 });
@@ -54,12 +50,7 @@ export const mine = asyncHandler(async (req: Request, res: Response) => {
   res.json(
     ok(
       { expenses: result.expenses },
-      {
-        total: result.total,
-        page: result.page,
-        limit: result.limit,
-        totalPages: Math.ceil(result.total / result.limit),
-      },
+      pageMeta(result.total, result.page, result.limit),
     ),
   );
 });

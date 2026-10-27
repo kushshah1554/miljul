@@ -26,6 +26,8 @@ const groupSelect = {
   updatedAt: true,
   isArchived: true,
   archivedAt: true,
+  timezone: true,
+  choresPausedAt: true,
 } as const satisfies Prisma.GroupSelect;
 
 type GroupScalars = Prisma.GroupGetPayload<{ select: typeof groupSelect }>;
@@ -298,6 +300,9 @@ export async function updateGroup(
   }
   if (input.description !== undefined) {
     data.description = input.description;
+  }
+  if (input.timezone !== undefined) {
+    data.timezone = input.timezone;
   }
 
   const group = await prisma.group.update({

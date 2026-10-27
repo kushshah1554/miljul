@@ -9,6 +9,9 @@ import { groupRouter } from "./modules/group/group.routes";
 import { groupMemberRouter } from "./modules/group-member/group-member.routes";
 import { expenseRouter } from "./modules/expense/expense.routes";
 import { balanceRouter } from "./modules/balance/balance.routes";
+import { choreRouter } from "./modules/chore/chore.routes";
+import { choreAssignmentRouter } from "./modules/chore-assignment/chore-assignment.routes";
+import { choreFineRouter } from "./modules/chore-fine/chore-fine.routes";
 import { ok } from "./utils/envelope";
 import { env } from "./config/env";
 
@@ -43,6 +46,11 @@ export function mainEntryFunction() {
 
   //Balances (subresource of groups)
   app.use("/api/groups", balanceRouter);
+
+  //Chores, chore assignments and chore fines (subresources of groups)
+  app.use("/api/groups", choreRouter);
+  app.use("/api/groups", choreAssignmentRouter);
+  app.use("/api/groups", choreFineRouter);
 
   app.use(notFound);
   app.use(errorHandler);

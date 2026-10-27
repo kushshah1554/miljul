@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { isValidTimezone } from "../../utils/timezone";
 
 const groupNameSchema = z
   .string()
@@ -26,9 +27,15 @@ export const updateGroupSchema = z
   .strictObject({
     name: groupNameSchema.optional(),
     description: groupDescriptionSchema.nullable().optional(),
+    // IANA name used for chore deadlines; affects future slots only.
+    timezone: z
+      .string()
+      .trim()
+      .refine(isValidTimezone, "Unknown timezone")
+      .optional(),
   })
   .refine((data) => Object.keys(data).length > 0, {
-    message: "At least one of name or description is required",
+    message: "At least one of name, description or timezone is required",
   });
 
 // Prisma ids are cuids: "c" followed by 20+ base36 characters.

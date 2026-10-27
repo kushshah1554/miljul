@@ -401,7 +401,16 @@ export const ModelName = {
   Group: 'Group',
   GroupMember: 'GroupMember',
   Expense: 'Expense',
-  ExpenseSplit: 'ExpenseSplit'
+  ExpenseSplit: 'ExpenseSplit',
+  Chore: 'Chore',
+  ChoreParticipant: 'ChoreParticipant',
+  ChoreCycle: 'ChoreCycle',
+  ChoreAssignment: 'ChoreAssignment',
+  ChoreChecklistItem: 'ChoreChecklistItem',
+  ChoreReview: 'ChoreReview',
+  ChoreFine: 'ChoreFine',
+  ChoreFineShare: 'ChoreFineShare',
+  ChorePause: 'ChorePause'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -417,7 +426,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "group" | "groupMember" | "expense" | "expenseSplit"
+    modelProps: "user" | "group" | "groupMember" | "expense" | "expenseSplit" | "chore" | "choreParticipant" | "choreCycle" | "choreAssignment" | "choreChecklistItem" | "choreReview" | "choreFine" | "choreFineShare" | "chorePause"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -791,6 +800,672 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Chore: {
+      payload: Prisma.$ChorePayload<ExtArgs>
+      fields: Prisma.ChoreFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ChoreFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChorePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ChoreFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChorePayload>
+        }
+        findFirst: {
+          args: Prisma.ChoreFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChorePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ChoreFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChorePayload>
+        }
+        findMany: {
+          args: Prisma.ChoreFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChorePayload>[]
+        }
+        create: {
+          args: Prisma.ChoreCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChorePayload>
+        }
+        createMany: {
+          args: Prisma.ChoreCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ChoreCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChorePayload>[]
+        }
+        delete: {
+          args: Prisma.ChoreDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChorePayload>
+        }
+        update: {
+          args: Prisma.ChoreUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChorePayload>
+        }
+        deleteMany: {
+          args: Prisma.ChoreDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ChoreUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ChoreUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChorePayload>[]
+        }
+        upsert: {
+          args: Prisma.ChoreUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChorePayload>
+        }
+        aggregate: {
+          args: Prisma.ChoreAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateChore>
+        }
+        groupBy: {
+          args: Prisma.ChoreGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ChoreGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ChoreCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ChoreCountAggregateOutputType> | number
+        }
+      }
+    }
+    ChoreParticipant: {
+      payload: Prisma.$ChoreParticipantPayload<ExtArgs>
+      fields: Prisma.ChoreParticipantFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ChoreParticipantFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreParticipantPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ChoreParticipantFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreParticipantPayload>
+        }
+        findFirst: {
+          args: Prisma.ChoreParticipantFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreParticipantPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ChoreParticipantFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreParticipantPayload>
+        }
+        findMany: {
+          args: Prisma.ChoreParticipantFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreParticipantPayload>[]
+        }
+        create: {
+          args: Prisma.ChoreParticipantCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreParticipantPayload>
+        }
+        createMany: {
+          args: Prisma.ChoreParticipantCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ChoreParticipantCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreParticipantPayload>[]
+        }
+        delete: {
+          args: Prisma.ChoreParticipantDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreParticipantPayload>
+        }
+        update: {
+          args: Prisma.ChoreParticipantUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreParticipantPayload>
+        }
+        deleteMany: {
+          args: Prisma.ChoreParticipantDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ChoreParticipantUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ChoreParticipantUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreParticipantPayload>[]
+        }
+        upsert: {
+          args: Prisma.ChoreParticipantUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreParticipantPayload>
+        }
+        aggregate: {
+          args: Prisma.ChoreParticipantAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateChoreParticipant>
+        }
+        groupBy: {
+          args: Prisma.ChoreParticipantGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ChoreParticipantGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ChoreParticipantCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ChoreParticipantCountAggregateOutputType> | number
+        }
+      }
+    }
+    ChoreCycle: {
+      payload: Prisma.$ChoreCyclePayload<ExtArgs>
+      fields: Prisma.ChoreCycleFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ChoreCycleFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreCyclePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ChoreCycleFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreCyclePayload>
+        }
+        findFirst: {
+          args: Prisma.ChoreCycleFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreCyclePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ChoreCycleFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreCyclePayload>
+        }
+        findMany: {
+          args: Prisma.ChoreCycleFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreCyclePayload>[]
+        }
+        create: {
+          args: Prisma.ChoreCycleCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreCyclePayload>
+        }
+        createMany: {
+          args: Prisma.ChoreCycleCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ChoreCycleCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreCyclePayload>[]
+        }
+        delete: {
+          args: Prisma.ChoreCycleDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreCyclePayload>
+        }
+        update: {
+          args: Prisma.ChoreCycleUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreCyclePayload>
+        }
+        deleteMany: {
+          args: Prisma.ChoreCycleDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ChoreCycleUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ChoreCycleUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreCyclePayload>[]
+        }
+        upsert: {
+          args: Prisma.ChoreCycleUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreCyclePayload>
+        }
+        aggregate: {
+          args: Prisma.ChoreCycleAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateChoreCycle>
+        }
+        groupBy: {
+          args: Prisma.ChoreCycleGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ChoreCycleGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ChoreCycleCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ChoreCycleCountAggregateOutputType> | number
+        }
+      }
+    }
+    ChoreAssignment: {
+      payload: Prisma.$ChoreAssignmentPayload<ExtArgs>
+      fields: Prisma.ChoreAssignmentFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ChoreAssignmentFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreAssignmentPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ChoreAssignmentFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreAssignmentPayload>
+        }
+        findFirst: {
+          args: Prisma.ChoreAssignmentFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreAssignmentPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ChoreAssignmentFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreAssignmentPayload>
+        }
+        findMany: {
+          args: Prisma.ChoreAssignmentFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreAssignmentPayload>[]
+        }
+        create: {
+          args: Prisma.ChoreAssignmentCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreAssignmentPayload>
+        }
+        createMany: {
+          args: Prisma.ChoreAssignmentCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ChoreAssignmentCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreAssignmentPayload>[]
+        }
+        delete: {
+          args: Prisma.ChoreAssignmentDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreAssignmentPayload>
+        }
+        update: {
+          args: Prisma.ChoreAssignmentUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreAssignmentPayload>
+        }
+        deleteMany: {
+          args: Prisma.ChoreAssignmentDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ChoreAssignmentUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ChoreAssignmentUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreAssignmentPayload>[]
+        }
+        upsert: {
+          args: Prisma.ChoreAssignmentUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreAssignmentPayload>
+        }
+        aggregate: {
+          args: Prisma.ChoreAssignmentAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateChoreAssignment>
+        }
+        groupBy: {
+          args: Prisma.ChoreAssignmentGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ChoreAssignmentGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ChoreAssignmentCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ChoreAssignmentCountAggregateOutputType> | number
+        }
+      }
+    }
+    ChoreChecklistItem: {
+      payload: Prisma.$ChoreChecklistItemPayload<ExtArgs>
+      fields: Prisma.ChoreChecklistItemFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ChoreChecklistItemFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreChecklistItemPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ChoreChecklistItemFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreChecklistItemPayload>
+        }
+        findFirst: {
+          args: Prisma.ChoreChecklistItemFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreChecklistItemPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ChoreChecklistItemFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreChecklistItemPayload>
+        }
+        findMany: {
+          args: Prisma.ChoreChecklistItemFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreChecklistItemPayload>[]
+        }
+        create: {
+          args: Prisma.ChoreChecklistItemCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreChecklistItemPayload>
+        }
+        createMany: {
+          args: Prisma.ChoreChecklistItemCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ChoreChecklistItemCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreChecklistItemPayload>[]
+        }
+        delete: {
+          args: Prisma.ChoreChecklistItemDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreChecklistItemPayload>
+        }
+        update: {
+          args: Prisma.ChoreChecklistItemUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreChecklistItemPayload>
+        }
+        deleteMany: {
+          args: Prisma.ChoreChecklistItemDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ChoreChecklistItemUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ChoreChecklistItemUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreChecklistItemPayload>[]
+        }
+        upsert: {
+          args: Prisma.ChoreChecklistItemUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreChecklistItemPayload>
+        }
+        aggregate: {
+          args: Prisma.ChoreChecklistItemAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateChoreChecklistItem>
+        }
+        groupBy: {
+          args: Prisma.ChoreChecklistItemGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ChoreChecklistItemGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ChoreChecklistItemCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ChoreChecklistItemCountAggregateOutputType> | number
+        }
+      }
+    }
+    ChoreReview: {
+      payload: Prisma.$ChoreReviewPayload<ExtArgs>
+      fields: Prisma.ChoreReviewFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ChoreReviewFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreReviewPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ChoreReviewFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreReviewPayload>
+        }
+        findFirst: {
+          args: Prisma.ChoreReviewFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreReviewPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ChoreReviewFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreReviewPayload>
+        }
+        findMany: {
+          args: Prisma.ChoreReviewFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreReviewPayload>[]
+        }
+        create: {
+          args: Prisma.ChoreReviewCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreReviewPayload>
+        }
+        createMany: {
+          args: Prisma.ChoreReviewCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ChoreReviewCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreReviewPayload>[]
+        }
+        delete: {
+          args: Prisma.ChoreReviewDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreReviewPayload>
+        }
+        update: {
+          args: Prisma.ChoreReviewUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreReviewPayload>
+        }
+        deleteMany: {
+          args: Prisma.ChoreReviewDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ChoreReviewUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ChoreReviewUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreReviewPayload>[]
+        }
+        upsert: {
+          args: Prisma.ChoreReviewUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreReviewPayload>
+        }
+        aggregate: {
+          args: Prisma.ChoreReviewAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateChoreReview>
+        }
+        groupBy: {
+          args: Prisma.ChoreReviewGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ChoreReviewGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ChoreReviewCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ChoreReviewCountAggregateOutputType> | number
+        }
+      }
+    }
+    ChoreFine: {
+      payload: Prisma.$ChoreFinePayload<ExtArgs>
+      fields: Prisma.ChoreFineFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ChoreFineFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreFinePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ChoreFineFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreFinePayload>
+        }
+        findFirst: {
+          args: Prisma.ChoreFineFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreFinePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ChoreFineFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreFinePayload>
+        }
+        findMany: {
+          args: Prisma.ChoreFineFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreFinePayload>[]
+        }
+        create: {
+          args: Prisma.ChoreFineCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreFinePayload>
+        }
+        createMany: {
+          args: Prisma.ChoreFineCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ChoreFineCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreFinePayload>[]
+        }
+        delete: {
+          args: Prisma.ChoreFineDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreFinePayload>
+        }
+        update: {
+          args: Prisma.ChoreFineUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreFinePayload>
+        }
+        deleteMany: {
+          args: Prisma.ChoreFineDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ChoreFineUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ChoreFineUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreFinePayload>[]
+        }
+        upsert: {
+          args: Prisma.ChoreFineUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreFinePayload>
+        }
+        aggregate: {
+          args: Prisma.ChoreFineAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateChoreFine>
+        }
+        groupBy: {
+          args: Prisma.ChoreFineGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ChoreFineGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ChoreFineCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ChoreFineCountAggregateOutputType> | number
+        }
+      }
+    }
+    ChoreFineShare: {
+      payload: Prisma.$ChoreFineSharePayload<ExtArgs>
+      fields: Prisma.ChoreFineShareFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ChoreFineShareFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreFineSharePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ChoreFineShareFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreFineSharePayload>
+        }
+        findFirst: {
+          args: Prisma.ChoreFineShareFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreFineSharePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ChoreFineShareFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreFineSharePayload>
+        }
+        findMany: {
+          args: Prisma.ChoreFineShareFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreFineSharePayload>[]
+        }
+        create: {
+          args: Prisma.ChoreFineShareCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreFineSharePayload>
+        }
+        createMany: {
+          args: Prisma.ChoreFineShareCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ChoreFineShareCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreFineSharePayload>[]
+        }
+        delete: {
+          args: Prisma.ChoreFineShareDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreFineSharePayload>
+        }
+        update: {
+          args: Prisma.ChoreFineShareUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreFineSharePayload>
+        }
+        deleteMany: {
+          args: Prisma.ChoreFineShareDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ChoreFineShareUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ChoreFineShareUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreFineSharePayload>[]
+        }
+        upsert: {
+          args: Prisma.ChoreFineShareUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChoreFineSharePayload>
+        }
+        aggregate: {
+          args: Prisma.ChoreFineShareAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateChoreFineShare>
+        }
+        groupBy: {
+          args: Prisma.ChoreFineShareGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ChoreFineShareGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ChoreFineShareCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ChoreFineShareCountAggregateOutputType> | number
+        }
+      }
+    }
+    ChorePause: {
+      payload: Prisma.$ChorePausePayload<ExtArgs>
+      fields: Prisma.ChorePauseFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ChorePauseFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChorePausePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ChorePauseFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChorePausePayload>
+        }
+        findFirst: {
+          args: Prisma.ChorePauseFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChorePausePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ChorePauseFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChorePausePayload>
+        }
+        findMany: {
+          args: Prisma.ChorePauseFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChorePausePayload>[]
+        }
+        create: {
+          args: Prisma.ChorePauseCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChorePausePayload>
+        }
+        createMany: {
+          args: Prisma.ChorePauseCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ChorePauseCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChorePausePayload>[]
+        }
+        delete: {
+          args: Prisma.ChorePauseDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChorePausePayload>
+        }
+        update: {
+          args: Prisma.ChorePauseUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChorePausePayload>
+        }
+        deleteMany: {
+          args: Prisma.ChorePauseDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ChorePauseUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ChorePauseUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChorePausePayload>[]
+        }
+        upsert: {
+          args: Prisma.ChorePauseUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChorePausePayload>
+        }
+        aggregate: {
+          args: Prisma.ChorePauseAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateChorePause>
+        }
+        groupBy: {
+          args: Prisma.ChorePauseGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ChorePauseGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ChorePauseCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ChorePauseCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -852,7 +1527,9 @@ export const GroupScalarFieldEnum = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   isArchived: 'isArchived',
-  archivedAt: 'archivedAt'
+  archivedAt: 'archivedAt',
+  timezone: 'timezone',
+  choresPausedAt: 'choresPausedAt'
 } as const
 
 export type GroupScalarFieldEnum = (typeof GroupScalarFieldEnum)[keyof typeof GroupScalarFieldEnum]
@@ -892,12 +1569,154 @@ export const ExpenseSplitScalarFieldEnum = {
 export type ExpenseSplitScalarFieldEnum = (typeof ExpenseSplitScalarFieldEnum)[keyof typeof ExpenseSplitScalarFieldEnum]
 
 
+export const ChoreScalarFieldEnum = {
+  id: 'id',
+  groupId: 'groupId',
+  name: 'name',
+  description: 'description',
+  intervalDays: 'intervalDays',
+  deadlineMinutes: 'deadlineMinutes',
+  finePerMember: 'finePerMember',
+  status: 'status',
+  frozenAt: 'frozenAt',
+  createdById: 'createdById',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  currentAssignmentId: 'currentAssignmentId'
+} as const
+
+export type ChoreScalarFieldEnum = (typeof ChoreScalarFieldEnum)[keyof typeof ChoreScalarFieldEnum]
+
+
+export const ChoreParticipantScalarFieldEnum = {
+  id: 'id',
+  choreId: 'choreId',
+  userId: 'userId',
+  position: 'position',
+  joinedAt: 'joinedAt',
+  removedAt: 'removedAt',
+  unavailableUntil: 'unavailableUntil',
+  unavailableReason: 'unavailableReason'
+} as const
+
+export type ChoreParticipantScalarFieldEnum = (typeof ChoreParticipantScalarFieldEnum)[keyof typeof ChoreParticipantScalarFieldEnum]
+
+
+export const ChoreCycleScalarFieldEnum = {
+  id: 'id',
+  choreId: 'choreId',
+  number: 'number',
+  order: 'order',
+  startedAt: 'startedAt',
+  endedAt: 'endedAt'
+} as const
+
+export type ChoreCycleScalarFieldEnum = (typeof ChoreCycleScalarFieldEnum)[keyof typeof ChoreCycleScalarFieldEnum]
+
+
+export const ChoreAssignmentScalarFieldEnum = {
+  id: 'id',
+  choreId: 'choreId',
+  cycleId: 'cycleId',
+  userId: 'userId',
+  startsAt: 'startsAt',
+  endsAt: 'endsAt',
+  deadlineAt: 'deadlineAt',
+  status: 'status',
+  firstSubmittedAt: 'firstSubmittedAt',
+  submittedAt: 'submittedAt',
+  submissionNote: 'submissionNote',
+  skipRequestedAt: 'skipRequestedAt',
+  skipRequestReason: 'skipRequestReason',
+  skipMode: 'skipMode',
+  closedById: 'closedById',
+  closedAt: 'closedAt',
+  closeReason: 'closeReason',
+  replacedById: 'replacedById',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ChoreAssignmentScalarFieldEnum = (typeof ChoreAssignmentScalarFieldEnum)[keyof typeof ChoreAssignmentScalarFieldEnum]
+
+
+export const ChoreChecklistItemScalarFieldEnum = {
+  id: 'id',
+  choreId: 'choreId',
+  label: 'label',
+  position: 'position',
+  archivedAt: 'archivedAt'
+} as const
+
+export type ChoreChecklistItemScalarFieldEnum = (typeof ChoreChecklistItemScalarFieldEnum)[keyof typeof ChoreChecklistItemScalarFieldEnum]
+
+
+export const ChoreReviewScalarFieldEnum = {
+  id: 'id',
+  assignmentId: 'assignmentId',
+  reviewerId: 'reviewerId',
+  decision: 'decision',
+  results: 'results',
+  feedback: 'feedback',
+  createdAt: 'createdAt'
+} as const
+
+export type ChoreReviewScalarFieldEnum = (typeof ChoreReviewScalarFieldEnum)[keyof typeof ChoreReviewScalarFieldEnum]
+
+
+export const ChoreFineScalarFieldEnum = {
+  id: 'id',
+  assignmentId: 'assignmentId',
+  payerId: 'payerId',
+  reasons: 'reasons',
+  status: 'status',
+  voidedById: 'voidedById',
+  voidReason: 'voidReason',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ChoreFineScalarFieldEnum = (typeof ChoreFineScalarFieldEnum)[keyof typeof ChoreFineScalarFieldEnum]
+
+
+export const ChoreFineShareScalarFieldEnum = {
+  id: 'id',
+  fineId: 'fineId',
+  recipientId: 'recipientId',
+  amount: 'amount'
+} as const
+
+export type ChoreFineShareScalarFieldEnum = (typeof ChoreFineShareScalarFieldEnum)[keyof typeof ChoreFineShareScalarFieldEnum]
+
+
+export const ChorePauseScalarFieldEnum = {
+  id: 'id',
+  groupId: 'groupId',
+  choreId: 'choreId',
+  pausedById: 'pausedById',
+  pausedAt: 'pausedAt',
+  reason: 'reason',
+  resumedById: 'resumedById',
+  resumedAt: 'resumedAt',
+  resumeReason: 'resumeReason'
+} as const
+
+export type ChorePauseScalarFieldEnum = (typeof ChorePauseScalarFieldEnum)[keyof typeof ChorePauseScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
 } as const
 
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+export const JsonNullValueInput = {
+  JsonNull: JsonNull
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
 export const QueryMode = {
@@ -914,6 +1733,15 @@ export const NullsOrder = {
 } as const
 
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
 
 
@@ -996,6 +1824,118 @@ export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'In
  * Reference to a field of type 'Int[]'
  */
 export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+/**
+ * Reference to a field of type 'ChoreStatus'
+ */
+export type EnumChoreStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ChoreStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'ChoreStatus[]'
+ */
+export type ListEnumChoreStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ChoreStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'ChoreAssignmentStatus'
+ */
+export type EnumChoreAssignmentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ChoreAssignmentStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'ChoreAssignmentStatus[]'
+ */
+export type ListEnumChoreAssignmentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ChoreAssignmentStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'ChoreSkipMode'
+ */
+export type EnumChoreSkipModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ChoreSkipMode'>
+    
+
+
+/**
+ * Reference to a field of type 'ChoreSkipMode[]'
+ */
+export type ListEnumChoreSkipModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ChoreSkipMode[]'>
+    
+
+
+/**
+ * Reference to a field of type 'ChoreReviewDecision'
+ */
+export type EnumChoreReviewDecisionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ChoreReviewDecision'>
+    
+
+
+/**
+ * Reference to a field of type 'ChoreReviewDecision[]'
+ */
+export type ListEnumChoreReviewDecisionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ChoreReviewDecision[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Json'
+ */
+export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+/**
+ * Reference to a field of type 'QueryMode'
+ */
+export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
+    
+
+
+/**
+ * Reference to a field of type 'ChoreFineReason[]'
+ */
+export type ListEnumChoreFineReasonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ChoreFineReason[]'>
+    
+
+
+/**
+ * Reference to a field of type 'ChoreFineReason'
+ */
+export type EnumChoreFineReasonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ChoreFineReason'>
+    
+
+
+/**
+ * Reference to a field of type 'ChoreFineStatus'
+ */
+export type EnumChoreFineStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ChoreFineStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'ChoreFineStatus[]'
+ */
+export type ListEnumChoreFineStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ChoreFineStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Float'
+ */
+export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+/**
+ * Reference to a field of type 'Float[]'
+ */
+export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
     
 
 /**
@@ -1154,6 +2094,15 @@ export type GlobalOmitConfig = {
   groupMember?: Prisma.GroupMemberOmit
   expense?: Prisma.ExpenseOmit
   expenseSplit?: Prisma.ExpenseSplitOmit
+  chore?: Prisma.ChoreOmit
+  choreParticipant?: Prisma.ChoreParticipantOmit
+  choreCycle?: Prisma.ChoreCycleOmit
+  choreAssignment?: Prisma.ChoreAssignmentOmit
+  choreChecklistItem?: Prisma.ChoreChecklistItemOmit
+  choreReview?: Prisma.ChoreReviewOmit
+  choreFine?: Prisma.ChoreFineOmit
+  choreFineShare?: Prisma.ChoreFineShareOmit
+  chorePause?: Prisma.ChorePauseOmit
 }
 
 /* Types for Logging */

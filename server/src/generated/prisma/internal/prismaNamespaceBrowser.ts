@@ -55,7 +55,16 @@ export const ModelName = {
   Group: 'Group',
   GroupMember: 'GroupMember',
   Expense: 'Expense',
-  ExpenseSplit: 'ExpenseSplit'
+  ExpenseSplit: 'ExpenseSplit',
+  Chore: 'Chore',
+  ChoreParticipant: 'ChoreParticipant',
+  ChoreCycle: 'ChoreCycle',
+  ChoreAssignment: 'ChoreAssignment',
+  ChoreChecklistItem: 'ChoreChecklistItem',
+  ChoreReview: 'ChoreReview',
+  ChoreFine: 'ChoreFine',
+  ChoreFineShare: 'ChoreFineShare',
+  ChorePause: 'ChorePause'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -96,7 +105,9 @@ export const GroupScalarFieldEnum = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   isArchived: 'isArchived',
-  archivedAt: 'archivedAt'
+  archivedAt: 'archivedAt',
+  timezone: 'timezone',
+  choresPausedAt: 'choresPausedAt'
 } as const
 
 export type GroupScalarFieldEnum = (typeof GroupScalarFieldEnum)[keyof typeof GroupScalarFieldEnum]
@@ -136,12 +147,154 @@ export const ExpenseSplitScalarFieldEnum = {
 export type ExpenseSplitScalarFieldEnum = (typeof ExpenseSplitScalarFieldEnum)[keyof typeof ExpenseSplitScalarFieldEnum]
 
 
+export const ChoreScalarFieldEnum = {
+  id: 'id',
+  groupId: 'groupId',
+  name: 'name',
+  description: 'description',
+  intervalDays: 'intervalDays',
+  deadlineMinutes: 'deadlineMinutes',
+  finePerMember: 'finePerMember',
+  status: 'status',
+  frozenAt: 'frozenAt',
+  createdById: 'createdById',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  currentAssignmentId: 'currentAssignmentId'
+} as const
+
+export type ChoreScalarFieldEnum = (typeof ChoreScalarFieldEnum)[keyof typeof ChoreScalarFieldEnum]
+
+
+export const ChoreParticipantScalarFieldEnum = {
+  id: 'id',
+  choreId: 'choreId',
+  userId: 'userId',
+  position: 'position',
+  joinedAt: 'joinedAt',
+  removedAt: 'removedAt',
+  unavailableUntil: 'unavailableUntil',
+  unavailableReason: 'unavailableReason'
+} as const
+
+export type ChoreParticipantScalarFieldEnum = (typeof ChoreParticipantScalarFieldEnum)[keyof typeof ChoreParticipantScalarFieldEnum]
+
+
+export const ChoreCycleScalarFieldEnum = {
+  id: 'id',
+  choreId: 'choreId',
+  number: 'number',
+  order: 'order',
+  startedAt: 'startedAt',
+  endedAt: 'endedAt'
+} as const
+
+export type ChoreCycleScalarFieldEnum = (typeof ChoreCycleScalarFieldEnum)[keyof typeof ChoreCycleScalarFieldEnum]
+
+
+export const ChoreAssignmentScalarFieldEnum = {
+  id: 'id',
+  choreId: 'choreId',
+  cycleId: 'cycleId',
+  userId: 'userId',
+  startsAt: 'startsAt',
+  endsAt: 'endsAt',
+  deadlineAt: 'deadlineAt',
+  status: 'status',
+  firstSubmittedAt: 'firstSubmittedAt',
+  submittedAt: 'submittedAt',
+  submissionNote: 'submissionNote',
+  skipRequestedAt: 'skipRequestedAt',
+  skipRequestReason: 'skipRequestReason',
+  skipMode: 'skipMode',
+  closedById: 'closedById',
+  closedAt: 'closedAt',
+  closeReason: 'closeReason',
+  replacedById: 'replacedById',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ChoreAssignmentScalarFieldEnum = (typeof ChoreAssignmentScalarFieldEnum)[keyof typeof ChoreAssignmentScalarFieldEnum]
+
+
+export const ChoreChecklistItemScalarFieldEnum = {
+  id: 'id',
+  choreId: 'choreId',
+  label: 'label',
+  position: 'position',
+  archivedAt: 'archivedAt'
+} as const
+
+export type ChoreChecklistItemScalarFieldEnum = (typeof ChoreChecklistItemScalarFieldEnum)[keyof typeof ChoreChecklistItemScalarFieldEnum]
+
+
+export const ChoreReviewScalarFieldEnum = {
+  id: 'id',
+  assignmentId: 'assignmentId',
+  reviewerId: 'reviewerId',
+  decision: 'decision',
+  results: 'results',
+  feedback: 'feedback',
+  createdAt: 'createdAt'
+} as const
+
+export type ChoreReviewScalarFieldEnum = (typeof ChoreReviewScalarFieldEnum)[keyof typeof ChoreReviewScalarFieldEnum]
+
+
+export const ChoreFineScalarFieldEnum = {
+  id: 'id',
+  assignmentId: 'assignmentId',
+  payerId: 'payerId',
+  reasons: 'reasons',
+  status: 'status',
+  voidedById: 'voidedById',
+  voidReason: 'voidReason',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ChoreFineScalarFieldEnum = (typeof ChoreFineScalarFieldEnum)[keyof typeof ChoreFineScalarFieldEnum]
+
+
+export const ChoreFineShareScalarFieldEnum = {
+  id: 'id',
+  fineId: 'fineId',
+  recipientId: 'recipientId',
+  amount: 'amount'
+} as const
+
+export type ChoreFineShareScalarFieldEnum = (typeof ChoreFineShareScalarFieldEnum)[keyof typeof ChoreFineShareScalarFieldEnum]
+
+
+export const ChorePauseScalarFieldEnum = {
+  id: 'id',
+  groupId: 'groupId',
+  choreId: 'choreId',
+  pausedById: 'pausedById',
+  pausedAt: 'pausedAt',
+  reason: 'reason',
+  resumedById: 'resumedById',
+  resumedAt: 'resumedAt',
+  resumeReason: 'resumeReason'
+} as const
+
+export type ChorePauseScalarFieldEnum = (typeof ChorePauseScalarFieldEnum)[keyof typeof ChorePauseScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
 } as const
 
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+export const JsonNullValueInput = {
+  JsonNull: JsonNull
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
 export const QueryMode = {
@@ -158,4 +311,13 @@ export const NullsOrder = {
 } as const
 
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 

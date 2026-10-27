@@ -42,3 +42,48 @@ export type Expense = Prisma.ExpenseModel
  * 
  */
 export type ExpenseSplit = Prisma.ExpenseSplitModel
+/**
+ * Model Chore
+ * 
+ */
+export type Chore = Prisma.ChoreModel
+/**
+ * Model ChoreParticipant
+ * 
+ */
+export type ChoreParticipant = Prisma.ChoreParticipantModel
+/**
+ * Model ChoreCycle
+ * 
+ */
+export type ChoreCycle = Prisma.ChoreCycleModel
+/**
+ * Model ChoreAssignment
+ * 
+ */
+export type ChoreAssignment = Prisma.ChoreAssignmentModel
+/**
+ * Model ChoreChecklistItem
+ * 
+ */
+export type ChoreChecklistItem = Prisma.ChoreChecklistItemModel
+/**
+ * Model ChoreReview
+ * 
+ */
+export type ChoreReview = Prisma.ChoreReviewModel
+/**
+ * Model ChoreFine
+ * 
+ */
+export type ChoreFine = Prisma.ChoreFineModel
+/**
+ * Model ChoreFineShare
+ * 
+ */
+export type ChoreFineShare = Prisma.ChoreFineShareModel
+/**
+ * Model ChorePause
+ * 
+ */
+export type ChorePause = Prisma.ChorePauseModel

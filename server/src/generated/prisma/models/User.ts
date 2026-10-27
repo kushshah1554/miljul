@@ -202,6 +202,16 @@ export type UserWhereInput = {
   groupMemberships?: Prisma.GroupMemberListRelationFilter
   expensesPaid?: Prisma.ExpenseListRelationFilter
   expenseSplits?: Prisma.ExpenseSplitListRelationFilter
+  choresCreated?: Prisma.ChoreListRelationFilter
+  choreParticipations?: Prisma.ChoreParticipantListRelationFilter
+  choreAssignments?: Prisma.ChoreAssignmentListRelationFilter
+  choreAssignmentsClosed?: Prisma.ChoreAssignmentListRelationFilter
+  choreReviews?: Prisma.ChoreReviewListRelationFilter
+  choreFinesOwed?: Prisma.ChoreFineListRelationFilter
+  choreFinesVoided?: Prisma.ChoreFineListRelationFilter
+  choreFineShares?: Prisma.ChoreFineShareListRelationFilter
+  chorePausesStarted?: Prisma.ChorePauseListRelationFilter
+  chorePausesEnded?: Prisma.ChorePauseListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -216,6 +226,16 @@ export type UserOrderByWithRelationInput = {
   groupMemberships?: Prisma.GroupMemberOrderByRelationAggregateInput
   expensesPaid?: Prisma.ExpenseOrderByRelationAggregateInput
   expenseSplits?: Prisma.ExpenseSplitOrderByRelationAggregateInput
+  choresCreated?: Prisma.ChoreOrderByRelationAggregateInput
+  choreParticipations?: Prisma.ChoreParticipantOrderByRelationAggregateInput
+  choreAssignments?: Prisma.ChoreAssignmentOrderByRelationAggregateInput
+  choreAssignmentsClosed?: Prisma.ChoreAssignmentOrderByRelationAggregateInput
+  choreReviews?: Prisma.ChoreReviewOrderByRelationAggregateInput
+  choreFinesOwed?: Prisma.ChoreFineOrderByRelationAggregateInput
+  choreFinesVoided?: Prisma.ChoreFineOrderByRelationAggregateInput
+  choreFineShares?: Prisma.ChoreFineShareOrderByRelationAggregateInput
+  chorePausesStarted?: Prisma.ChorePauseOrderByRelationAggregateInput
+  chorePausesEnded?: Prisma.ChorePauseOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -233,6 +253,16 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   groupMemberships?: Prisma.GroupMemberListRelationFilter
   expensesPaid?: Prisma.ExpenseListRelationFilter
   expenseSplits?: Prisma.ExpenseSplitListRelationFilter
+  choresCreated?: Prisma.ChoreListRelationFilter
+  choreParticipations?: Prisma.ChoreParticipantListRelationFilter
+  choreAssignments?: Prisma.ChoreAssignmentListRelationFilter
+  choreAssignmentsClosed?: Prisma.ChoreAssignmentListRelationFilter
+  choreReviews?: Prisma.ChoreReviewListRelationFilter
+  choreFinesOwed?: Prisma.ChoreFineListRelationFilter
+  choreFinesVoided?: Prisma.ChoreFineListRelationFilter
+  choreFineShares?: Prisma.ChoreFineShareListRelationFilter
+  chorePausesStarted?: Prisma.ChorePauseListRelationFilter
+  chorePausesEnded?: Prisma.ChorePauseListRelationFilter
 }, "id" | "email" | "refreshToken">
 
 export type UserOrderByWithAggregationInput = {
@@ -273,6 +303,16 @@ export type UserCreateInput = {
   groupMemberships?: Prisma.GroupMemberCreateNestedManyWithoutUserInput
   expensesPaid?: Prisma.ExpenseCreateNestedManyWithoutPaidByInput
   expenseSplits?: Prisma.ExpenseSplitCreateNestedManyWithoutUserInput
+  choresCreated?: Prisma.ChoreCreateNestedManyWithoutCreatedByInput
+  choreParticipations?: Prisma.ChoreParticipantCreateNestedManyWithoutUserInput
+  choreAssignments?: Prisma.ChoreAssignmentCreateNestedManyWithoutUserInput
+  choreAssignmentsClosed?: Prisma.ChoreAssignmentCreateNestedManyWithoutClosedByInput
+  choreReviews?: Prisma.ChoreReviewCreateNestedManyWithoutReviewerInput
+  choreFinesOwed?: Prisma.ChoreFineCreateNestedManyWithoutPayerInput
+  choreFinesVoided?: Prisma.ChoreFineCreateNestedManyWithoutVoidedByInput
+  choreFineShares?: Prisma.ChoreFineShareCreateNestedManyWithoutRecipientInput
+  chorePausesStarted?: Prisma.ChorePauseCreateNestedManyWithoutPausedByInput
+  chorePausesEnded?: Prisma.ChorePauseCreateNestedManyWithoutResumedByInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -287,6 +327,16 @@ export type UserUncheckedCreateInput = {
   groupMemberships?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutUserInput
   expensesPaid?: Prisma.ExpenseUncheckedCreateNestedManyWithoutPaidByInput
   expenseSplits?: Prisma.ExpenseSplitUncheckedCreateNestedManyWithoutUserInput
+  choresCreated?: Prisma.ChoreUncheckedCreateNestedManyWithoutCreatedByInput
+  choreParticipations?: Prisma.ChoreParticipantUncheckedCreateNestedManyWithoutUserInput
+  choreAssignments?: Prisma.ChoreAssignmentUncheckedCreateNestedManyWithoutUserInput
+  choreAssignmentsClosed?: Prisma.ChoreAssignmentUncheckedCreateNestedManyWithoutClosedByInput
+  choreReviews?: Prisma.ChoreReviewUncheckedCreateNestedManyWithoutReviewerInput
+  choreFinesOwed?: Prisma.ChoreFineUncheckedCreateNestedManyWithoutPayerInput
+  choreFinesVoided?: Prisma.ChoreFineUncheckedCreateNestedManyWithoutVoidedByInput
+  choreFineShares?: Prisma.ChoreFineShareUncheckedCreateNestedManyWithoutRecipientInput
+  chorePausesStarted?: Prisma.ChorePauseUncheckedCreateNestedManyWithoutPausedByInput
+  chorePausesEnded?: Prisma.ChorePauseUncheckedCreateNestedManyWithoutResumedByInput
 }
 
 export type UserUpdateInput = {
@@ -301,6 +351,16 @@ export type UserUpdateInput = {
   groupMemberships?: Prisma.GroupMemberUpdateManyWithoutUserNestedInput
   expensesPaid?: Prisma.ExpenseUpdateManyWithoutPaidByNestedInput
   expenseSplits?: Prisma.ExpenseSplitUpdateManyWithoutUserNestedInput
+  choresCreated?: Prisma.ChoreUpdateManyWithoutCreatedByNestedInput
+  choreParticipations?: Prisma.ChoreParticipantUpdateManyWithoutUserNestedInput
+  choreAssignments?: Prisma.ChoreAssignmentUpdateManyWithoutUserNestedInput
+  choreAssignmentsClosed?: Prisma.ChoreAssignmentUpdateManyWithoutClosedByNestedInput
+  choreReviews?: Prisma.ChoreReviewUpdateManyWithoutReviewerNestedInput
+  choreFinesOwed?: Prisma.ChoreFineUpdateManyWithoutPayerNestedInput
+  choreFinesVoided?: Prisma.ChoreFineUpdateManyWithoutVoidedByNestedInput
+  choreFineShares?: Prisma.ChoreFineShareUpdateManyWithoutRecipientNestedInput
+  chorePausesStarted?: Prisma.ChorePauseUpdateManyWithoutPausedByNestedInput
+  chorePausesEnded?: Prisma.ChorePauseUpdateManyWithoutResumedByNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -315,6 +375,16 @@ export type UserUncheckedUpdateInput = {
   groupMemberships?: Prisma.GroupMemberUncheckedUpdateManyWithoutUserNestedInput
   expensesPaid?: Prisma.ExpenseUncheckedUpdateManyWithoutPaidByNestedInput
   expenseSplits?: Prisma.ExpenseSplitUncheckedUpdateManyWithoutUserNestedInput
+  choresCreated?: Prisma.ChoreUncheckedUpdateManyWithoutCreatedByNestedInput
+  choreParticipations?: Prisma.ChoreParticipantUncheckedUpdateManyWithoutUserNestedInput
+  choreAssignments?: Prisma.ChoreAssignmentUncheckedUpdateManyWithoutUserNestedInput
+  choreAssignmentsClosed?: Prisma.ChoreAssignmentUncheckedUpdateManyWithoutClosedByNestedInput
+  choreReviews?: Prisma.ChoreReviewUncheckedUpdateManyWithoutReviewerNestedInput
+  choreFinesOwed?: Prisma.ChoreFineUncheckedUpdateManyWithoutPayerNestedInput
+  choreFinesVoided?: Prisma.ChoreFineUncheckedUpdateManyWithoutVoidedByNestedInput
+  choreFineShares?: Prisma.ChoreFineShareUncheckedUpdateManyWithoutRecipientNestedInput
+  chorePausesStarted?: Prisma.ChorePauseUncheckedUpdateManyWithoutPausedByNestedInput
+  chorePausesEnded?: Prisma.ChorePauseUncheckedUpdateManyWithoutResumedByNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -380,6 +450,11 @@ export type UserMinOrderByAggregateInput = {
 export type UserScalarRelationFilter = {
   is?: Prisma.UserWhereInput
   isNot?: Prisma.UserWhereInput
+}
+
+export type UserNullableScalarRelationFilter = {
+  is?: Prisma.UserWhereInput | null
+  isNot?: Prisma.UserWhereInput | null
 }
 
 export type StringFieldUpdateOperationsInput = {
@@ -450,6 +525,152 @@ export type UserUpdateOneRequiredWithoutExpenseSplitsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutExpenseSplitsInput, Prisma.UserUpdateWithoutExpenseSplitsInput>, Prisma.UserUncheckedUpdateWithoutExpenseSplitsInput>
 }
 
+export type UserCreateNestedOneWithoutChoresCreatedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutChoresCreatedInput, Prisma.UserUncheckedCreateWithoutChoresCreatedInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutChoresCreatedInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutChoresCreatedNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutChoresCreatedInput, Prisma.UserUncheckedCreateWithoutChoresCreatedInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutChoresCreatedInput
+  upsert?: Prisma.UserUpsertWithoutChoresCreatedInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutChoresCreatedInput, Prisma.UserUpdateWithoutChoresCreatedInput>, Prisma.UserUncheckedUpdateWithoutChoresCreatedInput>
+}
+
+export type UserCreateNestedOneWithoutChoreParticipationsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutChoreParticipationsInput, Prisma.UserUncheckedCreateWithoutChoreParticipationsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutChoreParticipationsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutChoreParticipationsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutChoreParticipationsInput, Prisma.UserUncheckedCreateWithoutChoreParticipationsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutChoreParticipationsInput
+  upsert?: Prisma.UserUpsertWithoutChoreParticipationsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutChoreParticipationsInput, Prisma.UserUpdateWithoutChoreParticipationsInput>, Prisma.UserUncheckedUpdateWithoutChoreParticipationsInput>
+}
+
+export type UserCreateNestedOneWithoutChoreAssignmentsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutChoreAssignmentsInput, Prisma.UserUncheckedCreateWithoutChoreAssignmentsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutChoreAssignmentsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserCreateNestedOneWithoutChoreAssignmentsClosedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutChoreAssignmentsClosedInput, Prisma.UserUncheckedCreateWithoutChoreAssignmentsClosedInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutChoreAssignmentsClosedInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutChoreAssignmentsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutChoreAssignmentsInput, Prisma.UserUncheckedCreateWithoutChoreAssignmentsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutChoreAssignmentsInput
+  upsert?: Prisma.UserUpsertWithoutChoreAssignmentsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutChoreAssignmentsInput, Prisma.UserUpdateWithoutChoreAssignmentsInput>, Prisma.UserUncheckedUpdateWithoutChoreAssignmentsInput>
+}
+
+export type UserUpdateOneWithoutChoreAssignmentsClosedNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutChoreAssignmentsClosedInput, Prisma.UserUncheckedCreateWithoutChoreAssignmentsClosedInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutChoreAssignmentsClosedInput
+  upsert?: Prisma.UserUpsertWithoutChoreAssignmentsClosedInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutChoreAssignmentsClosedInput, Prisma.UserUpdateWithoutChoreAssignmentsClosedInput>, Prisma.UserUncheckedUpdateWithoutChoreAssignmentsClosedInput>
+}
+
+export type UserCreateNestedOneWithoutChoreReviewsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutChoreReviewsInput, Prisma.UserUncheckedCreateWithoutChoreReviewsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutChoreReviewsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutChoreReviewsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutChoreReviewsInput, Prisma.UserUncheckedCreateWithoutChoreReviewsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutChoreReviewsInput
+  upsert?: Prisma.UserUpsertWithoutChoreReviewsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutChoreReviewsInput, Prisma.UserUpdateWithoutChoreReviewsInput>, Prisma.UserUncheckedUpdateWithoutChoreReviewsInput>
+}
+
+export type UserCreateNestedOneWithoutChoreFinesOwedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutChoreFinesOwedInput, Prisma.UserUncheckedCreateWithoutChoreFinesOwedInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutChoreFinesOwedInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserCreateNestedOneWithoutChoreFinesVoidedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutChoreFinesVoidedInput, Prisma.UserUncheckedCreateWithoutChoreFinesVoidedInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutChoreFinesVoidedInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutChoreFinesOwedNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutChoreFinesOwedInput, Prisma.UserUncheckedCreateWithoutChoreFinesOwedInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutChoreFinesOwedInput
+  upsert?: Prisma.UserUpsertWithoutChoreFinesOwedInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutChoreFinesOwedInput, Prisma.UserUpdateWithoutChoreFinesOwedInput>, Prisma.UserUncheckedUpdateWithoutChoreFinesOwedInput>
+}
+
+export type UserUpdateOneWithoutChoreFinesVoidedNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutChoreFinesVoidedInput, Prisma.UserUncheckedCreateWithoutChoreFinesVoidedInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutChoreFinesVoidedInput
+  upsert?: Prisma.UserUpsertWithoutChoreFinesVoidedInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutChoreFinesVoidedInput, Prisma.UserUpdateWithoutChoreFinesVoidedInput>, Prisma.UserUncheckedUpdateWithoutChoreFinesVoidedInput>
+}
+
+export type UserCreateNestedOneWithoutChoreFineSharesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutChoreFineSharesInput, Prisma.UserUncheckedCreateWithoutChoreFineSharesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutChoreFineSharesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutChoreFineSharesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutChoreFineSharesInput, Prisma.UserUncheckedCreateWithoutChoreFineSharesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutChoreFineSharesInput
+  upsert?: Prisma.UserUpsertWithoutChoreFineSharesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutChoreFineSharesInput, Prisma.UserUpdateWithoutChoreFineSharesInput>, Prisma.UserUncheckedUpdateWithoutChoreFineSharesInput>
+}
+
+export type UserCreateNestedOneWithoutChorePausesStartedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutChorePausesStartedInput, Prisma.UserUncheckedCreateWithoutChorePausesStartedInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutChorePausesStartedInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserCreateNestedOneWithoutChorePausesEndedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutChorePausesEndedInput, Prisma.UserUncheckedCreateWithoutChorePausesEndedInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutChorePausesEndedInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutChorePausesStartedNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutChorePausesStartedInput, Prisma.UserUncheckedCreateWithoutChorePausesStartedInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutChorePausesStartedInput
+  upsert?: Prisma.UserUpsertWithoutChorePausesStartedInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutChorePausesStartedInput, Prisma.UserUpdateWithoutChorePausesStartedInput>, Prisma.UserUncheckedUpdateWithoutChorePausesStartedInput>
+}
+
+export type UserUpdateOneWithoutChorePausesEndedNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutChorePausesEndedInput, Prisma.UserUncheckedCreateWithoutChorePausesEndedInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutChorePausesEndedInput
+  upsert?: Prisma.UserUpsertWithoutChorePausesEndedInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutChorePausesEndedInput, Prisma.UserUpdateWithoutChorePausesEndedInput>, Prisma.UserUncheckedUpdateWithoutChorePausesEndedInput>
+}
+
 export type UserCreateWithoutGroupsCreatedInput = {
   id?: string
   name: string
@@ -461,6 +682,16 @@ export type UserCreateWithoutGroupsCreatedInput = {
   groupMemberships?: Prisma.GroupMemberCreateNestedManyWithoutUserInput
   expensesPaid?: Prisma.ExpenseCreateNestedManyWithoutPaidByInput
   expenseSplits?: Prisma.ExpenseSplitCreateNestedManyWithoutUserInput
+  choresCreated?: Prisma.ChoreCreateNestedManyWithoutCreatedByInput
+  choreParticipations?: Prisma.ChoreParticipantCreateNestedManyWithoutUserInput
+  choreAssignments?: Prisma.ChoreAssignmentCreateNestedManyWithoutUserInput
+  choreAssignmentsClosed?: Prisma.ChoreAssignmentCreateNestedManyWithoutClosedByInput
+  choreReviews?: Prisma.ChoreReviewCreateNestedManyWithoutReviewerInput
+  choreFinesOwed?: Prisma.ChoreFineCreateNestedManyWithoutPayerInput
+  choreFinesVoided?: Prisma.ChoreFineCreateNestedManyWithoutVoidedByInput
+  choreFineShares?: Prisma.ChoreFineShareCreateNestedManyWithoutRecipientInput
+  chorePausesStarted?: Prisma.ChorePauseCreateNestedManyWithoutPausedByInput
+  chorePausesEnded?: Prisma.ChorePauseCreateNestedManyWithoutResumedByInput
 }
 
 export type UserUncheckedCreateWithoutGroupsCreatedInput = {
@@ -474,6 +705,16 @@ export type UserUncheckedCreateWithoutGroupsCreatedInput = {
   groupMemberships?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutUserInput
   expensesPaid?: Prisma.ExpenseUncheckedCreateNestedManyWithoutPaidByInput
   expenseSplits?: Prisma.ExpenseSplitUncheckedCreateNestedManyWithoutUserInput
+  choresCreated?: Prisma.ChoreUncheckedCreateNestedManyWithoutCreatedByInput
+  choreParticipations?: Prisma.ChoreParticipantUncheckedCreateNestedManyWithoutUserInput
+  choreAssignments?: Prisma.ChoreAssignmentUncheckedCreateNestedManyWithoutUserInput
+  choreAssignmentsClosed?: Prisma.ChoreAssignmentUncheckedCreateNestedManyWithoutClosedByInput
+  choreReviews?: Prisma.ChoreReviewUncheckedCreateNestedManyWithoutReviewerInput
+  choreFinesOwed?: Prisma.ChoreFineUncheckedCreateNestedManyWithoutPayerInput
+  choreFinesVoided?: Prisma.ChoreFineUncheckedCreateNestedManyWithoutVoidedByInput
+  choreFineShares?: Prisma.ChoreFineShareUncheckedCreateNestedManyWithoutRecipientInput
+  chorePausesStarted?: Prisma.ChorePauseUncheckedCreateNestedManyWithoutPausedByInput
+  chorePausesEnded?: Prisma.ChorePauseUncheckedCreateNestedManyWithoutResumedByInput
 }
 
 export type UserCreateOrConnectWithoutGroupsCreatedInput = {
@@ -503,6 +744,16 @@ export type UserUpdateWithoutGroupsCreatedInput = {
   groupMemberships?: Prisma.GroupMemberUpdateManyWithoutUserNestedInput
   expensesPaid?: Prisma.ExpenseUpdateManyWithoutPaidByNestedInput
   expenseSplits?: Prisma.ExpenseSplitUpdateManyWithoutUserNestedInput
+  choresCreated?: Prisma.ChoreUpdateManyWithoutCreatedByNestedInput
+  choreParticipations?: Prisma.ChoreParticipantUpdateManyWithoutUserNestedInput
+  choreAssignments?: Prisma.ChoreAssignmentUpdateManyWithoutUserNestedInput
+  choreAssignmentsClosed?: Prisma.ChoreAssignmentUpdateManyWithoutClosedByNestedInput
+  choreReviews?: Prisma.ChoreReviewUpdateManyWithoutReviewerNestedInput
+  choreFinesOwed?: Prisma.ChoreFineUpdateManyWithoutPayerNestedInput
+  choreFinesVoided?: Prisma.ChoreFineUpdateManyWithoutVoidedByNestedInput
+  choreFineShares?: Prisma.ChoreFineShareUpdateManyWithoutRecipientNestedInput
+  chorePausesStarted?: Prisma.ChorePauseUpdateManyWithoutPausedByNestedInput
+  chorePausesEnded?: Prisma.ChorePauseUpdateManyWithoutResumedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutGroupsCreatedInput = {
@@ -516,6 +767,16 @@ export type UserUncheckedUpdateWithoutGroupsCreatedInput = {
   groupMemberships?: Prisma.GroupMemberUncheckedUpdateManyWithoutUserNestedInput
   expensesPaid?: Prisma.ExpenseUncheckedUpdateManyWithoutPaidByNestedInput
   expenseSplits?: Prisma.ExpenseSplitUncheckedUpdateManyWithoutUserNestedInput
+  choresCreated?: Prisma.ChoreUncheckedUpdateManyWithoutCreatedByNestedInput
+  choreParticipations?: Prisma.ChoreParticipantUncheckedUpdateManyWithoutUserNestedInput
+  choreAssignments?: Prisma.ChoreAssignmentUncheckedUpdateManyWithoutUserNestedInput
+  choreAssignmentsClosed?: Prisma.ChoreAssignmentUncheckedUpdateManyWithoutClosedByNestedInput
+  choreReviews?: Prisma.ChoreReviewUncheckedUpdateManyWithoutReviewerNestedInput
+  choreFinesOwed?: Prisma.ChoreFineUncheckedUpdateManyWithoutPayerNestedInput
+  choreFinesVoided?: Prisma.ChoreFineUncheckedUpdateManyWithoutVoidedByNestedInput
+  choreFineShares?: Prisma.ChoreFineShareUncheckedUpdateManyWithoutRecipientNestedInput
+  chorePausesStarted?: Prisma.ChorePauseUncheckedUpdateManyWithoutPausedByNestedInput
+  chorePausesEnded?: Prisma.ChorePauseUncheckedUpdateManyWithoutResumedByNestedInput
 }
 
 export type UserCreateWithoutGroupMembershipsInput = {
@@ -529,6 +790,16 @@ export type UserCreateWithoutGroupMembershipsInput = {
   groupsCreated?: Prisma.GroupCreateNestedManyWithoutCreatedByInput
   expensesPaid?: Prisma.ExpenseCreateNestedManyWithoutPaidByInput
   expenseSplits?: Prisma.ExpenseSplitCreateNestedManyWithoutUserInput
+  choresCreated?: Prisma.ChoreCreateNestedManyWithoutCreatedByInput
+  choreParticipations?: Prisma.ChoreParticipantCreateNestedManyWithoutUserInput
+  choreAssignments?: Prisma.ChoreAssignmentCreateNestedManyWithoutUserInput
+  choreAssignmentsClosed?: Prisma.ChoreAssignmentCreateNestedManyWithoutClosedByInput
+  choreReviews?: Prisma.ChoreReviewCreateNestedManyWithoutReviewerInput
+  choreFinesOwed?: Prisma.ChoreFineCreateNestedManyWithoutPayerInput
+  choreFinesVoided?: Prisma.ChoreFineCreateNestedManyWithoutVoidedByInput
+  choreFineShares?: Prisma.ChoreFineShareCreateNestedManyWithoutRecipientInput
+  chorePausesStarted?: Prisma.ChorePauseCreateNestedManyWithoutPausedByInput
+  chorePausesEnded?: Prisma.ChorePauseCreateNestedManyWithoutResumedByInput
 }
 
 export type UserUncheckedCreateWithoutGroupMembershipsInput = {
@@ -542,6 +813,16 @@ export type UserUncheckedCreateWithoutGroupMembershipsInput = {
   groupsCreated?: Prisma.GroupUncheckedCreateNestedManyWithoutCreatedByInput
   expensesPaid?: Prisma.ExpenseUncheckedCreateNestedManyWithoutPaidByInput
   expenseSplits?: Prisma.ExpenseSplitUncheckedCreateNestedManyWithoutUserInput
+  choresCreated?: Prisma.ChoreUncheckedCreateNestedManyWithoutCreatedByInput
+  choreParticipations?: Prisma.ChoreParticipantUncheckedCreateNestedManyWithoutUserInput
+  choreAssignments?: Prisma.ChoreAssignmentUncheckedCreateNestedManyWithoutUserInput
+  choreAssignmentsClosed?: Prisma.ChoreAssignmentUncheckedCreateNestedManyWithoutClosedByInput
+  choreReviews?: Prisma.ChoreReviewUncheckedCreateNestedManyWithoutReviewerInput
+  choreFinesOwed?: Prisma.ChoreFineUncheckedCreateNestedManyWithoutPayerInput
+  choreFinesVoided?: Prisma.ChoreFineUncheckedCreateNestedManyWithoutVoidedByInput
+  choreFineShares?: Prisma.ChoreFineShareUncheckedCreateNestedManyWithoutRecipientInput
+  chorePausesStarted?: Prisma.ChorePauseUncheckedCreateNestedManyWithoutPausedByInput
+  chorePausesEnded?: Prisma.ChorePauseUncheckedCreateNestedManyWithoutResumedByInput
 }
 
 export type UserCreateOrConnectWithoutGroupMembershipsInput = {
@@ -571,6 +852,16 @@ export type UserUpdateWithoutGroupMembershipsInput = {
   groupsCreated?: Prisma.GroupUpdateManyWithoutCreatedByNestedInput
   expensesPaid?: Prisma.ExpenseUpdateManyWithoutPaidByNestedInput
   expenseSplits?: Prisma.ExpenseSplitUpdateManyWithoutUserNestedInput
+  choresCreated?: Prisma.ChoreUpdateManyWithoutCreatedByNestedInput
+  choreParticipations?: Prisma.ChoreParticipantUpdateManyWithoutUserNestedInput
+  choreAssignments?: Prisma.ChoreAssignmentUpdateManyWithoutUserNestedInput
+  choreAssignmentsClosed?: Prisma.ChoreAssignmentUpdateManyWithoutClosedByNestedInput
+  choreReviews?: Prisma.ChoreReviewUpdateManyWithoutReviewerNestedInput
+  choreFinesOwed?: Prisma.ChoreFineUpdateManyWithoutPayerNestedInput
+  choreFinesVoided?: Prisma.ChoreFineUpdateManyWithoutVoidedByNestedInput
+  choreFineShares?: Prisma.ChoreFineShareUpdateManyWithoutRecipientNestedInput
+  chorePausesStarted?: Prisma.ChorePauseUpdateManyWithoutPausedByNestedInput
+  chorePausesEnded?: Prisma.ChorePauseUpdateManyWithoutResumedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutGroupMembershipsInput = {
@@ -584,6 +875,16 @@ export type UserUncheckedUpdateWithoutGroupMembershipsInput = {
   groupsCreated?: Prisma.GroupUncheckedUpdateManyWithoutCreatedByNestedInput
   expensesPaid?: Prisma.ExpenseUncheckedUpdateManyWithoutPaidByNestedInput
   expenseSplits?: Prisma.ExpenseSplitUncheckedUpdateManyWithoutUserNestedInput
+  choresCreated?: Prisma.ChoreUncheckedUpdateManyWithoutCreatedByNestedInput
+  choreParticipations?: Prisma.ChoreParticipantUncheckedUpdateManyWithoutUserNestedInput
+  choreAssignments?: Prisma.ChoreAssignmentUncheckedUpdateManyWithoutUserNestedInput
+  choreAssignmentsClosed?: Prisma.ChoreAssignmentUncheckedUpdateManyWithoutClosedByNestedInput
+  choreReviews?: Prisma.ChoreReviewUncheckedUpdateManyWithoutReviewerNestedInput
+  choreFinesOwed?: Prisma.ChoreFineUncheckedUpdateManyWithoutPayerNestedInput
+  choreFinesVoided?: Prisma.ChoreFineUncheckedUpdateManyWithoutVoidedByNestedInput
+  choreFineShares?: Prisma.ChoreFineShareUncheckedUpdateManyWithoutRecipientNestedInput
+  chorePausesStarted?: Prisma.ChorePauseUncheckedUpdateManyWithoutPausedByNestedInput
+  chorePausesEnded?: Prisma.ChorePauseUncheckedUpdateManyWithoutResumedByNestedInput
 }
 
 export type UserCreateWithoutExpensesPaidInput = {
@@ -597,6 +898,16 @@ export type UserCreateWithoutExpensesPaidInput = {
   groupsCreated?: Prisma.GroupCreateNestedManyWithoutCreatedByInput
   groupMemberships?: Prisma.GroupMemberCreateNestedManyWithoutUserInput
   expenseSplits?: Prisma.ExpenseSplitCreateNestedManyWithoutUserInput
+  choresCreated?: Prisma.ChoreCreateNestedManyWithoutCreatedByInput
+  choreParticipations?: Prisma.ChoreParticipantCreateNestedManyWithoutUserInput
+  choreAssignments?: Prisma.ChoreAssignmentCreateNestedManyWithoutUserInput
+  choreAssignmentsClosed?: Prisma.ChoreAssignmentCreateNestedManyWithoutClosedByInput
+  choreReviews?: Prisma.ChoreReviewCreateNestedManyWithoutReviewerInput
+  choreFinesOwed?: Prisma.ChoreFineCreateNestedManyWithoutPayerInput
+  choreFinesVoided?: Prisma.ChoreFineCreateNestedManyWithoutVoidedByInput
+  choreFineShares?: Prisma.ChoreFineShareCreateNestedManyWithoutRecipientInput
+  chorePausesStarted?: Prisma.ChorePauseCreateNestedManyWithoutPausedByInput
+  chorePausesEnded?: Prisma.ChorePauseCreateNestedManyWithoutResumedByInput
 }
 
 export type UserUncheckedCreateWithoutExpensesPaidInput = {
@@ -610,6 +921,16 @@ export type UserUncheckedCreateWithoutExpensesPaidInput = {
   groupsCreated?: Prisma.GroupUncheckedCreateNestedManyWithoutCreatedByInput
   groupMemberships?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutUserInput
   expenseSplits?: Prisma.ExpenseSplitUncheckedCreateNestedManyWithoutUserInput
+  choresCreated?: Prisma.ChoreUncheckedCreateNestedManyWithoutCreatedByInput
+  choreParticipations?: Prisma.ChoreParticipantUncheckedCreateNestedManyWithoutUserInput
+  choreAssignments?: Prisma.ChoreAssignmentUncheckedCreateNestedManyWithoutUserInput
+  choreAssignmentsClosed?: Prisma.ChoreAssignmentUncheckedCreateNestedManyWithoutClosedByInput
+  choreReviews?: Prisma.ChoreReviewUncheckedCreateNestedManyWithoutReviewerInput
+  choreFinesOwed?: Prisma.ChoreFineUncheckedCreateNestedManyWithoutPayerInput
+  choreFinesVoided?: Prisma.ChoreFineUncheckedCreateNestedManyWithoutVoidedByInput
+  choreFineShares?: Prisma.ChoreFineShareUncheckedCreateNestedManyWithoutRecipientInput
+  chorePausesStarted?: Prisma.ChorePauseUncheckedCreateNestedManyWithoutPausedByInput
+  chorePausesEnded?: Prisma.ChorePauseUncheckedCreateNestedManyWithoutResumedByInput
 }
 
 export type UserCreateOrConnectWithoutExpensesPaidInput = {
@@ -639,6 +960,16 @@ export type UserUpdateWithoutExpensesPaidInput = {
   groupsCreated?: Prisma.GroupUpdateManyWithoutCreatedByNestedInput
   groupMemberships?: Prisma.GroupMemberUpdateManyWithoutUserNestedInput
   expenseSplits?: Prisma.ExpenseSplitUpdateManyWithoutUserNestedInput
+  choresCreated?: Prisma.ChoreUpdateManyWithoutCreatedByNestedInput
+  choreParticipations?: Prisma.ChoreParticipantUpdateManyWithoutUserNestedInput
+  choreAssignments?: Prisma.ChoreAssignmentUpdateManyWithoutUserNestedInput
+  choreAssignmentsClosed?: Prisma.ChoreAssignmentUpdateManyWithoutClosedByNestedInput
+  choreReviews?: Prisma.ChoreReviewUpdateManyWithoutReviewerNestedInput
+  choreFinesOwed?: Prisma.ChoreFineUpdateManyWithoutPayerNestedInput
+  choreFinesVoided?: Prisma.ChoreFineUpdateManyWithoutVoidedByNestedInput
+  choreFineShares?: Prisma.ChoreFineShareUpdateManyWithoutRecipientNestedInput
+  chorePausesStarted?: Prisma.ChorePauseUpdateManyWithoutPausedByNestedInput
+  chorePausesEnded?: Prisma.ChorePauseUpdateManyWithoutResumedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutExpensesPaidInput = {
@@ -652,6 +983,16 @@ export type UserUncheckedUpdateWithoutExpensesPaidInput = {
   groupsCreated?: Prisma.GroupUncheckedUpdateManyWithoutCreatedByNestedInput
   groupMemberships?: Prisma.GroupMemberUncheckedUpdateManyWithoutUserNestedInput
   expenseSplits?: Prisma.ExpenseSplitUncheckedUpdateManyWithoutUserNestedInput
+  choresCreated?: Prisma.ChoreUncheckedUpdateManyWithoutCreatedByNestedInput
+  choreParticipations?: Prisma.ChoreParticipantUncheckedUpdateManyWithoutUserNestedInput
+  choreAssignments?: Prisma.ChoreAssignmentUncheckedUpdateManyWithoutUserNestedInput
+  choreAssignmentsClosed?: Prisma.ChoreAssignmentUncheckedUpdateManyWithoutClosedByNestedInput
+  choreReviews?: Prisma.ChoreReviewUncheckedUpdateManyWithoutReviewerNestedInput
+  choreFinesOwed?: Prisma.ChoreFineUncheckedUpdateManyWithoutPayerNestedInput
+  choreFinesVoided?: Prisma.ChoreFineUncheckedUpdateManyWithoutVoidedByNestedInput
+  choreFineShares?: Prisma.ChoreFineShareUncheckedUpdateManyWithoutRecipientNestedInput
+  chorePausesStarted?: Prisma.ChorePauseUncheckedUpdateManyWithoutPausedByNestedInput
+  chorePausesEnded?: Prisma.ChorePauseUncheckedUpdateManyWithoutResumedByNestedInput
 }
 
 export type UserCreateWithoutExpenseSplitsInput = {
@@ -665,6 +1006,16 @@ export type UserCreateWithoutExpenseSplitsInput = {
   groupsCreated?: Prisma.GroupCreateNestedManyWithoutCreatedByInput
   groupMemberships?: Prisma.GroupMemberCreateNestedManyWithoutUserInput
   expensesPaid?: Prisma.ExpenseCreateNestedManyWithoutPaidByInput
+  choresCreated?: Prisma.ChoreCreateNestedManyWithoutCreatedByInput
+  choreParticipations?: Prisma.ChoreParticipantCreateNestedManyWithoutUserInput
+  choreAssignments?: Prisma.ChoreAssignmentCreateNestedManyWithoutUserInput
+  choreAssignmentsClosed?: Prisma.ChoreAssignmentCreateNestedManyWithoutClosedByInput
+  choreReviews?: Prisma.ChoreReviewCreateNestedManyWithoutReviewerInput
+  choreFinesOwed?: Prisma.ChoreFineCreateNestedManyWithoutPayerInput
+  choreFinesVoided?: Prisma.ChoreFineCreateNestedManyWithoutVoidedByInput
+  choreFineShares?: Prisma.ChoreFineShareCreateNestedManyWithoutRecipientInput
+  chorePausesStarted?: Prisma.ChorePauseCreateNestedManyWithoutPausedByInput
+  chorePausesEnded?: Prisma.ChorePauseCreateNestedManyWithoutResumedByInput
 }
 
 export type UserUncheckedCreateWithoutExpenseSplitsInput = {
@@ -678,6 +1029,16 @@ export type UserUncheckedCreateWithoutExpenseSplitsInput = {
   groupsCreated?: Prisma.GroupUncheckedCreateNestedManyWithoutCreatedByInput
   groupMemberships?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutUserInput
   expensesPaid?: Prisma.ExpenseUncheckedCreateNestedManyWithoutPaidByInput
+  choresCreated?: Prisma.ChoreUncheckedCreateNestedManyWithoutCreatedByInput
+  choreParticipations?: Prisma.ChoreParticipantUncheckedCreateNestedManyWithoutUserInput
+  choreAssignments?: Prisma.ChoreAssignmentUncheckedCreateNestedManyWithoutUserInput
+  choreAssignmentsClosed?: Prisma.ChoreAssignmentUncheckedCreateNestedManyWithoutClosedByInput
+  choreReviews?: Prisma.ChoreReviewUncheckedCreateNestedManyWithoutReviewerInput
+  choreFinesOwed?: Prisma.ChoreFineUncheckedCreateNestedManyWithoutPayerInput
+  choreFinesVoided?: Prisma.ChoreFineUncheckedCreateNestedManyWithoutVoidedByInput
+  choreFineShares?: Prisma.ChoreFineShareUncheckedCreateNestedManyWithoutRecipientInput
+  chorePausesStarted?: Prisma.ChorePauseUncheckedCreateNestedManyWithoutPausedByInput
+  chorePausesEnded?: Prisma.ChorePauseUncheckedCreateNestedManyWithoutResumedByInput
 }
 
 export type UserCreateOrConnectWithoutExpenseSplitsInput = {
@@ -707,6 +1068,16 @@ export type UserUpdateWithoutExpenseSplitsInput = {
   groupsCreated?: Prisma.GroupUpdateManyWithoutCreatedByNestedInput
   groupMemberships?: Prisma.GroupMemberUpdateManyWithoutUserNestedInput
   expensesPaid?: Prisma.ExpenseUpdateManyWithoutPaidByNestedInput
+  choresCreated?: Prisma.ChoreUpdateManyWithoutCreatedByNestedInput
+  choreParticipations?: Prisma.ChoreParticipantUpdateManyWithoutUserNestedInput
+  choreAssignments?: Prisma.ChoreAssignmentUpdateManyWithoutUserNestedInput
+  choreAssignmentsClosed?: Prisma.ChoreAssignmentUpdateManyWithoutClosedByNestedInput
+  choreReviews?: Prisma.ChoreReviewUpdateManyWithoutReviewerNestedInput
+  choreFinesOwed?: Prisma.ChoreFineUpdateManyWithoutPayerNestedInput
+  choreFinesVoided?: Prisma.ChoreFineUpdateManyWithoutVoidedByNestedInput
+  choreFineShares?: Prisma.ChoreFineShareUpdateManyWithoutRecipientNestedInput
+  chorePausesStarted?: Prisma.ChorePauseUpdateManyWithoutPausedByNestedInput
+  chorePausesEnded?: Prisma.ChorePauseUpdateManyWithoutResumedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutExpenseSplitsInput = {
@@ -720,6 +1091,1096 @@ export type UserUncheckedUpdateWithoutExpenseSplitsInput = {
   groupsCreated?: Prisma.GroupUncheckedUpdateManyWithoutCreatedByNestedInput
   groupMemberships?: Prisma.GroupMemberUncheckedUpdateManyWithoutUserNestedInput
   expensesPaid?: Prisma.ExpenseUncheckedUpdateManyWithoutPaidByNestedInput
+  choresCreated?: Prisma.ChoreUncheckedUpdateManyWithoutCreatedByNestedInput
+  choreParticipations?: Prisma.ChoreParticipantUncheckedUpdateManyWithoutUserNestedInput
+  choreAssignments?: Prisma.ChoreAssignmentUncheckedUpdateManyWithoutUserNestedInput
+  choreAssignmentsClosed?: Prisma.ChoreAssignmentUncheckedUpdateManyWithoutClosedByNestedInput
+  choreReviews?: Prisma.ChoreReviewUncheckedUpdateManyWithoutReviewerNestedInput
+  choreFinesOwed?: Prisma.ChoreFineUncheckedUpdateManyWithoutPayerNestedInput
+  choreFinesVoided?: Prisma.ChoreFineUncheckedUpdateManyWithoutVoidedByNestedInput
+  choreFineShares?: Prisma.ChoreFineShareUncheckedUpdateManyWithoutRecipientNestedInput
+  chorePausesStarted?: Prisma.ChorePauseUncheckedUpdateManyWithoutPausedByNestedInput
+  chorePausesEnded?: Prisma.ChorePauseUncheckedUpdateManyWithoutResumedByNestedInput
+}
+
+export type UserCreateWithoutChoresCreatedInput = {
+  id?: string
+  name: string
+  email: string
+  password: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  refreshToken?: string | null
+  groupsCreated?: Prisma.GroupCreateNestedManyWithoutCreatedByInput
+  groupMemberships?: Prisma.GroupMemberCreateNestedManyWithoutUserInput
+  expensesPaid?: Prisma.ExpenseCreateNestedManyWithoutPaidByInput
+  expenseSplits?: Prisma.ExpenseSplitCreateNestedManyWithoutUserInput
+  choreParticipations?: Prisma.ChoreParticipantCreateNestedManyWithoutUserInput
+  choreAssignments?: Prisma.ChoreAssignmentCreateNestedManyWithoutUserInput
+  choreAssignmentsClosed?: Prisma.ChoreAssignmentCreateNestedManyWithoutClosedByInput
+  choreReviews?: Prisma.ChoreReviewCreateNestedManyWithoutReviewerInput
+  choreFinesOwed?: Prisma.ChoreFineCreateNestedManyWithoutPayerInput
+  choreFinesVoided?: Prisma.ChoreFineCreateNestedManyWithoutVoidedByInput
+  choreFineShares?: Prisma.ChoreFineShareCreateNestedManyWithoutRecipientInput
+  chorePausesStarted?: Prisma.ChorePauseCreateNestedManyWithoutPausedByInput
+  chorePausesEnded?: Prisma.ChorePauseCreateNestedManyWithoutResumedByInput
+}
+
+export type UserUncheckedCreateWithoutChoresCreatedInput = {
+  id?: string
+  name: string
+  email: string
+  password: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  refreshToken?: string | null
+  groupsCreated?: Prisma.GroupUncheckedCreateNestedManyWithoutCreatedByInput
+  groupMemberships?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutUserInput
+  expensesPaid?: Prisma.ExpenseUncheckedCreateNestedManyWithoutPaidByInput
+  expenseSplits?: Prisma.ExpenseSplitUncheckedCreateNestedManyWithoutUserInput
+  choreParticipations?: Prisma.ChoreParticipantUncheckedCreateNestedManyWithoutUserInput
+  choreAssignments?: Prisma.ChoreAssignmentUncheckedCreateNestedManyWithoutUserInput
+  choreAssignmentsClosed?: Prisma.ChoreAssignmentUncheckedCreateNestedManyWithoutClosedByInput
+  choreReviews?: Prisma.ChoreReviewUncheckedCreateNestedManyWithoutReviewerInput
+  choreFinesOwed?: Prisma.ChoreFineUncheckedCreateNestedManyWithoutPayerInput
+  choreFinesVoided?: Prisma.ChoreFineUncheckedCreateNestedManyWithoutVoidedByInput
+  choreFineShares?: Prisma.ChoreFineShareUncheckedCreateNestedManyWithoutRecipientInput
+  chorePausesStarted?: Prisma.ChorePauseUncheckedCreateNestedManyWithoutPausedByInput
+  chorePausesEnded?: Prisma.ChorePauseUncheckedCreateNestedManyWithoutResumedByInput
+}
+
+export type UserCreateOrConnectWithoutChoresCreatedInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutChoresCreatedInput, Prisma.UserUncheckedCreateWithoutChoresCreatedInput>
+}
+
+export type UserUpsertWithoutChoresCreatedInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutChoresCreatedInput, Prisma.UserUncheckedUpdateWithoutChoresCreatedInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutChoresCreatedInput, Prisma.UserUncheckedCreateWithoutChoresCreatedInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutChoresCreatedInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutChoresCreatedInput, Prisma.UserUncheckedUpdateWithoutChoresCreatedInput>
+}
+
+export type UserUpdateWithoutChoresCreatedInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  groupsCreated?: Prisma.GroupUpdateManyWithoutCreatedByNestedInput
+  groupMemberships?: Prisma.GroupMemberUpdateManyWithoutUserNestedInput
+  expensesPaid?: Prisma.ExpenseUpdateManyWithoutPaidByNestedInput
+  expenseSplits?: Prisma.ExpenseSplitUpdateManyWithoutUserNestedInput
+  choreParticipations?: Prisma.ChoreParticipantUpdateManyWithoutUserNestedInput
+  choreAssignments?: Prisma.ChoreAssignmentUpdateManyWithoutUserNestedInput
+  choreAssignmentsClosed?: Prisma.ChoreAssignmentUpdateManyWithoutClosedByNestedInput
+  choreReviews?: Prisma.ChoreReviewUpdateManyWithoutReviewerNestedInput
+  choreFinesOwed?: Prisma.ChoreFineUpdateManyWithoutPayerNestedInput
+  choreFinesVoided?: Prisma.ChoreFineUpdateManyWithoutVoidedByNestedInput
+  choreFineShares?: Prisma.ChoreFineShareUpdateManyWithoutRecipientNestedInput
+  chorePausesStarted?: Prisma.ChorePauseUpdateManyWithoutPausedByNestedInput
+  chorePausesEnded?: Prisma.ChorePauseUpdateManyWithoutResumedByNestedInput
+}
+
+export type UserUncheckedUpdateWithoutChoresCreatedInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  groupsCreated?: Prisma.GroupUncheckedUpdateManyWithoutCreatedByNestedInput
+  groupMemberships?: Prisma.GroupMemberUncheckedUpdateManyWithoutUserNestedInput
+  expensesPaid?: Prisma.ExpenseUncheckedUpdateManyWithoutPaidByNestedInput
+  expenseSplits?: Prisma.ExpenseSplitUncheckedUpdateManyWithoutUserNestedInput
+  choreParticipations?: Prisma.ChoreParticipantUncheckedUpdateManyWithoutUserNestedInput
+  choreAssignments?: Prisma.ChoreAssignmentUncheckedUpdateManyWithoutUserNestedInput
+  choreAssignmentsClosed?: Prisma.ChoreAssignmentUncheckedUpdateManyWithoutClosedByNestedInput
+  choreReviews?: Prisma.ChoreReviewUncheckedUpdateManyWithoutReviewerNestedInput
+  choreFinesOwed?: Prisma.ChoreFineUncheckedUpdateManyWithoutPayerNestedInput
+  choreFinesVoided?: Prisma.ChoreFineUncheckedUpdateManyWithoutVoidedByNestedInput
+  choreFineShares?: Prisma.ChoreFineShareUncheckedUpdateManyWithoutRecipientNestedInput
+  chorePausesStarted?: Prisma.ChorePauseUncheckedUpdateManyWithoutPausedByNestedInput
+  chorePausesEnded?: Prisma.ChorePauseUncheckedUpdateManyWithoutResumedByNestedInput
+}
+
+export type UserCreateWithoutChoreParticipationsInput = {
+  id?: string
+  name: string
+  email: string
+  password: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  refreshToken?: string | null
+  groupsCreated?: Prisma.GroupCreateNestedManyWithoutCreatedByInput
+  groupMemberships?: Prisma.GroupMemberCreateNestedManyWithoutUserInput
+  expensesPaid?: Prisma.ExpenseCreateNestedManyWithoutPaidByInput
+  expenseSplits?: Prisma.ExpenseSplitCreateNestedManyWithoutUserInput
+  choresCreated?: Prisma.ChoreCreateNestedManyWithoutCreatedByInput
+  choreAssignments?: Prisma.ChoreAssignmentCreateNestedManyWithoutUserInput
+  choreAssignmentsClosed?: Prisma.ChoreAssignmentCreateNestedManyWithoutClosedByInput
+  choreReviews?: Prisma.ChoreReviewCreateNestedManyWithoutReviewerInput
+  choreFinesOwed?: Prisma.ChoreFineCreateNestedManyWithoutPayerInput
+  choreFinesVoided?: Prisma.ChoreFineCreateNestedManyWithoutVoidedByInput
+  choreFineShares?: Prisma.ChoreFineShareCreateNestedManyWithoutRecipientInput
+  chorePausesStarted?: Prisma.ChorePauseCreateNestedManyWithoutPausedByInput
+  chorePausesEnded?: Prisma.ChorePauseCreateNestedManyWithoutResumedByInput
+}
+
+export type UserUncheckedCreateWithoutChoreParticipationsInput = {
+  id?: string
+  name: string
+  email: string
+  password: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  refreshToken?: string | null
+  groupsCreated?: Prisma.GroupUncheckedCreateNestedManyWithoutCreatedByInput
+  groupMemberships?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutUserInput
+  expensesPaid?: Prisma.ExpenseUncheckedCreateNestedManyWithoutPaidByInput
+  expenseSplits?: Prisma.ExpenseSplitUncheckedCreateNestedManyWithoutUserInput
+  choresCreated?: Prisma.ChoreUncheckedCreateNestedManyWithoutCreatedByInput
+  choreAssignments?: Prisma.ChoreAssignmentUncheckedCreateNestedManyWithoutUserInput
+  choreAssignmentsClosed?: Prisma.ChoreAssignmentUncheckedCreateNestedManyWithoutClosedByInput
+  choreReviews?: Prisma.ChoreReviewUncheckedCreateNestedManyWithoutReviewerInput
+  choreFinesOwed?: Prisma.ChoreFineUncheckedCreateNestedManyWithoutPayerInput
+  choreFinesVoided?: Prisma.ChoreFineUncheckedCreateNestedManyWithoutVoidedByInput
+  choreFineShares?: Prisma.ChoreFineShareUncheckedCreateNestedManyWithoutRecipientInput
+  chorePausesStarted?: Prisma.ChorePauseUncheckedCreateNestedManyWithoutPausedByInput
+  chorePausesEnded?: Prisma.ChorePauseUncheckedCreateNestedManyWithoutResumedByInput
+}
+
+export type UserCreateOrConnectWithoutChoreParticipationsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutChoreParticipationsInput, Prisma.UserUncheckedCreateWithoutChoreParticipationsInput>
+}
+
+export type UserUpsertWithoutChoreParticipationsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutChoreParticipationsInput, Prisma.UserUncheckedUpdateWithoutChoreParticipationsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutChoreParticipationsInput, Prisma.UserUncheckedCreateWithoutChoreParticipationsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutChoreParticipationsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutChoreParticipationsInput, Prisma.UserUncheckedUpdateWithoutChoreParticipationsInput>
+}
+
+export type UserUpdateWithoutChoreParticipationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  groupsCreated?: Prisma.GroupUpdateManyWithoutCreatedByNestedInput
+  groupMemberships?: Prisma.GroupMemberUpdateManyWithoutUserNestedInput
+  expensesPaid?: Prisma.ExpenseUpdateManyWithoutPaidByNestedInput
+  expenseSplits?: Prisma.ExpenseSplitUpdateManyWithoutUserNestedInput
+  choresCreated?: Prisma.ChoreUpdateManyWithoutCreatedByNestedInput
+  choreAssignments?: Prisma.ChoreAssignmentUpdateManyWithoutUserNestedInput
+  choreAssignmentsClosed?: Prisma.ChoreAssignmentUpdateManyWithoutClosedByNestedInput
+  choreReviews?: Prisma.ChoreReviewUpdateManyWithoutReviewerNestedInput
+  choreFinesOwed?: Prisma.ChoreFineUpdateManyWithoutPayerNestedInput
+  choreFinesVoided?: Prisma.ChoreFineUpdateManyWithoutVoidedByNestedInput
+  choreFineShares?: Prisma.ChoreFineShareUpdateManyWithoutRecipientNestedInput
+  chorePausesStarted?: Prisma.ChorePauseUpdateManyWithoutPausedByNestedInput
+  chorePausesEnded?: Prisma.ChorePauseUpdateManyWithoutResumedByNestedInput
+}
+
+export type UserUncheckedUpdateWithoutChoreParticipationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  groupsCreated?: Prisma.GroupUncheckedUpdateManyWithoutCreatedByNestedInput
+  groupMemberships?: Prisma.GroupMemberUncheckedUpdateManyWithoutUserNestedInput
+  expensesPaid?: Prisma.ExpenseUncheckedUpdateManyWithoutPaidByNestedInput
+  expenseSplits?: Prisma.ExpenseSplitUncheckedUpdateManyWithoutUserNestedInput
+  choresCreated?: Prisma.ChoreUncheckedUpdateManyWithoutCreatedByNestedInput
+  choreAssignments?: Prisma.ChoreAssignmentUncheckedUpdateManyWithoutUserNestedInput
+  choreAssignmentsClosed?: Prisma.ChoreAssignmentUncheckedUpdateManyWithoutClosedByNestedInput
+  choreReviews?: Prisma.ChoreReviewUncheckedUpdateManyWithoutReviewerNestedInput
+  choreFinesOwed?: Prisma.ChoreFineUncheckedUpdateManyWithoutPayerNestedInput
+  choreFinesVoided?: Prisma.ChoreFineUncheckedUpdateManyWithoutVoidedByNestedInput
+  choreFineShares?: Prisma.ChoreFineShareUncheckedUpdateManyWithoutRecipientNestedInput
+  chorePausesStarted?: Prisma.ChorePauseUncheckedUpdateManyWithoutPausedByNestedInput
+  chorePausesEnded?: Prisma.ChorePauseUncheckedUpdateManyWithoutResumedByNestedInput
+}
+
+export type UserCreateWithoutChoreAssignmentsInput = {
+  id?: string
+  name: string
+  email: string
+  password: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  refreshToken?: string | null
+  groupsCreated?: Prisma.GroupCreateNestedManyWithoutCreatedByInput
+  groupMemberships?: Prisma.GroupMemberCreateNestedManyWithoutUserInput
+  expensesPaid?: Prisma.ExpenseCreateNestedManyWithoutPaidByInput
+  expenseSplits?: Prisma.ExpenseSplitCreateNestedManyWithoutUserInput
+  choresCreated?: Prisma.ChoreCreateNestedManyWithoutCreatedByInput
+  choreParticipations?: Prisma.ChoreParticipantCreateNestedManyWithoutUserInput
+  choreAssignmentsClosed?: Prisma.ChoreAssignmentCreateNestedManyWithoutClosedByInput
+  choreReviews?: Prisma.ChoreReviewCreateNestedManyWithoutReviewerInput
+  choreFinesOwed?: Prisma.ChoreFineCreateNestedManyWithoutPayerInput
+  choreFinesVoided?: Prisma.ChoreFineCreateNestedManyWithoutVoidedByInput
+  choreFineShares?: Prisma.ChoreFineShareCreateNestedManyWithoutRecipientInput
+  chorePausesStarted?: Prisma.ChorePauseCreateNestedManyWithoutPausedByInput
+  chorePausesEnded?: Prisma.ChorePauseCreateNestedManyWithoutResumedByInput
+}
+
+export type UserUncheckedCreateWithoutChoreAssignmentsInput = {
+  id?: string
+  name: string
+  email: string
+  password: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  refreshToken?: string | null
+  groupsCreated?: Prisma.GroupUncheckedCreateNestedManyWithoutCreatedByInput
+  groupMemberships?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutUserInput
+  expensesPaid?: Prisma.ExpenseUncheckedCreateNestedManyWithoutPaidByInput
+  expenseSplits?: Prisma.ExpenseSplitUncheckedCreateNestedManyWithoutUserInput
+  choresCreated?: Prisma.ChoreUncheckedCreateNestedManyWithoutCreatedByInput
+  choreParticipations?: Prisma.ChoreParticipantUncheckedCreateNestedManyWithoutUserInput
+  choreAssignmentsClosed?: Prisma.ChoreAssignmentUncheckedCreateNestedManyWithoutClosedByInput
+  choreReviews?: Prisma.ChoreReviewUncheckedCreateNestedManyWithoutReviewerInput
+  choreFinesOwed?: Prisma.ChoreFineUncheckedCreateNestedManyWithoutPayerInput
+  choreFinesVoided?: Prisma.ChoreFineUncheckedCreateNestedManyWithoutVoidedByInput
+  choreFineShares?: Prisma.ChoreFineShareUncheckedCreateNestedManyWithoutRecipientInput
+  chorePausesStarted?: Prisma.ChorePauseUncheckedCreateNestedManyWithoutPausedByInput
+  chorePausesEnded?: Prisma.ChorePauseUncheckedCreateNestedManyWithoutResumedByInput
+}
+
+export type UserCreateOrConnectWithoutChoreAssignmentsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutChoreAssignmentsInput, Prisma.UserUncheckedCreateWithoutChoreAssignmentsInput>
+}
+
+export type UserCreateWithoutChoreAssignmentsClosedInput = {
+  id?: string
+  name: string
+  email: string
+  password: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  refreshToken?: string | null
+  groupsCreated?: Prisma.GroupCreateNestedManyWithoutCreatedByInput
+  groupMemberships?: Prisma.GroupMemberCreateNestedManyWithoutUserInput
+  expensesPaid?: Prisma.ExpenseCreateNestedManyWithoutPaidByInput
+  expenseSplits?: Prisma.ExpenseSplitCreateNestedManyWithoutUserInput
+  choresCreated?: Prisma.ChoreCreateNestedManyWithoutCreatedByInput
+  choreParticipations?: Prisma.ChoreParticipantCreateNestedManyWithoutUserInput
+  choreAssignments?: Prisma.ChoreAssignmentCreateNestedManyWithoutUserInput
+  choreReviews?: Prisma.ChoreReviewCreateNestedManyWithoutReviewerInput
+  choreFinesOwed?: Prisma.ChoreFineCreateNestedManyWithoutPayerInput
+  choreFinesVoided?: Prisma.ChoreFineCreateNestedManyWithoutVoidedByInput
+  choreFineShares?: Prisma.ChoreFineShareCreateNestedManyWithoutRecipientInput
+  chorePausesStarted?: Prisma.ChorePauseCreateNestedManyWithoutPausedByInput
+  chorePausesEnded?: Prisma.ChorePauseCreateNestedManyWithoutResumedByInput
+}
+
+export type UserUncheckedCreateWithoutChoreAssignmentsClosedInput = {
+  id?: string
+  name: string
+  email: string
+  password: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  refreshToken?: string | null
+  groupsCreated?: Prisma.GroupUncheckedCreateNestedManyWithoutCreatedByInput
+  groupMemberships?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutUserInput
+  expensesPaid?: Prisma.ExpenseUncheckedCreateNestedManyWithoutPaidByInput
+  expenseSplits?: Prisma.ExpenseSplitUncheckedCreateNestedManyWithoutUserInput
+  choresCreated?: Prisma.ChoreUncheckedCreateNestedManyWithoutCreatedByInput
+  choreParticipations?: Prisma.ChoreParticipantUncheckedCreateNestedManyWithoutUserInput
+  choreAssignments?: Prisma.ChoreAssignmentUncheckedCreateNestedManyWithoutUserInput
+  choreReviews?: Prisma.ChoreReviewUncheckedCreateNestedManyWithoutReviewerInput
+  choreFinesOwed?: Prisma.ChoreFineUncheckedCreateNestedManyWithoutPayerInput
+  choreFinesVoided?: Prisma.ChoreFineUncheckedCreateNestedManyWithoutVoidedByInput
+  choreFineShares?: Prisma.ChoreFineShareUncheckedCreateNestedManyWithoutRecipientInput
+  chorePausesStarted?: Prisma.ChorePauseUncheckedCreateNestedManyWithoutPausedByInput
+  chorePausesEnded?: Prisma.ChorePauseUncheckedCreateNestedManyWithoutResumedByInput
+}
+
+export type UserCreateOrConnectWithoutChoreAssignmentsClosedInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutChoreAssignmentsClosedInput, Prisma.UserUncheckedCreateWithoutChoreAssignmentsClosedInput>
+}
+
+export type UserUpsertWithoutChoreAssignmentsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutChoreAssignmentsInput, Prisma.UserUncheckedUpdateWithoutChoreAssignmentsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutChoreAssignmentsInput, Prisma.UserUncheckedCreateWithoutChoreAssignmentsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutChoreAssignmentsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutChoreAssignmentsInput, Prisma.UserUncheckedUpdateWithoutChoreAssignmentsInput>
+}
+
+export type UserUpdateWithoutChoreAssignmentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  groupsCreated?: Prisma.GroupUpdateManyWithoutCreatedByNestedInput
+  groupMemberships?: Prisma.GroupMemberUpdateManyWithoutUserNestedInput
+  expensesPaid?: Prisma.ExpenseUpdateManyWithoutPaidByNestedInput
+  expenseSplits?: Prisma.ExpenseSplitUpdateManyWithoutUserNestedInput
+  choresCreated?: Prisma.ChoreUpdateManyWithoutCreatedByNestedInput
+  choreParticipations?: Prisma.ChoreParticipantUpdateManyWithoutUserNestedInput
+  choreAssignmentsClosed?: Prisma.ChoreAssignmentUpdateManyWithoutClosedByNestedInput
+  choreReviews?: Prisma.ChoreReviewUpdateManyWithoutReviewerNestedInput
+  choreFinesOwed?: Prisma.ChoreFineUpdateManyWithoutPayerNestedInput
+  choreFinesVoided?: Prisma.ChoreFineUpdateManyWithoutVoidedByNestedInput
+  choreFineShares?: Prisma.ChoreFineShareUpdateManyWithoutRecipientNestedInput
+  chorePausesStarted?: Prisma.ChorePauseUpdateManyWithoutPausedByNestedInput
+  chorePausesEnded?: Prisma.ChorePauseUpdateManyWithoutResumedByNestedInput
+}
+
+export type UserUncheckedUpdateWithoutChoreAssignmentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  groupsCreated?: Prisma.GroupUncheckedUpdateManyWithoutCreatedByNestedInput
+  groupMemberships?: Prisma.GroupMemberUncheckedUpdateManyWithoutUserNestedInput
+  expensesPaid?: Prisma.ExpenseUncheckedUpdateManyWithoutPaidByNestedInput
+  expenseSplits?: Prisma.ExpenseSplitUncheckedUpdateManyWithoutUserNestedInput
+  choresCreated?: Prisma.ChoreUncheckedUpdateManyWithoutCreatedByNestedInput
+  choreParticipations?: Prisma.ChoreParticipantUncheckedUpdateManyWithoutUserNestedInput
+  choreAssignmentsClosed?: Prisma.ChoreAssignmentUncheckedUpdateManyWithoutClosedByNestedInput
+  choreReviews?: Prisma.ChoreReviewUncheckedUpdateManyWithoutReviewerNestedInput
+  choreFinesOwed?: Prisma.ChoreFineUncheckedUpdateManyWithoutPayerNestedInput
+  choreFinesVoided?: Prisma.ChoreFineUncheckedUpdateManyWithoutVoidedByNestedInput
+  choreFineShares?: Prisma.ChoreFineShareUncheckedUpdateManyWithoutRecipientNestedInput
+  chorePausesStarted?: Prisma.ChorePauseUncheckedUpdateManyWithoutPausedByNestedInput
+  chorePausesEnded?: Prisma.ChorePauseUncheckedUpdateManyWithoutResumedByNestedInput
+}
+
+export type UserUpsertWithoutChoreAssignmentsClosedInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutChoreAssignmentsClosedInput, Prisma.UserUncheckedUpdateWithoutChoreAssignmentsClosedInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutChoreAssignmentsClosedInput, Prisma.UserUncheckedCreateWithoutChoreAssignmentsClosedInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutChoreAssignmentsClosedInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutChoreAssignmentsClosedInput, Prisma.UserUncheckedUpdateWithoutChoreAssignmentsClosedInput>
+}
+
+export type UserUpdateWithoutChoreAssignmentsClosedInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  groupsCreated?: Prisma.GroupUpdateManyWithoutCreatedByNestedInput
+  groupMemberships?: Prisma.GroupMemberUpdateManyWithoutUserNestedInput
+  expensesPaid?: Prisma.ExpenseUpdateManyWithoutPaidByNestedInput
+  expenseSplits?: Prisma.ExpenseSplitUpdateManyWithoutUserNestedInput
+  choresCreated?: Prisma.ChoreUpdateManyWithoutCreatedByNestedInput
+  choreParticipations?: Prisma.ChoreParticipantUpdateManyWithoutUserNestedInput
+  choreAssignments?: Prisma.ChoreAssignmentUpdateManyWithoutUserNestedInput
+  choreReviews?: Prisma.ChoreReviewUpdateManyWithoutReviewerNestedInput
+  choreFinesOwed?: Prisma.ChoreFineUpdateManyWithoutPayerNestedInput
+  choreFinesVoided?: Prisma.ChoreFineUpdateManyWithoutVoidedByNestedInput
+  choreFineShares?: Prisma.ChoreFineShareUpdateManyWithoutRecipientNestedInput
+  chorePausesStarted?: Prisma.ChorePauseUpdateManyWithoutPausedByNestedInput
+  chorePausesEnded?: Prisma.ChorePauseUpdateManyWithoutResumedByNestedInput
+}
+
+export type UserUncheckedUpdateWithoutChoreAssignmentsClosedInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  groupsCreated?: Prisma.GroupUncheckedUpdateManyWithoutCreatedByNestedInput
+  groupMemberships?: Prisma.GroupMemberUncheckedUpdateManyWithoutUserNestedInput
+  expensesPaid?: Prisma.ExpenseUncheckedUpdateManyWithoutPaidByNestedInput
+  expenseSplits?: Prisma.ExpenseSplitUncheckedUpdateManyWithoutUserNestedInput
+  choresCreated?: Prisma.ChoreUncheckedUpdateManyWithoutCreatedByNestedInput
+  choreParticipations?: Prisma.ChoreParticipantUncheckedUpdateManyWithoutUserNestedInput
+  choreAssignments?: Prisma.ChoreAssignmentUncheckedUpdateManyWithoutUserNestedInput
+  choreReviews?: Prisma.ChoreReviewUncheckedUpdateManyWithoutReviewerNestedInput
+  choreFinesOwed?: Prisma.ChoreFineUncheckedUpdateManyWithoutPayerNestedInput
+  choreFinesVoided?: Prisma.ChoreFineUncheckedUpdateManyWithoutVoidedByNestedInput
+  choreFineShares?: Prisma.ChoreFineShareUncheckedUpdateManyWithoutRecipientNestedInput
+  chorePausesStarted?: Prisma.ChorePauseUncheckedUpdateManyWithoutPausedByNestedInput
+  chorePausesEnded?: Prisma.ChorePauseUncheckedUpdateManyWithoutResumedByNestedInput
+}
+
+export type UserCreateWithoutChoreReviewsInput = {
+  id?: string
+  name: string
+  email: string
+  password: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  refreshToken?: string | null
+  groupsCreated?: Prisma.GroupCreateNestedManyWithoutCreatedByInput
+  groupMemberships?: Prisma.GroupMemberCreateNestedManyWithoutUserInput
+  expensesPaid?: Prisma.ExpenseCreateNestedManyWithoutPaidByInput
+  expenseSplits?: Prisma.ExpenseSplitCreateNestedManyWithoutUserInput
+  choresCreated?: Prisma.ChoreCreateNestedManyWithoutCreatedByInput
+  choreParticipations?: Prisma.ChoreParticipantCreateNestedManyWithoutUserInput
+  choreAssignments?: Prisma.ChoreAssignmentCreateNestedManyWithoutUserInput
+  choreAssignmentsClosed?: Prisma.ChoreAssignmentCreateNestedManyWithoutClosedByInput
+  choreFinesOwed?: Prisma.ChoreFineCreateNestedManyWithoutPayerInput
+  choreFinesVoided?: Prisma.ChoreFineCreateNestedManyWithoutVoidedByInput
+  choreFineShares?: Prisma.ChoreFineShareCreateNestedManyWithoutRecipientInput
+  chorePausesStarted?: Prisma.ChorePauseCreateNestedManyWithoutPausedByInput
+  chorePausesEnded?: Prisma.ChorePauseCreateNestedManyWithoutResumedByInput
+}
+
+export type UserUncheckedCreateWithoutChoreReviewsInput = {
+  id?: string
+  name: string
+  email: string
+  password: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  refreshToken?: string | null
+  groupsCreated?: Prisma.GroupUncheckedCreateNestedManyWithoutCreatedByInput
+  groupMemberships?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutUserInput
+  expensesPaid?: Prisma.ExpenseUncheckedCreateNestedManyWithoutPaidByInput
+  expenseSplits?: Prisma.ExpenseSplitUncheckedCreateNestedManyWithoutUserInput
+  choresCreated?: Prisma.ChoreUncheckedCreateNestedManyWithoutCreatedByInput
+  choreParticipations?: Prisma.ChoreParticipantUncheckedCreateNestedManyWithoutUserInput
+  choreAssignments?: Prisma.ChoreAssignmentUncheckedCreateNestedManyWithoutUserInput
+  choreAssignmentsClosed?: Prisma.ChoreAssignmentUncheckedCreateNestedManyWithoutClosedByInput
+  choreFinesOwed?: Prisma.ChoreFineUncheckedCreateNestedManyWithoutPayerInput
+  choreFinesVoided?: Prisma.ChoreFineUncheckedCreateNestedManyWithoutVoidedByInput
+  choreFineShares?: Prisma.ChoreFineShareUncheckedCreateNestedManyWithoutRecipientInput
+  chorePausesStarted?: Prisma.ChorePauseUncheckedCreateNestedManyWithoutPausedByInput
+  chorePausesEnded?: Prisma.ChorePauseUncheckedCreateNestedManyWithoutResumedByInput
+}
+
+export type UserCreateOrConnectWithoutChoreReviewsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutChoreReviewsInput, Prisma.UserUncheckedCreateWithoutChoreReviewsInput>
+}
+
+export type UserUpsertWithoutChoreReviewsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutChoreReviewsInput, Prisma.UserUncheckedUpdateWithoutChoreReviewsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutChoreReviewsInput, Prisma.UserUncheckedCreateWithoutChoreReviewsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutChoreReviewsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutChoreReviewsInput, Prisma.UserUncheckedUpdateWithoutChoreReviewsInput>
+}
+
+export type UserUpdateWithoutChoreReviewsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  groupsCreated?: Prisma.GroupUpdateManyWithoutCreatedByNestedInput
+  groupMemberships?: Prisma.GroupMemberUpdateManyWithoutUserNestedInput
+  expensesPaid?: Prisma.ExpenseUpdateManyWithoutPaidByNestedInput
+  expenseSplits?: Prisma.ExpenseSplitUpdateManyWithoutUserNestedInput
+  choresCreated?: Prisma.ChoreUpdateManyWithoutCreatedByNestedInput
+  choreParticipations?: Prisma.ChoreParticipantUpdateManyWithoutUserNestedInput
+  choreAssignments?: Prisma.ChoreAssignmentUpdateManyWithoutUserNestedInput
+  choreAssignmentsClosed?: Prisma.ChoreAssignmentUpdateManyWithoutClosedByNestedInput
+  choreFinesOwed?: Prisma.ChoreFineUpdateManyWithoutPayerNestedInput
+  choreFinesVoided?: Prisma.ChoreFineUpdateManyWithoutVoidedByNestedInput
+  choreFineShares?: Prisma.ChoreFineShareUpdateManyWithoutRecipientNestedInput
+  chorePausesStarted?: Prisma.ChorePauseUpdateManyWithoutPausedByNestedInput
+  chorePausesEnded?: Prisma.ChorePauseUpdateManyWithoutResumedByNestedInput
+}
+
+export type UserUncheckedUpdateWithoutChoreReviewsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  groupsCreated?: Prisma.GroupUncheckedUpdateManyWithoutCreatedByNestedInput
+  groupMemberships?: Prisma.GroupMemberUncheckedUpdateManyWithoutUserNestedInput
+  expensesPaid?: Prisma.ExpenseUncheckedUpdateManyWithoutPaidByNestedInput
+  expenseSplits?: Prisma.ExpenseSplitUncheckedUpdateManyWithoutUserNestedInput
+  choresCreated?: Prisma.ChoreUncheckedUpdateManyWithoutCreatedByNestedInput
+  choreParticipations?: Prisma.ChoreParticipantUncheckedUpdateManyWithoutUserNestedInput
+  choreAssignments?: Prisma.ChoreAssignmentUncheckedUpdateManyWithoutUserNestedInput
+  choreAssignmentsClosed?: Prisma.ChoreAssignmentUncheckedUpdateManyWithoutClosedByNestedInput
+  choreFinesOwed?: Prisma.ChoreFineUncheckedUpdateManyWithoutPayerNestedInput
+  choreFinesVoided?: Prisma.ChoreFineUncheckedUpdateManyWithoutVoidedByNestedInput
+  choreFineShares?: Prisma.ChoreFineShareUncheckedUpdateManyWithoutRecipientNestedInput
+  chorePausesStarted?: Prisma.ChorePauseUncheckedUpdateManyWithoutPausedByNestedInput
+  chorePausesEnded?: Prisma.ChorePauseUncheckedUpdateManyWithoutResumedByNestedInput
+}
+
+export type UserCreateWithoutChoreFinesOwedInput = {
+  id?: string
+  name: string
+  email: string
+  password: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  refreshToken?: string | null
+  groupsCreated?: Prisma.GroupCreateNestedManyWithoutCreatedByInput
+  groupMemberships?: Prisma.GroupMemberCreateNestedManyWithoutUserInput
+  expensesPaid?: Prisma.ExpenseCreateNestedManyWithoutPaidByInput
+  expenseSplits?: Prisma.ExpenseSplitCreateNestedManyWithoutUserInput
+  choresCreated?: Prisma.ChoreCreateNestedManyWithoutCreatedByInput
+  choreParticipations?: Prisma.ChoreParticipantCreateNestedManyWithoutUserInput
+  choreAssignments?: Prisma.ChoreAssignmentCreateNestedManyWithoutUserInput
+  choreAssignmentsClosed?: Prisma.ChoreAssignmentCreateNestedManyWithoutClosedByInput
+  choreReviews?: Prisma.ChoreReviewCreateNestedManyWithoutReviewerInput
+  choreFinesVoided?: Prisma.ChoreFineCreateNestedManyWithoutVoidedByInput
+  choreFineShares?: Prisma.ChoreFineShareCreateNestedManyWithoutRecipientInput
+  chorePausesStarted?: Prisma.ChorePauseCreateNestedManyWithoutPausedByInput
+  chorePausesEnded?: Prisma.ChorePauseCreateNestedManyWithoutResumedByInput
+}
+
+export type UserUncheckedCreateWithoutChoreFinesOwedInput = {
+  id?: string
+  name: string
+  email: string
+  password: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  refreshToken?: string | null
+  groupsCreated?: Prisma.GroupUncheckedCreateNestedManyWithoutCreatedByInput
+  groupMemberships?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutUserInput
+  expensesPaid?: Prisma.ExpenseUncheckedCreateNestedManyWithoutPaidByInput
+  expenseSplits?: Prisma.ExpenseSplitUncheckedCreateNestedManyWithoutUserInput
+  choresCreated?: Prisma.ChoreUncheckedCreateNestedManyWithoutCreatedByInput
+  choreParticipations?: Prisma.ChoreParticipantUncheckedCreateNestedManyWithoutUserInput
+  choreAssignments?: Prisma.ChoreAssignmentUncheckedCreateNestedManyWithoutUserInput
+  choreAssignmentsClosed?: Prisma.ChoreAssignmentUncheckedCreateNestedManyWithoutClosedByInput
+  choreReviews?: Prisma.ChoreReviewUncheckedCreateNestedManyWithoutReviewerInput
+  choreFinesVoided?: Prisma.ChoreFineUncheckedCreateNestedManyWithoutVoidedByInput
+  choreFineShares?: Prisma.ChoreFineShareUncheckedCreateNestedManyWithoutRecipientInput
+  chorePausesStarted?: Prisma.ChorePauseUncheckedCreateNestedManyWithoutPausedByInput
+  chorePausesEnded?: Prisma.ChorePauseUncheckedCreateNestedManyWithoutResumedByInput
+}
+
+export type UserCreateOrConnectWithoutChoreFinesOwedInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutChoreFinesOwedInput, Prisma.UserUncheckedCreateWithoutChoreFinesOwedInput>
+}
+
+export type UserCreateWithoutChoreFinesVoidedInput = {
+  id?: string
+  name: string
+  email: string
+  password: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  refreshToken?: string | null
+  groupsCreated?: Prisma.GroupCreateNestedManyWithoutCreatedByInput
+  groupMemberships?: Prisma.GroupMemberCreateNestedManyWithoutUserInput
+  expensesPaid?: Prisma.ExpenseCreateNestedManyWithoutPaidByInput
+  expenseSplits?: Prisma.ExpenseSplitCreateNestedManyWithoutUserInput
+  choresCreated?: Prisma.ChoreCreateNestedManyWithoutCreatedByInput
+  choreParticipations?: Prisma.ChoreParticipantCreateNestedManyWithoutUserInput
+  choreAssignments?: Prisma.ChoreAssignmentCreateNestedManyWithoutUserInput
+  choreAssignmentsClosed?: Prisma.ChoreAssignmentCreateNestedManyWithoutClosedByInput
+  choreReviews?: Prisma.ChoreReviewCreateNestedManyWithoutReviewerInput
+  choreFinesOwed?: Prisma.ChoreFineCreateNestedManyWithoutPayerInput
+  choreFineShares?: Prisma.ChoreFineShareCreateNestedManyWithoutRecipientInput
+  chorePausesStarted?: Prisma.ChorePauseCreateNestedManyWithoutPausedByInput
+  chorePausesEnded?: Prisma.ChorePauseCreateNestedManyWithoutResumedByInput
+}
+
+export type UserUncheckedCreateWithoutChoreFinesVoidedInput = {
+  id?: string
+  name: string
+  email: string
+  password: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  refreshToken?: string | null
+  groupsCreated?: Prisma.GroupUncheckedCreateNestedManyWithoutCreatedByInput
+  groupMemberships?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutUserInput
+  expensesPaid?: Prisma.ExpenseUncheckedCreateNestedManyWithoutPaidByInput
+  expenseSplits?: Prisma.ExpenseSplitUncheckedCreateNestedManyWithoutUserInput
+  choresCreated?: Prisma.ChoreUncheckedCreateNestedManyWithoutCreatedByInput
+  choreParticipations?: Prisma.ChoreParticipantUncheckedCreateNestedManyWithoutUserInput
+  choreAssignments?: Prisma.ChoreAssignmentUncheckedCreateNestedManyWithoutUserInput
+  choreAssignmentsClosed?: Prisma.ChoreAssignmentUncheckedCreateNestedManyWithoutClosedByInput
+  choreReviews?: Prisma.ChoreReviewUncheckedCreateNestedManyWithoutReviewerInput
+  choreFinesOwed?: Prisma.ChoreFineUncheckedCreateNestedManyWithoutPayerInput
+  choreFineShares?: Prisma.ChoreFineShareUncheckedCreateNestedManyWithoutRecipientInput
+  chorePausesStarted?: Prisma.ChorePauseUncheckedCreateNestedManyWithoutPausedByInput
+  chorePausesEnded?: Prisma.ChorePauseUncheckedCreateNestedManyWithoutResumedByInput
+}
+
+export type UserCreateOrConnectWithoutChoreFinesVoidedInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutChoreFinesVoidedInput, Prisma.UserUncheckedCreateWithoutChoreFinesVoidedInput>
+}
+
+export type UserUpsertWithoutChoreFinesOwedInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutChoreFinesOwedInput, Prisma.UserUncheckedUpdateWithoutChoreFinesOwedInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutChoreFinesOwedInput, Prisma.UserUncheckedCreateWithoutChoreFinesOwedInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutChoreFinesOwedInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutChoreFinesOwedInput, Prisma.UserUncheckedUpdateWithoutChoreFinesOwedInput>
+}
+
+export type UserUpdateWithoutChoreFinesOwedInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  groupsCreated?: Prisma.GroupUpdateManyWithoutCreatedByNestedInput
+  groupMemberships?: Prisma.GroupMemberUpdateManyWithoutUserNestedInput
+  expensesPaid?: Prisma.ExpenseUpdateManyWithoutPaidByNestedInput
+  expenseSplits?: Prisma.ExpenseSplitUpdateManyWithoutUserNestedInput
+  choresCreated?: Prisma.ChoreUpdateManyWithoutCreatedByNestedInput
+  choreParticipations?: Prisma.ChoreParticipantUpdateManyWithoutUserNestedInput
+  choreAssignments?: Prisma.ChoreAssignmentUpdateManyWithoutUserNestedInput
+  choreAssignmentsClosed?: Prisma.ChoreAssignmentUpdateManyWithoutClosedByNestedInput
+  choreReviews?: Prisma.ChoreReviewUpdateManyWithoutReviewerNestedInput
+  choreFinesVoided?: Prisma.ChoreFineUpdateManyWithoutVoidedByNestedInput
+  choreFineShares?: Prisma.ChoreFineShareUpdateManyWithoutRecipientNestedInput
+  chorePausesStarted?: Prisma.ChorePauseUpdateManyWithoutPausedByNestedInput
+  chorePausesEnded?: Prisma.ChorePauseUpdateManyWithoutResumedByNestedInput
+}
+
+export type UserUncheckedUpdateWithoutChoreFinesOwedInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  groupsCreated?: Prisma.GroupUncheckedUpdateManyWithoutCreatedByNestedInput
+  groupMemberships?: Prisma.GroupMemberUncheckedUpdateManyWithoutUserNestedInput
+  expensesPaid?: Prisma.ExpenseUncheckedUpdateManyWithoutPaidByNestedInput
+  expenseSplits?: Prisma.ExpenseSplitUncheckedUpdateManyWithoutUserNestedInput
+  choresCreated?: Prisma.ChoreUncheckedUpdateManyWithoutCreatedByNestedInput
+  choreParticipations?: Prisma.ChoreParticipantUncheckedUpdateManyWithoutUserNestedInput
+  choreAssignments?: Prisma.ChoreAssignmentUncheckedUpdateManyWithoutUserNestedInput
+  choreAssignmentsClosed?: Prisma.ChoreAssignmentUncheckedUpdateManyWithoutClosedByNestedInput
+  choreReviews?: Prisma.ChoreReviewUncheckedUpdateManyWithoutReviewerNestedInput
+  choreFinesVoided?: Prisma.ChoreFineUncheckedUpdateManyWithoutVoidedByNestedInput
+  choreFineShares?: Prisma.ChoreFineShareUncheckedUpdateManyWithoutRecipientNestedInput
+  chorePausesStarted?: Prisma.ChorePauseUncheckedUpdateManyWithoutPausedByNestedInput
+  chorePausesEnded?: Prisma.ChorePauseUncheckedUpdateManyWithoutResumedByNestedInput
+}
+
+export type UserUpsertWithoutChoreFinesVoidedInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutChoreFinesVoidedInput, Prisma.UserUncheckedUpdateWithoutChoreFinesVoidedInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutChoreFinesVoidedInput, Prisma.UserUncheckedCreateWithoutChoreFinesVoidedInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutChoreFinesVoidedInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutChoreFinesVoidedInput, Prisma.UserUncheckedUpdateWithoutChoreFinesVoidedInput>
+}
+
+export type UserUpdateWithoutChoreFinesVoidedInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  groupsCreated?: Prisma.GroupUpdateManyWithoutCreatedByNestedInput
+  groupMemberships?: Prisma.GroupMemberUpdateManyWithoutUserNestedInput
+  expensesPaid?: Prisma.ExpenseUpdateManyWithoutPaidByNestedInput
+  expenseSplits?: Prisma.ExpenseSplitUpdateManyWithoutUserNestedInput
+  choresCreated?: Prisma.ChoreUpdateManyWithoutCreatedByNestedInput
+  choreParticipations?: Prisma.ChoreParticipantUpdateManyWithoutUserNestedInput
+  choreAssignments?: Prisma.ChoreAssignmentUpdateManyWithoutUserNestedInput
+  choreAssignmentsClosed?: Prisma.ChoreAssignmentUpdateManyWithoutClosedByNestedInput
+  choreReviews?: Prisma.ChoreReviewUpdateManyWithoutReviewerNestedInput
+  choreFinesOwed?: Prisma.ChoreFineUpdateManyWithoutPayerNestedInput
+  choreFineShares?: Prisma.ChoreFineShareUpdateManyWithoutRecipientNestedInput
+  chorePausesStarted?: Prisma.ChorePauseUpdateManyWithoutPausedByNestedInput
+  chorePausesEnded?: Prisma.ChorePauseUpdateManyWithoutResumedByNestedInput
+}
+
+export type UserUncheckedUpdateWithoutChoreFinesVoidedInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  groupsCreated?: Prisma.GroupUncheckedUpdateManyWithoutCreatedByNestedInput
+  groupMemberships?: Prisma.GroupMemberUncheckedUpdateManyWithoutUserNestedInput
+  expensesPaid?: Prisma.ExpenseUncheckedUpdateManyWithoutPaidByNestedInput
+  expenseSplits?: Prisma.ExpenseSplitUncheckedUpdateManyWithoutUserNestedInput
+  choresCreated?: Prisma.ChoreUncheckedUpdateManyWithoutCreatedByNestedInput
+  choreParticipations?: Prisma.ChoreParticipantUncheckedUpdateManyWithoutUserNestedInput
+  choreAssignments?: Prisma.ChoreAssignmentUncheckedUpdateManyWithoutUserNestedInput
+  choreAssignmentsClosed?: Prisma.ChoreAssignmentUncheckedUpdateManyWithoutClosedByNestedInput
+  choreReviews?: Prisma.ChoreReviewUncheckedUpdateManyWithoutReviewerNestedInput
+  choreFinesOwed?: Prisma.ChoreFineUncheckedUpdateManyWithoutPayerNestedInput
+  choreFineShares?: Prisma.ChoreFineShareUncheckedUpdateManyWithoutRecipientNestedInput
+  chorePausesStarted?: Prisma.ChorePauseUncheckedUpdateManyWithoutPausedByNestedInput
+  chorePausesEnded?: Prisma.ChorePauseUncheckedUpdateManyWithoutResumedByNestedInput
+}
+
+export type UserCreateWithoutChoreFineSharesInput = {
+  id?: string
+  name: string
+  email: string
+  password: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  refreshToken?: string | null
+  groupsCreated?: Prisma.GroupCreateNestedManyWithoutCreatedByInput
+  groupMemberships?: Prisma.GroupMemberCreateNestedManyWithoutUserInput
+  expensesPaid?: Prisma.ExpenseCreateNestedManyWithoutPaidByInput
+  expenseSplits?: Prisma.ExpenseSplitCreateNestedManyWithoutUserInput
+  choresCreated?: Prisma.ChoreCreateNestedManyWithoutCreatedByInput
+  choreParticipations?: Prisma.ChoreParticipantCreateNestedManyWithoutUserInput
+  choreAssignments?: Prisma.ChoreAssignmentCreateNestedManyWithoutUserInput
+  choreAssignmentsClosed?: Prisma.ChoreAssignmentCreateNestedManyWithoutClosedByInput
+  choreReviews?: Prisma.ChoreReviewCreateNestedManyWithoutReviewerInput
+  choreFinesOwed?: Prisma.ChoreFineCreateNestedManyWithoutPayerInput
+  choreFinesVoided?: Prisma.ChoreFineCreateNestedManyWithoutVoidedByInput
+  chorePausesStarted?: Prisma.ChorePauseCreateNestedManyWithoutPausedByInput
+  chorePausesEnded?: Prisma.ChorePauseCreateNestedManyWithoutResumedByInput
+}
+
+export type UserUncheckedCreateWithoutChoreFineSharesInput = {
+  id?: string
+  name: string
+  email: string
+  password: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  refreshToken?: string | null
+  groupsCreated?: Prisma.GroupUncheckedCreateNestedManyWithoutCreatedByInput
+  groupMemberships?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutUserInput
+  expensesPaid?: Prisma.ExpenseUncheckedCreateNestedManyWithoutPaidByInput
+  expenseSplits?: Prisma.ExpenseSplitUncheckedCreateNestedManyWithoutUserInput
+  choresCreated?: Prisma.ChoreUncheckedCreateNestedManyWithoutCreatedByInput
+  choreParticipations?: Prisma.ChoreParticipantUncheckedCreateNestedManyWithoutUserInput
+  choreAssignments?: Prisma.ChoreAssignmentUncheckedCreateNestedManyWithoutUserInput
+  choreAssignmentsClosed?: Prisma.ChoreAssignmentUncheckedCreateNestedManyWithoutClosedByInput
+  choreReviews?: Prisma.ChoreReviewUncheckedCreateNestedManyWithoutReviewerInput
+  choreFinesOwed?: Prisma.ChoreFineUncheckedCreateNestedManyWithoutPayerInput
+  choreFinesVoided?: Prisma.ChoreFineUncheckedCreateNestedManyWithoutVoidedByInput
+  chorePausesStarted?: Prisma.ChorePauseUncheckedCreateNestedManyWithoutPausedByInput
+  chorePausesEnded?: Prisma.ChorePauseUncheckedCreateNestedManyWithoutResumedByInput
+}
+
+export type UserCreateOrConnectWithoutChoreFineSharesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutChoreFineSharesInput, Prisma.UserUncheckedCreateWithoutChoreFineSharesInput>
+}
+
+export type UserUpsertWithoutChoreFineSharesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutChoreFineSharesInput, Prisma.UserUncheckedUpdateWithoutChoreFineSharesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutChoreFineSharesInput, Prisma.UserUncheckedCreateWithoutChoreFineSharesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutChoreFineSharesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutChoreFineSharesInput, Prisma.UserUncheckedUpdateWithoutChoreFineSharesInput>
+}
+
+export type UserUpdateWithoutChoreFineSharesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  groupsCreated?: Prisma.GroupUpdateManyWithoutCreatedByNestedInput
+  groupMemberships?: Prisma.GroupMemberUpdateManyWithoutUserNestedInput
+  expensesPaid?: Prisma.ExpenseUpdateManyWithoutPaidByNestedInput
+  expenseSplits?: Prisma.ExpenseSplitUpdateManyWithoutUserNestedInput
+  choresCreated?: Prisma.ChoreUpdateManyWithoutCreatedByNestedInput
+  choreParticipations?: Prisma.ChoreParticipantUpdateManyWithoutUserNestedInput
+  choreAssignments?: Prisma.ChoreAssignmentUpdateManyWithoutUserNestedInput
+  choreAssignmentsClosed?: Prisma.ChoreAssignmentUpdateManyWithoutClosedByNestedInput
+  choreReviews?: Prisma.ChoreReviewUpdateManyWithoutReviewerNestedInput
+  choreFinesOwed?: Prisma.ChoreFineUpdateManyWithoutPayerNestedInput
+  choreFinesVoided?: Prisma.ChoreFineUpdateManyWithoutVoidedByNestedInput
+  chorePausesStarted?: Prisma.ChorePauseUpdateManyWithoutPausedByNestedInput
+  chorePausesEnded?: Prisma.ChorePauseUpdateManyWithoutResumedByNestedInput
+}
+
+export type UserUncheckedUpdateWithoutChoreFineSharesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  groupsCreated?: Prisma.GroupUncheckedUpdateManyWithoutCreatedByNestedInput
+  groupMemberships?: Prisma.GroupMemberUncheckedUpdateManyWithoutUserNestedInput
+  expensesPaid?: Prisma.ExpenseUncheckedUpdateManyWithoutPaidByNestedInput
+  expenseSplits?: Prisma.ExpenseSplitUncheckedUpdateManyWithoutUserNestedInput
+  choresCreated?: Prisma.ChoreUncheckedUpdateManyWithoutCreatedByNestedInput
+  choreParticipations?: Prisma.ChoreParticipantUncheckedUpdateManyWithoutUserNestedInput
+  choreAssignments?: Prisma.ChoreAssignmentUncheckedUpdateManyWithoutUserNestedInput
+  choreAssignmentsClosed?: Prisma.ChoreAssignmentUncheckedUpdateManyWithoutClosedByNestedInput
+  choreReviews?: Prisma.ChoreReviewUncheckedUpdateManyWithoutReviewerNestedInput
+  choreFinesOwed?: Prisma.ChoreFineUncheckedUpdateManyWithoutPayerNestedInput
+  choreFinesVoided?: Prisma.ChoreFineUncheckedUpdateManyWithoutVoidedByNestedInput
+  chorePausesStarted?: Prisma.ChorePauseUncheckedUpdateManyWithoutPausedByNestedInput
+  chorePausesEnded?: Prisma.ChorePauseUncheckedUpdateManyWithoutResumedByNestedInput
+}
+
+export type UserCreateWithoutChorePausesStartedInput = {
+  id?: string
+  name: string
+  email: string
+  password: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  refreshToken?: string | null
+  groupsCreated?: Prisma.GroupCreateNestedManyWithoutCreatedByInput
+  groupMemberships?: Prisma.GroupMemberCreateNestedManyWithoutUserInput
+  expensesPaid?: Prisma.ExpenseCreateNestedManyWithoutPaidByInput
+  expenseSplits?: Prisma.ExpenseSplitCreateNestedManyWithoutUserInput
+  choresCreated?: Prisma.ChoreCreateNestedManyWithoutCreatedByInput
+  choreParticipations?: Prisma.ChoreParticipantCreateNestedManyWithoutUserInput
+  choreAssignments?: Prisma.ChoreAssignmentCreateNestedManyWithoutUserInput
+  choreAssignmentsClosed?: Prisma.ChoreAssignmentCreateNestedManyWithoutClosedByInput
+  choreReviews?: Prisma.ChoreReviewCreateNestedManyWithoutReviewerInput
+  choreFinesOwed?: Prisma.ChoreFineCreateNestedManyWithoutPayerInput
+  choreFinesVoided?: Prisma.ChoreFineCreateNestedManyWithoutVoidedByInput
+  choreFineShares?: Prisma.ChoreFineShareCreateNestedManyWithoutRecipientInput
+  chorePausesEnded?: Prisma.ChorePauseCreateNestedManyWithoutResumedByInput
+}
+
+export type UserUncheckedCreateWithoutChorePausesStartedInput = {
+  id?: string
+  name: string
+  email: string
+  password: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  refreshToken?: string | null
+  groupsCreated?: Prisma.GroupUncheckedCreateNestedManyWithoutCreatedByInput
+  groupMemberships?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutUserInput
+  expensesPaid?: Prisma.ExpenseUncheckedCreateNestedManyWithoutPaidByInput
+  expenseSplits?: Prisma.ExpenseSplitUncheckedCreateNestedManyWithoutUserInput
+  choresCreated?: Prisma.ChoreUncheckedCreateNestedManyWithoutCreatedByInput
+  choreParticipations?: Prisma.ChoreParticipantUncheckedCreateNestedManyWithoutUserInput
+  choreAssignments?: Prisma.ChoreAssignmentUncheckedCreateNestedManyWithoutUserInput
+  choreAssignmentsClosed?: Prisma.ChoreAssignmentUncheckedCreateNestedManyWithoutClosedByInput
+  choreReviews?: Prisma.ChoreReviewUncheckedCreateNestedManyWithoutReviewerInput
+  choreFinesOwed?: Prisma.ChoreFineUncheckedCreateNestedManyWithoutPayerInput
+  choreFinesVoided?: Prisma.ChoreFineUncheckedCreateNestedManyWithoutVoidedByInput
+  choreFineShares?: Prisma.ChoreFineShareUncheckedCreateNestedManyWithoutRecipientInput
+  chorePausesEnded?: Prisma.ChorePauseUncheckedCreateNestedManyWithoutResumedByInput
+}
+
+export type UserCreateOrConnectWithoutChorePausesStartedInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutChorePausesStartedInput, Prisma.UserUncheckedCreateWithoutChorePausesStartedInput>
+}
+
+export type UserCreateWithoutChorePausesEndedInput = {
+  id?: string
+  name: string
+  email: string
+  password: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  refreshToken?: string | null
+  groupsCreated?: Prisma.GroupCreateNestedManyWithoutCreatedByInput
+  groupMemberships?: Prisma.GroupMemberCreateNestedManyWithoutUserInput
+  expensesPaid?: Prisma.ExpenseCreateNestedManyWithoutPaidByInput
+  expenseSplits?: Prisma.ExpenseSplitCreateNestedManyWithoutUserInput
+  choresCreated?: Prisma.ChoreCreateNestedManyWithoutCreatedByInput
+  choreParticipations?: Prisma.ChoreParticipantCreateNestedManyWithoutUserInput
+  choreAssignments?: Prisma.ChoreAssignmentCreateNestedManyWithoutUserInput
+  choreAssignmentsClosed?: Prisma.ChoreAssignmentCreateNestedManyWithoutClosedByInput
+  choreReviews?: Prisma.ChoreReviewCreateNestedManyWithoutReviewerInput
+  choreFinesOwed?: Prisma.ChoreFineCreateNestedManyWithoutPayerInput
+  choreFinesVoided?: Prisma.ChoreFineCreateNestedManyWithoutVoidedByInput
+  choreFineShares?: Prisma.ChoreFineShareCreateNestedManyWithoutRecipientInput
+  chorePausesStarted?: Prisma.ChorePauseCreateNestedManyWithoutPausedByInput
+}
+
+export type UserUncheckedCreateWithoutChorePausesEndedInput = {
+  id?: string
+  name: string
+  email: string
+  password: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  refreshToken?: string | null
+  groupsCreated?: Prisma.GroupUncheckedCreateNestedManyWithoutCreatedByInput
+  groupMemberships?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutUserInput
+  expensesPaid?: Prisma.ExpenseUncheckedCreateNestedManyWithoutPaidByInput
+  expenseSplits?: Prisma.ExpenseSplitUncheckedCreateNestedManyWithoutUserInput
+  choresCreated?: Prisma.ChoreUncheckedCreateNestedManyWithoutCreatedByInput
+  choreParticipations?: Prisma.ChoreParticipantUncheckedCreateNestedManyWithoutUserInput
+  choreAssignments?: Prisma.ChoreAssignmentUncheckedCreateNestedManyWithoutUserInput
+  choreAssignmentsClosed?: Prisma.ChoreAssignmentUncheckedCreateNestedManyWithoutClosedByInput
+  choreReviews?: Prisma.ChoreReviewUncheckedCreateNestedManyWithoutReviewerInput
+  choreFinesOwed?: Prisma.ChoreFineUncheckedCreateNestedManyWithoutPayerInput
+  choreFinesVoided?: Prisma.ChoreFineUncheckedCreateNestedManyWithoutVoidedByInput
+  choreFineShares?: Prisma.ChoreFineShareUncheckedCreateNestedManyWithoutRecipientInput
+  chorePausesStarted?: Prisma.ChorePauseUncheckedCreateNestedManyWithoutPausedByInput
+}
+
+export type UserCreateOrConnectWithoutChorePausesEndedInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutChorePausesEndedInput, Prisma.UserUncheckedCreateWithoutChorePausesEndedInput>
+}
+
+export type UserUpsertWithoutChorePausesStartedInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutChorePausesStartedInput, Prisma.UserUncheckedUpdateWithoutChorePausesStartedInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutChorePausesStartedInput, Prisma.UserUncheckedCreateWithoutChorePausesStartedInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutChorePausesStartedInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutChorePausesStartedInput, Prisma.UserUncheckedUpdateWithoutChorePausesStartedInput>
+}
+
+export type UserUpdateWithoutChorePausesStartedInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  groupsCreated?: Prisma.GroupUpdateManyWithoutCreatedByNestedInput
+  groupMemberships?: Prisma.GroupMemberUpdateManyWithoutUserNestedInput
+  expensesPaid?: Prisma.ExpenseUpdateManyWithoutPaidByNestedInput
+  expenseSplits?: Prisma.ExpenseSplitUpdateManyWithoutUserNestedInput
+  choresCreated?: Prisma.ChoreUpdateManyWithoutCreatedByNestedInput
+  choreParticipations?: Prisma.ChoreParticipantUpdateManyWithoutUserNestedInput
+  choreAssignments?: Prisma.ChoreAssignmentUpdateManyWithoutUserNestedInput
+  choreAssignmentsClosed?: Prisma.ChoreAssignmentUpdateManyWithoutClosedByNestedInput
+  choreReviews?: Prisma.ChoreReviewUpdateManyWithoutReviewerNestedInput
+  choreFinesOwed?: Prisma.ChoreFineUpdateManyWithoutPayerNestedInput
+  choreFinesVoided?: Prisma.ChoreFineUpdateManyWithoutVoidedByNestedInput
+  choreFineShares?: Prisma.ChoreFineShareUpdateManyWithoutRecipientNestedInput
+  chorePausesEnded?: Prisma.ChorePauseUpdateManyWithoutResumedByNestedInput
+}
+
+export type UserUncheckedUpdateWithoutChorePausesStartedInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  groupsCreated?: Prisma.GroupUncheckedUpdateManyWithoutCreatedByNestedInput
+  groupMemberships?: Prisma.GroupMemberUncheckedUpdateManyWithoutUserNestedInput
+  expensesPaid?: Prisma.ExpenseUncheckedUpdateManyWithoutPaidByNestedInput
+  expenseSplits?: Prisma.ExpenseSplitUncheckedUpdateManyWithoutUserNestedInput
+  choresCreated?: Prisma.ChoreUncheckedUpdateManyWithoutCreatedByNestedInput
+  choreParticipations?: Prisma.ChoreParticipantUncheckedUpdateManyWithoutUserNestedInput
+  choreAssignments?: Prisma.ChoreAssignmentUncheckedUpdateManyWithoutUserNestedInput
+  choreAssignmentsClosed?: Prisma.ChoreAssignmentUncheckedUpdateManyWithoutClosedByNestedInput
+  choreReviews?: Prisma.ChoreReviewUncheckedUpdateManyWithoutReviewerNestedInput
+  choreFinesOwed?: Prisma.ChoreFineUncheckedUpdateManyWithoutPayerNestedInput
+  choreFinesVoided?: Prisma.ChoreFineUncheckedUpdateManyWithoutVoidedByNestedInput
+  choreFineShares?: Prisma.ChoreFineShareUncheckedUpdateManyWithoutRecipientNestedInput
+  chorePausesEnded?: Prisma.ChorePauseUncheckedUpdateManyWithoutResumedByNestedInput
+}
+
+export type UserUpsertWithoutChorePausesEndedInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutChorePausesEndedInput, Prisma.UserUncheckedUpdateWithoutChorePausesEndedInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutChorePausesEndedInput, Prisma.UserUncheckedCreateWithoutChorePausesEndedInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutChorePausesEndedInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutChorePausesEndedInput, Prisma.UserUncheckedUpdateWithoutChorePausesEndedInput>
+}
+
+export type UserUpdateWithoutChorePausesEndedInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  groupsCreated?: Prisma.GroupUpdateManyWithoutCreatedByNestedInput
+  groupMemberships?: Prisma.GroupMemberUpdateManyWithoutUserNestedInput
+  expensesPaid?: Prisma.ExpenseUpdateManyWithoutPaidByNestedInput
+  expenseSplits?: Prisma.ExpenseSplitUpdateManyWithoutUserNestedInput
+  choresCreated?: Prisma.ChoreUpdateManyWithoutCreatedByNestedInput
+  choreParticipations?: Prisma.ChoreParticipantUpdateManyWithoutUserNestedInput
+  choreAssignments?: Prisma.ChoreAssignmentUpdateManyWithoutUserNestedInput
+  choreAssignmentsClosed?: Prisma.ChoreAssignmentUpdateManyWithoutClosedByNestedInput
+  choreReviews?: Prisma.ChoreReviewUpdateManyWithoutReviewerNestedInput
+  choreFinesOwed?: Prisma.ChoreFineUpdateManyWithoutPayerNestedInput
+  choreFinesVoided?: Prisma.ChoreFineUpdateManyWithoutVoidedByNestedInput
+  choreFineShares?: Prisma.ChoreFineShareUpdateManyWithoutRecipientNestedInput
+  chorePausesStarted?: Prisma.ChorePauseUpdateManyWithoutPausedByNestedInput
+}
+
+export type UserUncheckedUpdateWithoutChorePausesEndedInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  groupsCreated?: Prisma.GroupUncheckedUpdateManyWithoutCreatedByNestedInput
+  groupMemberships?: Prisma.GroupMemberUncheckedUpdateManyWithoutUserNestedInput
+  expensesPaid?: Prisma.ExpenseUncheckedUpdateManyWithoutPaidByNestedInput
+  expenseSplits?: Prisma.ExpenseSplitUncheckedUpdateManyWithoutUserNestedInput
+  choresCreated?: Prisma.ChoreUncheckedUpdateManyWithoutCreatedByNestedInput
+  choreParticipations?: Prisma.ChoreParticipantUncheckedUpdateManyWithoutUserNestedInput
+  choreAssignments?: Prisma.ChoreAssignmentUncheckedUpdateManyWithoutUserNestedInput
+  choreAssignmentsClosed?: Prisma.ChoreAssignmentUncheckedUpdateManyWithoutClosedByNestedInput
+  choreReviews?: Prisma.ChoreReviewUncheckedUpdateManyWithoutReviewerNestedInput
+  choreFinesOwed?: Prisma.ChoreFineUncheckedUpdateManyWithoutPayerNestedInput
+  choreFinesVoided?: Prisma.ChoreFineUncheckedUpdateManyWithoutVoidedByNestedInput
+  choreFineShares?: Prisma.ChoreFineShareUncheckedUpdateManyWithoutRecipientNestedInput
+  chorePausesStarted?: Prisma.ChorePauseUncheckedUpdateManyWithoutPausedByNestedInput
 }
 
 
@@ -732,6 +2193,16 @@ export type UserCountOutputType = {
   groupMemberships: number
   expensesPaid: number
   expenseSplits: number
+  choresCreated: number
+  choreParticipations: number
+  choreAssignments: number
+  choreAssignmentsClosed: number
+  choreReviews: number
+  choreFinesOwed: number
+  choreFinesVoided: number
+  choreFineShares: number
+  chorePausesStarted: number
+  chorePausesEnded: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -739,6 +2210,16 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   groupMemberships?: boolean | UserCountOutputTypeCountGroupMembershipsArgs
   expensesPaid?: boolean | UserCountOutputTypeCountExpensesPaidArgs
   expenseSplits?: boolean | UserCountOutputTypeCountExpenseSplitsArgs
+  choresCreated?: boolean | UserCountOutputTypeCountChoresCreatedArgs
+  choreParticipations?: boolean | UserCountOutputTypeCountChoreParticipationsArgs
+  choreAssignments?: boolean | UserCountOutputTypeCountChoreAssignmentsArgs
+  choreAssignmentsClosed?: boolean | UserCountOutputTypeCountChoreAssignmentsClosedArgs
+  choreReviews?: boolean | UserCountOutputTypeCountChoreReviewsArgs
+  choreFinesOwed?: boolean | UserCountOutputTypeCountChoreFinesOwedArgs
+  choreFinesVoided?: boolean | UserCountOutputTypeCountChoreFinesVoidedArgs
+  choreFineShares?: boolean | UserCountOutputTypeCountChoreFineSharesArgs
+  chorePausesStarted?: boolean | UserCountOutputTypeCountChorePausesStartedArgs
+  chorePausesEnded?: boolean | UserCountOutputTypeCountChorePausesEndedArgs
 }
 
 /**
@@ -779,6 +2260,76 @@ export type UserCountOutputTypeCountExpenseSplitsArgs<ExtArgs extends runtime.Ty
   where?: Prisma.ExpenseSplitWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountChoresCreatedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ChoreWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountChoreParticipationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ChoreParticipantWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountChoreAssignmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ChoreAssignmentWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountChoreAssignmentsClosedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ChoreAssignmentWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountChoreReviewsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ChoreReviewWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountChoreFinesOwedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ChoreFineWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountChoreFinesVoidedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ChoreFineWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountChoreFineSharesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ChoreFineShareWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountChorePausesStartedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ChorePauseWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountChorePausesEndedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ChorePauseWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -792,6 +2343,16 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   groupMemberships?: boolean | Prisma.User$groupMembershipsArgs<ExtArgs>
   expensesPaid?: boolean | Prisma.User$expensesPaidArgs<ExtArgs>
   expenseSplits?: boolean | Prisma.User$expenseSplitsArgs<ExtArgs>
+  choresCreated?: boolean | Prisma.User$choresCreatedArgs<ExtArgs>
+  choreParticipations?: boolean | Prisma.User$choreParticipationsArgs<ExtArgs>
+  choreAssignments?: boolean | Prisma.User$choreAssignmentsArgs<ExtArgs>
+  choreAssignmentsClosed?: boolean | Prisma.User$choreAssignmentsClosedArgs<ExtArgs>
+  choreReviews?: boolean | Prisma.User$choreReviewsArgs<ExtArgs>
+  choreFinesOwed?: boolean | Prisma.User$choreFinesOwedArgs<ExtArgs>
+  choreFinesVoided?: boolean | Prisma.User$choreFinesVoidedArgs<ExtArgs>
+  choreFineShares?: boolean | Prisma.User$choreFineSharesArgs<ExtArgs>
+  chorePausesStarted?: boolean | Prisma.User$chorePausesStartedArgs<ExtArgs>
+  chorePausesEnded?: boolean | Prisma.User$chorePausesEndedArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -831,6 +2392,16 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   groupMemberships?: boolean | Prisma.User$groupMembershipsArgs<ExtArgs>
   expensesPaid?: boolean | Prisma.User$expensesPaidArgs<ExtArgs>
   expenseSplits?: boolean | Prisma.User$expenseSplitsArgs<ExtArgs>
+  choresCreated?: boolean | Prisma.User$choresCreatedArgs<ExtArgs>
+  choreParticipations?: boolean | Prisma.User$choreParticipationsArgs<ExtArgs>
+  choreAssignments?: boolean | Prisma.User$choreAssignmentsArgs<ExtArgs>
+  choreAssignmentsClosed?: boolean | Prisma.User$choreAssignmentsClosedArgs<ExtArgs>
+  choreReviews?: boolean | Prisma.User$choreReviewsArgs<ExtArgs>
+  choreFinesOwed?: boolean | Prisma.User$choreFinesOwedArgs<ExtArgs>
+  choreFinesVoided?: boolean | Prisma.User$choreFinesVoidedArgs<ExtArgs>
+  choreFineShares?: boolean | Prisma.User$choreFineSharesArgs<ExtArgs>
+  chorePausesStarted?: boolean | Prisma.User$chorePausesStartedArgs<ExtArgs>
+  chorePausesEnded?: boolean | Prisma.User$chorePausesEndedArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -843,6 +2414,16 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     groupMemberships: Prisma.$GroupMemberPayload<ExtArgs>[]
     expensesPaid: Prisma.$ExpensePayload<ExtArgs>[]
     expenseSplits: Prisma.$ExpenseSplitPayload<ExtArgs>[]
+    choresCreated: Prisma.$ChorePayload<ExtArgs>[]
+    choreParticipations: Prisma.$ChoreParticipantPayload<ExtArgs>[]
+    choreAssignments: Prisma.$ChoreAssignmentPayload<ExtArgs>[]
+    choreAssignmentsClosed: Prisma.$ChoreAssignmentPayload<ExtArgs>[]
+    choreReviews: Prisma.$ChoreReviewPayload<ExtArgs>[]
+    choreFinesOwed: Prisma.$ChoreFinePayload<ExtArgs>[]
+    choreFinesVoided: Prisma.$ChoreFinePayload<ExtArgs>[]
+    choreFineShares: Prisma.$ChoreFineSharePayload<ExtArgs>[]
+    chorePausesStarted: Prisma.$ChorePausePayload<ExtArgs>[]
+    chorePausesEnded: Prisma.$ChorePausePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1250,6 +2831,16 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   groupMemberships<T extends Prisma.User$groupMembershipsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$groupMembershipsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$GroupMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   expensesPaid<T extends Prisma.User$expensesPaidArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$expensesPaidArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ExpensePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   expenseSplits<T extends Prisma.User$expenseSplitsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$expenseSplitsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ExpenseSplitPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  choresCreated<T extends Prisma.User$choresCreatedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$choresCreatedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ChorePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  choreParticipations<T extends Prisma.User$choreParticipationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$choreParticipationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ChoreParticipantPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  choreAssignments<T extends Prisma.User$choreAssignmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$choreAssignmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ChoreAssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  choreAssignmentsClosed<T extends Prisma.User$choreAssignmentsClosedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$choreAssignmentsClosedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ChoreAssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  choreReviews<T extends Prisma.User$choreReviewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$choreReviewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ChoreReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  choreFinesOwed<T extends Prisma.User$choreFinesOwedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$choreFinesOwedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ChoreFinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  choreFinesVoided<T extends Prisma.User$choreFinesVoidedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$choreFinesVoidedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ChoreFinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  choreFineShares<T extends Prisma.User$choreFineSharesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$choreFineSharesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ChoreFineSharePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  chorePausesStarted<T extends Prisma.User$chorePausesStartedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$chorePausesStartedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ChorePausePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  chorePausesEnded<T extends Prisma.User$chorePausesEndedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$chorePausesEndedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ChorePausePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1772,6 +3363,246 @@ export type User$expenseSplitsArgs<ExtArgs extends runtime.Types.Extensions.Inte
   take?: number
   skip?: number
   distinct?: Prisma.ExpenseSplitScalarFieldEnum | Prisma.ExpenseSplitScalarFieldEnum[]
+}
+
+/**
+ * User.choresCreated
+ */
+export type User$choresCreatedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Chore
+   */
+  select?: Prisma.ChoreSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Chore
+   */
+  omit?: Prisma.ChoreOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ChoreInclude<ExtArgs> | null
+  where?: Prisma.ChoreWhereInput
+  orderBy?: Prisma.ChoreOrderByWithRelationInput | Prisma.ChoreOrderByWithRelationInput[]
+  cursor?: Prisma.ChoreWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ChoreScalarFieldEnum | Prisma.ChoreScalarFieldEnum[]
+}
+
+/**
+ * User.choreParticipations
+ */
+export type User$choreParticipationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ChoreParticipant
+   */
+  select?: Prisma.ChoreParticipantSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ChoreParticipant
+   */
+  omit?: Prisma.ChoreParticipantOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ChoreParticipantInclude<ExtArgs> | null
+  where?: Prisma.ChoreParticipantWhereInput
+  orderBy?: Prisma.ChoreParticipantOrderByWithRelationInput | Prisma.ChoreParticipantOrderByWithRelationInput[]
+  cursor?: Prisma.ChoreParticipantWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ChoreParticipantScalarFieldEnum | Prisma.ChoreParticipantScalarFieldEnum[]
+}
+
+/**
+ * User.choreAssignments
+ */
+export type User$choreAssignmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ChoreAssignment
+   */
+  select?: Prisma.ChoreAssignmentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ChoreAssignment
+   */
+  omit?: Prisma.ChoreAssignmentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ChoreAssignmentInclude<ExtArgs> | null
+  where?: Prisma.ChoreAssignmentWhereInput
+  orderBy?: Prisma.ChoreAssignmentOrderByWithRelationInput | Prisma.ChoreAssignmentOrderByWithRelationInput[]
+  cursor?: Prisma.ChoreAssignmentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ChoreAssignmentScalarFieldEnum | Prisma.ChoreAssignmentScalarFieldEnum[]
+}
+
+/**
+ * User.choreAssignmentsClosed
+ */
+export type User$choreAssignmentsClosedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ChoreAssignment
+   */
+  select?: Prisma.ChoreAssignmentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ChoreAssignment
+   */
+  omit?: Prisma.ChoreAssignmentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ChoreAssignmentInclude<ExtArgs> | null
+  where?: Prisma.ChoreAssignmentWhereInput
+  orderBy?: Prisma.ChoreAssignmentOrderByWithRelationInput | Prisma.ChoreAssignmentOrderByWithRelationInput[]
+  cursor?: Prisma.ChoreAssignmentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ChoreAssignmentScalarFieldEnum | Prisma.ChoreAssignmentScalarFieldEnum[]
+}
+
+/**
+ * User.choreReviews
+ */
+export type User$choreReviewsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ChoreReview
+   */
+  select?: Prisma.ChoreReviewSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ChoreReview
+   */
+  omit?: Prisma.ChoreReviewOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ChoreReviewInclude<ExtArgs> | null
+  where?: Prisma.ChoreReviewWhereInput
+  orderBy?: Prisma.ChoreReviewOrderByWithRelationInput | Prisma.ChoreReviewOrderByWithRelationInput[]
+  cursor?: Prisma.ChoreReviewWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ChoreReviewScalarFieldEnum | Prisma.ChoreReviewScalarFieldEnum[]
+}
+
+/**
+ * User.choreFinesOwed
+ */
+export type User$choreFinesOwedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ChoreFine
+   */
+  select?: Prisma.ChoreFineSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ChoreFine
+   */
+  omit?: Prisma.ChoreFineOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ChoreFineInclude<ExtArgs> | null
+  where?: Prisma.ChoreFineWhereInput
+  orderBy?: Prisma.ChoreFineOrderByWithRelationInput | Prisma.ChoreFineOrderByWithRelationInput[]
+  cursor?: Prisma.ChoreFineWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ChoreFineScalarFieldEnum | Prisma.ChoreFineScalarFieldEnum[]
+}
+
+/**
+ * User.choreFinesVoided
+ */
+export type User$choreFinesVoidedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ChoreFine
+   */
+  select?: Prisma.ChoreFineSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ChoreFine
+   */
+  omit?: Prisma.ChoreFineOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ChoreFineInclude<ExtArgs> | null
+  where?: Prisma.ChoreFineWhereInput
+  orderBy?: Prisma.ChoreFineOrderByWithRelationInput | Prisma.ChoreFineOrderByWithRelationInput[]
+  cursor?: Prisma.ChoreFineWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ChoreFineScalarFieldEnum | Prisma.ChoreFineScalarFieldEnum[]
+}
+
+/**
+ * User.choreFineShares
+ */
+export type User$choreFineSharesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ChoreFineShare
+   */
+  select?: Prisma.ChoreFineShareSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ChoreFineShare
+   */
+  omit?: Prisma.ChoreFineShareOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ChoreFineShareInclude<ExtArgs> | null
+  where?: Prisma.ChoreFineShareWhereInput
+  orderBy?: Prisma.ChoreFineShareOrderByWithRelationInput | Prisma.ChoreFineShareOrderByWithRelationInput[]
+  cursor?: Prisma.ChoreFineShareWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ChoreFineShareScalarFieldEnum | Prisma.ChoreFineShareScalarFieldEnum[]
+}
+
+/**
+ * User.chorePausesStarted
+ */
+export type User$chorePausesStartedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ChorePause
+   */
+  select?: Prisma.ChorePauseSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ChorePause
+   */
+  omit?: Prisma.ChorePauseOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ChorePauseInclude<ExtArgs> | null
+  where?: Prisma.ChorePauseWhereInput
+  orderBy?: Prisma.ChorePauseOrderByWithRelationInput | Prisma.ChorePauseOrderByWithRelationInput[]
+  cursor?: Prisma.ChorePauseWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ChorePauseScalarFieldEnum | Prisma.ChorePauseScalarFieldEnum[]
+}
+
+/**
+ * User.chorePausesEnded
+ */
+export type User$chorePausesEndedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ChorePause
+   */
+  select?: Prisma.ChorePauseSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ChorePause
+   */
+  omit?: Prisma.ChorePauseOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ChorePauseInclude<ExtArgs> | null
+  where?: Prisma.ChorePauseWhereInput
+  orderBy?: Prisma.ChorePauseOrderByWithRelationInput | Prisma.ChorePauseOrderByWithRelationInput[]
+  cursor?: Prisma.ChorePauseWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ChorePauseScalarFieldEnum | Prisma.ChorePauseScalarFieldEnum[]
 }
 
 /**

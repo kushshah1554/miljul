@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { cuidPattern, groupIdParamSchema } from "../group/group.validation";
+import { paginationQueryShape } from "../../utils/pagination";
 
 // ─── Shared primitives ────────────────────────────────────────────────────────
 
@@ -92,22 +93,7 @@ const dateStringSchema = z
 
 export const listExpensesQuerySchema = z
   .object({
-    page: z
-      .string()
-      .optional()
-      .transform((v) => (v === undefined ? 1 : parseInt(v, 10)))
-      .pipe(z.number().int().min(1, "Page must be at least 1")),
-    limit: z
-      .string()
-      .optional()
-      .transform((v) => (v === undefined ? 20 : parseInt(v, 10)))
-      .pipe(
-        z
-          .number()
-          .int()
-          .min(1, "Limit must be at least 1")
-          .max(100, "Limit must be at most 100"),
-      ),
+    ...paginationQueryShape,
     from: dateStringSchema.optional(),
     to: dateStringSchema.optional(),
   })
