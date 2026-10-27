@@ -179,3 +179,28 @@
     -moz-osx-font-smoothing: grayscale;
   }
 }
+/* theme toggle: the new snapshot grows as a circle over the static old one (see ThemeToggle) */
+::view-transition {
+  background: transparent;
+}
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+  will-change: clip-path;
+}
+::view-transition-old(root) {
+  z-index: 1;
+}
+::view-transition-new(root) {
+  z-index: 9999;
+}
+
+@keyframes theme-icon-spin {
+  0% { transform: rotate(0deg) scale(1); }
+  40% { transform: rotate(160deg) scale(0.65); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+.theme-icon-spin {
+  animation: theme-icon-spin 0.48s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}

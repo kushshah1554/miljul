@@ -17,7 +17,7 @@ import { useCurrentGroup } from "@/pages/groups/GroupLayout";
 
 type Scope = "all" | "mine";
 
-const PAGE_SIZE = 10;
+const PAGE_SIZE = 8;
 
 /** Picked dates are local days; send their local start/end so the whole `to` day is included. */
 function dateRange(from: string, to: string): ListExpensesQuery {
