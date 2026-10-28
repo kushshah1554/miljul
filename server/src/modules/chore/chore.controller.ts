@@ -74,6 +74,15 @@ export const archive = asyncHandler(async (req: Request, res: Response) => {
   res.json(ok({ chore }));
 });
 
+export const restore = asyncHandler(async (req: Request, res: Response) => {
+  const authUser = requireFound(req.user, "Authentication required", 401);
+  const { groupId, choreId } = parseBody(choreIdParamSchema, req.params);
+
+  const chore = await choreService.restoreChore(authUser.id, groupId, choreId);
+
+  res.json(ok({ chore }));
+});
+
 // ─── Participants ─────────────────────────────────────────────────────────────
 
 export const addParticipant = asyncHandler(async (req: Request, res: Response) => {

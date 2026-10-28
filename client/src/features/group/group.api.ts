@@ -26,6 +26,7 @@ export interface CreateGroupBody {
 export interface UpdateGroupBody {
   name?: string;
   description?: string | null;
+  timezone?: string; // IANA name; affects future chore slots only
 }
 
 export interface JoinGroupBody {

@@ -9,8 +9,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 import {
-  groupFormSchema,
-  type GroupFormValues,
+  groupSettingsSchema,
+  type GroupSettingsValues,
 } from "@/features/group/group.schema";
 import {
   useArchiveGroup,
@@ -19,6 +19,7 @@ import {
   useUpdateGroup,
 } from "@/features/group/useGroups";
 import { isOwner } from "@/lib/roles";
+import { timezoneOptions } from "@/lib/time";
 import type { Group } from "@/lib/types";
 import { useCurrentGroup } from "@/pages/groups/GroupLayout";
 
@@ -104,14 +105,22 @@ function EditGroupForm({ group }: { group: Group }) {
     register,
     handleSubmit,
     formState: { errors, isDirty },
-  } = useForm<GroupFormValues>({
-    resolver: zodResolver(groupFormSchema),
-    defaultValues: { name: group.name, description: group.description ?? "" },
+  } = useForm<GroupSettingsValues>({
+    resolver: zodResolver(groupSettingsSchema),
+    defaultValues: {
+      name: group.name,
+      description: group.description ?? "",
+      timezone: group.timezone,
+    },
   });
 
-  const onSubmit = (data: GroupFormValues) => {
+  const onSubmit = (data: GroupSettingsValues) => {
     // Empty description clears it on the server
-    handleUpdate({ name: data.name, description: data.description || null });
+    handleUpdate({
+      name: data.name,
+      description: data.description || null,
+      timezone: data.timezone,
+    });
   };
 
   return (
@@ -145,6 +154,28 @@ function EditGroupForm({ group }: { group: Group }) {
           <p className="text-sm text-destructive">
             {errors.description.message}
           </p>
+        )}
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="edit-timezone">Timezone</Label>
+        <Input
+          id="edit-timezone"
+          list="timezone-options"
+          placeholder="Asia/Kathmandu"
+          aria-invalid={!!errors.timezone}
+          {...register("timezone")}
+        />
+        <datalist id="timezone-options">
+          {timezoneOptions().map((tz) => (
+            <option key={tz} value={tz} />
+          ))}
+        </datalist>
+        <p className="text-xs text-muted-foreground">
+          Chore turns and deadlines follow this timezone. Changes apply to future turns only.
+        </p>
+        {errors.timezone && (
+          <p className="text-sm text-destructive">{errors.timezone.message}</p>
         )}
       </div>
 

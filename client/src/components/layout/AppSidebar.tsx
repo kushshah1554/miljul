@@ -2,8 +2,10 @@ import { Fragment, useState } from "react";
 import { NavLink, useMatch } from "react-router-dom";
 import {
   ArrowLeft,
+  HandCoins,
   House,
   LayoutDashboard,
+  ListChecks,
   LogOut,
   Menu,
   Mountain,
@@ -42,6 +44,8 @@ interface NavItem {
   icon?: LucideIcon;
   /** Shown in a circle instead of an icon (group shortcuts) */
   initial?: string;
+  /** Also active on nested paths (e.g. a chore's detail page) */
+  prefix?: boolean;
 }
 
 interface NavSections {
@@ -79,6 +83,8 @@ function useNavSections(): NavSections {
       { title: "Overview", to: base, icon: House },
       { title: "Expenses", to: `${base}/expenses`, icon: Receipt },
       { title: "Balances", to: `${base}/balances`, icon: Scale },
+      { title: "Chores", to: `${base}/chores`, icon: ListChecks, prefix: true },
+      { title: "Fines", to: `${base}/fines`, icon: HandCoins },
       { title: "Members", to: `${base}/members`, icon: Users },
       // Settings (join code, edit, archive) are owner-only
       ...(group && isOwner(group.role)
@@ -143,7 +149,7 @@ function RailLink({ item, expanded }: { item: NavItem; expanded: boolean }) {
       <TooltipTrigger asChild>
         <NavLink
           to={item.to}
-          end
+          end={!item.prefix}
           aria-label={expanded ? undefined : item.title}
           // Plain string, not NavLink's className function: TooltipTrigger's Slot
           // would stringify a function. NavLink marks the active link with aria-current.
@@ -320,7 +326,7 @@ function SheetLink({ item, onNavigate }: { item: NavItem; onNavigate: () => void
   return (
     <NavLink
       to={item.to}
-      end
+      end={!item.prefix}
       onClick={onNavigate}
       className={({ isActive }) =>
         cn(

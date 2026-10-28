@@ -11,6 +11,9 @@ import GroupExpensesPage from "@/pages/groups/GroupExpensesPage";
 import GroupBalancesPage from "@/pages/groups/GroupBalancesPage";
 import GroupMembersPage from "@/pages/groups/GroupMembersPage";
 import GroupSettingsPage from "@/pages/groups/GroupSettingsPage";
+import GroupChoresPage from "@/pages/groups/GroupChoresPage";
+import GroupChoreDetailPage from "@/pages/groups/GroupChoreDetailPage";
+import GroupChoreFinesPage from "@/pages/groups/GroupChoreFinesPage";
 import { AuthLayout } from "@/components/layout/AuthLayout";
 import { AppLayout } from "@/components/layout/AppLayout";
 
@@ -45,6 +48,9 @@ export const router = createBrowserRouter([
               { index: true, element: <GroupOverviewPage /> },
               { path: "expenses", element: <GroupExpensesPage /> },
               { path: "balances", element: <GroupBalancesPage /> },
+              { path: "chores", element: <GroupChoresPage /> },
+              { path: "chores/:choreId", element: <GroupChoreDetailPage /> },
+              { path: "fines", element: <GroupChoreFinesPage /> },
               { path: "members", element: <GroupMembersPage /> },
               { path: "settings", element: <GroupSettingsPage /> },
             ],

@@ -17,6 +17,7 @@ choreRouter.get("/:groupId/chores", requireAuth, choreController.list);
 choreRouter.get("/:groupId/chores/:choreId", requireAuth, choreController.getOne);
 choreRouter.patch("/:groupId/chores/:choreId", requireAuth, choreController.update);
 choreRouter.patch("/:groupId/chores/:choreId/archive", requireAuth, choreController.archive);
+choreRouter.patch("/:groupId/chores/:choreId/restore", requireAuth, choreController.restore);
 
 choreRouter.post(
   "/:groupId/chores/:choreId/participants",

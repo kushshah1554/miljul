@@ -1,8 +1,7 @@
 import { z } from "zod";
-import { toCents, fromCents } from "@/lib/money";
+import { AMOUNT_RE, toCents, fromCents } from "@/lib/money";
 
 // Mirrors server/src/modules/expense/expense.validation.ts
-const AMOUNT_RE = /^\d{1,10}(\.\d{1,2})?$/;
 const isPositiveAmount = (v: string) => AMOUNT_RE.test(v.trim()) && Number(v) > 0;
 
 export const expenseFormSchema = z

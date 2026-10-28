@@ -214,7 +214,7 @@ export function updateChore(
   });
 }
 
-/** Stops the rotation for good; open assignments and fines are kept. */
+/** Stops the rotation; open assignments and fines are kept. */
 export function archiveChore(
   userId: string,
   groupId: string,
@@ -239,6 +239,26 @@ export function archiveChore(
       where: { id: choreId },
       data: { status: ChoreStatus.ARCHIVED, currentAssignmentId: null },
     });
+    return summary(ctx, choreId);
+  });
+}
+
+/** Brings an archived chore back with a fresh cycle from the original queue, starting now. */
+export function restoreChore(userId: string, groupId: string, choreId: string) {
+  return withChores(userId, groupId, { owner: "restore chores" }, async (ctx) => {
+    const { tx, now } = ctx;
+    const chore = await findChore(tx, groupId, choreId);
+    if (chore.status !== ChoreStatus.ARCHIVED) {
+      throw new AppError(409, "Chore is not archived");
+    }
+
+    // Stays frozen under a group-wide pause; resume-all starts its turn then.
+    await tx.chore.update({
+      where: { id: choreId },
+      data: { status: ChoreStatus.ACTIVE, frozenAt: ctx.choresPausedAt ? now : null },
+    });
+    // No open cycle or current turn, so this starts both (NEEDS_ATTENTION if nobody is available).
+    await catchUpChore(tx, choreId, ctx.timezone, now);
     return summary(ctx, choreId);
   });
 }

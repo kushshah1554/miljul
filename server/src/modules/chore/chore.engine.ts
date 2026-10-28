@@ -53,10 +53,20 @@ export async function startNextTurn(
       if (cycle) {
         await tx.choreCycle.update({ where: { id: cycle.id }, data: { endedAt: slot.startsAt } });
       }
+      // No open cycle (restored chore): continue after the last ended one.
+      const last = cycle
+        ? cycle.number
+        : ((
+            await tx.choreCycle.findFirst({
+              where: { choreId: chore.id },
+              orderBy: { number: "desc" },
+              select: { number: true },
+            })
+          )?.number ?? 0);
       const created = await tx.choreCycle.create({
         data: {
           choreId: chore.id,
-          number: (cycle?.number ?? 0) + 1,
+          number: last + 1,
           order: originalQueue,
           startedAt: slot.startsAt,
         },

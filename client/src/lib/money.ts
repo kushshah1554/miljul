@@ -1,5 +1,8 @@
 // Money stays in integer cents on the client so float math never touches it.
 
+/** Decimal string with at most 2 decimals, mirroring the server's amount format. */
+export const AMOUNT_RE = /^\d{1,10}(\.\d{1,2})?$/;
+
 /** "12.5" → 1250. Input must already match the 2-decimal amount format. */
 export function toCents(amount: string) {
   return Math.round(Number(amount) * 100);
