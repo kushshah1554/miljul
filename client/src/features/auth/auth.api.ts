@@ -1,4 +1,4 @@
-import { apiGet, apiPost } from "@/lib/api";
+import { apiGet, apiPost, refreshSession } from "@/lib/api";
 import type { AuthUser } from "@/lib/types";
 
 // ─── Response shapes (matches API_DOCS.md) ───────────────────────────────────
@@ -42,10 +42,11 @@ export function logout() {
 
 /**
  * POST /auth/refresh — uses the HttpOnly cookie automatically.
- * Call on app load to silently restore the session.
+ * Call on app load to silently restore the session. Shares the interceptor's
+ * in-flight refresh so the rotated cookie is never used twice.
  */
-export function refreshToken() {
-  return apiPost<AuthPayload>("/auth/refresh");
+export function refreshToken(): Promise<AuthPayload> {
+  return refreshSession();
 }
 
 /** GET /auth/me — requires a valid access token in the store */

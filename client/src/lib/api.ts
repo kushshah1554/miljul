@@ -2,7 +2,7 @@ import axios, {
   type AxiosRequestConfig,
   type InternalAxiosRequestConfig,
 } from "axios";
-import type { ApiEnvelope } from "@/lib/types";
+import type { ApiEnvelope, AuthUser } from "@/lib/types";
 import { env } from "@/lib/env";
 
 // ─── Token getter (injected by auth store to avoid circular imports) ──────────
@@ -11,6 +11,17 @@ let tokenGetter: (() => string | null) | null = null;
 /** Call this once in your auth store setup to wire up the access token. */
 export function setTokenGetter(getter: () => string | null) {
   tokenGetter = getter;
+}
+
+// ─── Session handlers (injected by auth store, same reason as above) ─────────
+interface SessionHandlers {
+  onRefreshed: (user: AuthUser, accessToken: string) => void;
+  onExpired: () => void;
+}
+let sessionHandlers: SessionHandlers | null = null;
+
+export function setSessionHandlers(handlers: SessionHandlers) {
+  sessionHandlers = handlers;
 }
 
 // ─── Axios instance ───────────────────────────────────────────────────────────
@@ -29,6 +40,50 @@ api.interceptors.request.use((config: InternalAxiosRequestConfig) => {
     }
   }
   return config;
+});
+
+// ─── Silent refresh ───────────────────────────────────────────────────────────
+// The server rotates the refresh token on every use, so parallel refresh calls
+// would invalidate each other. All callers share one in-flight request instead.
+let refreshing: Promise<{ user: AuthUser; accessToken: string }> | null = null;
+
+export function refreshSession() {
+  refreshing ??= request<{ user: AuthUser; accessToken: string }>({
+    method: "post",
+    url: "/auth/refresh",
+  })
+    .then((payload) => {
+      sessionHandlers?.onRefreshed(payload.user, payload.accessToken);
+      return payload;
+    })
+    .finally(() => {
+      refreshing = null;
+    });
+  return refreshing;
+}
+
+// A 401 from these means bad credentials / no session, not an expired access token
+const NO_RETRY_URLS = ["/auth/login", "/auth/signup", "/auth/refresh", "/auth/logout"];
+
+// ─── Response interceptor – refresh once on 401, then replay the request ─────
+api.interceptors.response.use(undefined, async (err) => {
+  const config = err.config as (InternalAxiosRequestConfig & { _retried?: boolean }) | undefined;
+  if (
+    err.response?.status !== 401 ||
+    !config ||
+    config._retried ||
+    NO_RETRY_URLS.includes(config.url ?? "")
+  ) {
+    throw err;
+  }
+  config._retried = true;
+  try {
+    await refreshSession();
+  } catch {
+    sessionHandlers?.onExpired(); // refresh token is dead too → log out
+    throw err;
+  }
+  return api.request(config); // request interceptor attaches the new token
 });
 
 // ─── Error normaliser ─────────────────────────────────────────────────────────

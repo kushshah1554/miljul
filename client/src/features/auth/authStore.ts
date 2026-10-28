@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { setTokenGetter } from "@/lib/api";
+import { setSessionHandlers, setTokenGetter } from "@/lib/api";
 import { queryClient } from "@/lib/queryClient";
 import type { AuthUser } from "@/lib/types";
 
@@ -35,3 +35,9 @@ export const useAuthStore = create<AuthState>((set) => ({
 // This avoids circular imports: the api module reads the token via a getter
 // function rather than importing the store directly.
 setTokenGetter(() => useAuthStore.getState().accessToken);
+
+// Keep the store in sync with silent refreshes done by the API client
+setSessionHandlers({
+  onRefreshed: (user, accessToken) => useAuthStore.getState().setAuth(user, accessToken),
+  onExpired: () => useAuthStore.getState().clearAuth(),
+});
