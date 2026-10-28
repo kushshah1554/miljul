@@ -173,7 +173,7 @@ export function assertChoreNotArchived(chore: { status: ChoreStatus }) {
   }
 }
 
-/** The open cycle with its locked members (null only for archived chores). */
+/** The open cycle with its locked members (null only for chores archived before archive froze them). */
 export async function openCycle(tx: Tx, choreId: string) {
   const cycle = await tx.choreCycle.findFirst({
     where: { choreId, endedAt: null },

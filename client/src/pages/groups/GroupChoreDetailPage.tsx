@@ -160,11 +160,19 @@ function ChoreView({ group, chore }: { group: Group; chore: ChoreDetail }) {
             onCancel={() => setOwnerAction(null)}
           >
             <p className="text-xs text-muted-foreground">
-              The rotation stops until restored. Open turns can still be submitted and reviewed; fines are kept.
+              The clock freezes until restored, then the rotation continues where it stopped. Open
+              turns can still be submitted and reviewed; fines are kept. Stopping for a while? Use
+              Pause instead.
             </p>
           </ReasonForm>
         )}
 
+        {archived && (
+          <p className="rounded-2xl bg-background/70 px-3 py-2.5 text-sm text-muted-foreground">
+            This chore is archived. The clock is frozen: restoring it continues the current turn with
+            the time it had left.
+          </p>
+        )}
         {chore.isFrozen && !archived && (
           <p className="rounded-2xl bg-background/70 px-3 py-2.5 text-sm text-muted-foreground">
             {chore.status === "PAUSED" ? "This chore is paused." : "All chores are paused."} The clock

@@ -214,7 +214,11 @@ export function updateChore(
   });
 }
 
-/** Stops the rotation; open assignments and fines are kept. */
+/**
+ * Stops the rotation by freezing it like a pause: the open cycle and current
+ * turn are kept so a restore continues where it stopped. Open assignments
+ * can still be submitted and reviewed; frozen deadlines are not fined.
+ */
 export function archiveChore(
   userId: string,
   groupId: string,
@@ -228,22 +232,23 @@ export function archiveChore(
       throw new AppError(409, "Chore is already archived");
     }
 
-    // Unfreeze first so open deadlines keep running after the archive.
-    await unfreeze(tx, chore, now);
+    // A paused chore keeps its earlier frozenAt, so restore shifts by the whole stop.
     await tx.chorePause.updateMany({
       where: { choreId, resumedAt: null },
       data: { resumedAt: now, resumedById: userId, resumeReason: input.reason ?? "Chore archived" },
     });
-    await tx.choreCycle.updateMany({ where: { choreId, endedAt: null }, data: { endedAt: now } });
     await tx.chore.update({
       where: { id: choreId },
-      data: { status: ChoreStatus.ARCHIVED, currentAssignmentId: null },
+      data: { status: ChoreStatus.ARCHIVED, frozenAt: chore.frozenAt ?? now },
     });
     return summary(ctx, choreId);
   });
 }
 
-/** Brings an archived chore back with a fresh cycle from the original queue, starting now. */
+/**
+ * Undoes an archive: the frozen turn continues with the time it had left.
+ * Chores archived before freezing existed have no open cycle and start a fresh one.
+ */
 export function restoreChore(userId: string, groupId: string, choreId: string) {
   return withChores(userId, groupId, { owner: "restore chores" }, async (ctx) => {
     const { tx, now } = ctx;
@@ -252,13 +257,18 @@ export function restoreChore(userId: string, groupId: string, choreId: string) {
       throw new AppError(409, "Chore is not archived");
     }
 
-    // Stays frozen under a group-wide pause; resume-all starts its turn then.
+    // Under a group-wide pause it stays frozen; resume-all unfreezes it.
     await tx.chore.update({
       where: { id: choreId },
-      data: { status: ChoreStatus.ACTIVE, frozenAt: ctx.choresPausedAt ? now : null },
+      data: {
+        status: ChoreStatus.ACTIVE,
+        ...(ctx.choresPausedAt && !chore.frozenAt ? { frozenAt: now } : {}),
+      },
     });
-    // No open cycle or current turn, so this starts both (NEEDS_ATTENTION if nobody is available).
-    await catchUpChore(tx, choreId, ctx.timezone, now);
+    if (!ctx.choresPausedAt) {
+      await unfreeze(tx, chore, now);
+      await catchUpChore(tx, choreId, ctx.timezone, now);
+    }
     return summary(ctx, choreId);
   });
 }
