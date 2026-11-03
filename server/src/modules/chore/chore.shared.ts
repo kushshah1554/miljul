@@ -38,6 +38,7 @@ export const assignmentSelect = {
   replacedById: true,
   user: { select: choreUserSelect },
   closedBy: { select: choreUserSelect },
+  replacedBy: { select: { user: { select: choreUserSelect } } },
   // Needed to derive isOverdue (a frozen clock stops deadlines) and choreName.
   chore: { select: { name: true, frozenAt: true } },
 } as const satisfies Prisma.ChoreAssignmentSelect;
@@ -123,14 +124,14 @@ type SummaryRow = Prisma.ChoreGetPayload<{ select: typeof choreSummarySelect }>;
 // ─── Serializers ──────────────────────────────────────────────────────────────
 
 export function toAssignment(row: AssignmentRow, now: Date) {
-  const { chore, ...rest } = row;
+  const { chore, replacedBy, ...rest } = row;
   const clock = chore.frozenAt ?? now;
   const isOverdue =
     row.status === ChoreAssignmentStatus.PENDING && clock > row.deadlineAt;
   const wasLate = row.firstSubmittedAt
     ? row.firstSubmittedAt > row.deadlineAt
     : isOverdue;
-  return { ...rest, isOverdue, wasLate };
+  return { ...rest, replacedBy: replacedBy?.user ?? null, isOverdue, wasLate };
 }
 
 export function toFine(row: FineRow) {

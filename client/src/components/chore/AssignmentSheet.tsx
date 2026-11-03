@@ -127,6 +127,7 @@ function AssignmentBody({ group, target }: { group: Group; target: AssignmentRef
                   {a.closeReason && <span className="block text-muted-foreground">{a.closeReason}</span>}
                 </Detail>
               )}
+              {a.replacedBy && <Detail term="Replaced by">{a.replacedBy.name}</Detail>}
             </dl>
 
             <FineBlock fine={data.fine} />

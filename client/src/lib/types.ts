@@ -189,6 +189,7 @@ export type ChoreAssignment = {
   closedAt: string | null;
   closeReason: string | null;
   replacedById: string | null;
+  replacedBy: MemberUser | null; // who took over after a skip
 };
 
 /** "My assignments" rows also carry the chore's name */
