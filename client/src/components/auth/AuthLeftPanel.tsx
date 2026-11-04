@@ -8,7 +8,7 @@ const PILLS = [
 
 export default function AuthLeftPanel() {
   return (
-    <div className="relative hidden flex-col justify-between overflow-hidden rounded-[2rem] p-6 md:flex md:w-1/2 lg:p-8">
+    <div className="relative hidden flex-col justify-between overflow-hidden p-6 md:flex md:w-1/2 lg:p-8">
       <img
         src="/imgs/mountain.jpg"
         alt=""

@@ -213,7 +213,7 @@ export function AppSidebar() {
   return (
     <aside
       className={cn(
-        "sticky top-0 hidden h-svh shrink-0 flex-col overflow-hidden px-5 py-8 transition-[width] md:top-5 md:flex md:h-[calc(100svh-2.5rem)]",
+        "sticky top-0 hidden h-svh shrink-0 flex-col overflow-hidden px-5 py-8 transition-[width] md:flex",
         EASE,
         expanded ? "w-64" : "w-24",
       )}
