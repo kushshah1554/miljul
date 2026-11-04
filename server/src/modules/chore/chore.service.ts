@@ -49,15 +49,6 @@ async function summary(ctx: ChoreContext, choreId: string) {
   return toChoreSummary(row, ctx.now);
 }
 
-async function activeSummaries(ctx: ChoreContext) {
-  const rows = await ctx.tx.chore.findMany({
-    where: { groupId: ctx.groupId, status: { not: ChoreStatus.ARCHIVED } },
-    orderBy: { createdAt: "asc" },
-    select: choreSummarySelect,
-  });
-  return rows.map((r) => toChoreSummary(r, ctx.now));
-}
-
 async function requireGroupMember(ctx: ChoreContext, userId: string) {
   const member = await ctx.tx.groupMember.findUnique({
     where: { userId_groupId: { userId, groupId: ctx.groupId } },
@@ -143,8 +134,6 @@ export function createChore(userId: string, groupId: string, input: CreateChoreI
         deadlineMinutes: input.deadlineTime,
         finePerMember: input.finePerMember,
         createdById: userId,
-        // Born frozen while a group-wide pause is active.
-        frozenAt: ctx.choresPausedAt ? now : null,
         participants: {
           create: input.participantIds.map((id, position) => ({ userId: id, position })),
         },
@@ -177,10 +166,7 @@ export function listChores(userId: string, groupId: string, query: ListChoresQue
       orderBy: { createdAt: "asc" },
       select: choreSummarySelect,
     });
-    return {
-      chores: rows.map((r) => toChoreSummary(r, ctx.now)),
-      groupPausedAt: ctx.choresPausedAt,
-    };
+    return { chores: rows.map((r) => toChoreSummary(r, ctx.now)) };
   });
 }
 
@@ -215,9 +201,10 @@ export function updateChore(
 }
 
 /**
- * Stops the rotation by freezing it like a pause: the open cycle and current
- * turn are kept so a restore continues where it stopped. Open assignments
- * can still be submitted and reviewed; frozen deadlines are not fined.
+ * Archives a chore: blocks all mutations (edit, participants, checklist, skip,
+ * swap, pause). Cannot archive a PAUSED chore — owner must resume it first.
+ * Open assignments are closed and the open cycle ends, so a restore starts
+ * fresh from the original queue.
  */
 export function archiveChore(
   userId: string,
@@ -228,26 +215,44 @@ export function archiveChore(
   return withChores(userId, groupId, { owner: "archive chores" }, async (ctx) => {
     const { tx, now } = ctx;
     const chore = await findChore(tx, groupId, choreId);
+
     if (chore.status === ChoreStatus.ARCHIVED) {
       throw new AppError(409, "Chore is already archived");
     }
+    if (chore.status === ChoreStatus.PAUSED) {
+      throw new AppError(409, "Chore is paused — resume it before archiving");
+    }
 
-    // A paused chore keeps its earlier frozenAt, so restore shifts by the whole stop.
-    await tx.chorePause.updateMany({
-      where: { choreId, resumedAt: null },
-      data: { resumedAt: now, resumedById: userId, resumeReason: input.reason ?? "Chore archived" },
+    // withChores already fined overdue turns through catchUpGroup; those fines stay.
+    await tx.choreAssignment.updateMany({
+      where: {
+        choreId,
+        status: { in: [ChoreAssignmentStatus.PENDING, ChoreAssignmentStatus.SUBMITTED] },
+      },
+      data: {
+        status: ChoreAssignmentStatus.WAIVED,
+        closedById: userId,
+        closedAt: now,
+        closeReason: input.reason ? `Chore archived: ${input.reason}` : "Chore archived",
+      },
+    });
+    // With no open cycle, startNextTurn builds a new one from the original queue.
+    await tx.choreCycle.updateMany({
+      where: { choreId, endedAt: null },
+      data: { endedAt: now },
     });
     await tx.chore.update({
       where: { id: choreId },
-      data: { status: ChoreStatus.ARCHIVED, frozenAt: chore.frozenAt ?? now },
+      data: { status: ChoreStatus.ARCHIVED, currentAssignmentId: null },
     });
+
     return summary(ctx, choreId);
   });
 }
 
 /**
- * Undoes an archive: the frozen turn continues with the time it had left.
- * Chores archived before freezing existed have no open cycle and start a fresh one.
+ * Restores an archived chore: starts fresh from the original queue
+ * rather than continuing from where it was archived.
  */
 export function restoreChore(userId: string, groupId: string, choreId: string) {
   return withChores(userId, groupId, { owner: "restore chores" }, async (ctx) => {
@@ -257,18 +262,8 @@ export function restoreChore(userId: string, groupId: string, choreId: string) {
       throw new AppError(409, "Chore is not archived");
     }
 
-    // Under a group-wide pause it stays frozen; resume-all unfreezes it.
-    await tx.chore.update({
-      where: { id: choreId },
-      data: {
-        status: ChoreStatus.ACTIVE,
-        ...(ctx.choresPausedAt && !chore.frozenAt ? { frozenAt: now } : {}),
-      },
-    });
-    if (!ctx.choresPausedAt) {
-      await unfreeze(tx, chore, now);
-      await catchUpChore(tx, choreId, ctx.timezone, now);
-    }
+    await tx.chore.update({ where: { id: choreId }, data: { status: ChoreStatus.ACTIVE } });
+    await catchUpChore(tx, choreId, ctx.timezone, now);
     return summary(ctx, choreId);
   });
 }
@@ -341,6 +336,7 @@ export function removeParticipant(
   return withChores(userId, groupId, { owner: "manage participants" }, async (ctx) => {
     const { tx, now } = ctx;
     const chore = await findChore(tx, groupId, choreId);
+    assertChoreNotArchived(chore);
     await requireParticipant(ctx, choreId, targetId);
 
     const current = chore.currentAssignmentId
@@ -399,7 +395,7 @@ export function setAvailability(
 ) {
   return withChores(userId, groupId, { owner: "manage participants" }, async (ctx) => {
     const { tx } = ctx;
-    await findChore(tx, groupId, choreId);
+    assertChoreNotArchived(await findChore(tx, groupId, choreId));
     await requireParticipant(ctx, choreId, targetId);
     assertFuture(input.unavailableUntil, ctx.now);
 
@@ -559,7 +555,7 @@ export function pauseChore(
   });
 }
 
-/** Back to ACTIVE; the clock stays frozen while a group-wide pause is active. */
+/** Back to ACTIVE; deadlines move forward by the paused time. */
 export function resumeChore(
   userId: string,
   groupId: string,
@@ -578,69 +574,15 @@ export function resumeChore(
       data: { resumedAt: now, resumedById: userId, resumeReason: input.reason },
     });
     await tx.chore.update({ where: { id: choreId }, data: { status: ChoreStatus.ACTIVE } });
-    if (!ctx.choresPausedAt) {
-      await unfreeze(tx, chore, now);
-      await catchUpChore(tx, choreId, ctx.timezone, now);
-    }
+    await unfreeze(tx, chore, now);
+    await catchUpChore(tx, choreId, ctx.timezone, now);
     return summary(ctx, choreId);
-  });
-}
-
-export function pauseAll(userId: string, groupId: string, input: OptionalReasonInput) {
-  return withChores(userId, groupId, { owner: "pause chores" }, async (ctx) => {
-    const { tx, now } = ctx;
-    if (ctx.choresPausedAt) {
-      throw new AppError(409, "A group-wide pause is already active");
-    }
-
-    await tx.group.update({ where: { id: groupId }, data: { choresPausedAt: now } });
-    await tx.chore.updateMany({
-      where: { groupId, status: { not: ChoreStatus.ARCHIVED }, frozenAt: null },
-      data: { frozenAt: now },
-    });
-    await tx.chorePause.create({
-      data: { groupId, choreId: null, pausedById: userId, pausedAt: now, reason: input.reason },
-    });
-    return { chores: await activeSummaries(ctx), groupPausedAt: now };
-  });
-}
-
-/** Ends the group-wide pause; individually paused chores stay paused. */
-export function resumeAll(userId: string, groupId: string, input: OptionalReasonInput) {
-  return withChores(userId, groupId, { owner: "resume chores" }, async (ctx) => {
-    const { tx, now } = ctx;
-    if (!ctx.choresPausedAt) {
-      throw new AppError(409, "No group-wide pause is active");
-    }
-
-    await tx.group.update({ where: { id: groupId }, data: { choresPausedAt: null } });
-    await tx.chorePause.updateMany({
-      where: { groupId, choreId: null, resumedAt: null },
-      data: { resumedAt: now, resumedById: userId, resumeReason: input.reason },
-    });
-
-    const frozen = await tx.chore.findMany({
-      where: {
-        groupId,
-        status: { notIn: [ChoreStatus.ARCHIVED, ChoreStatus.PAUSED] },
-        frozenAt: { not: null },
-      },
-      select: { id: true, frozenAt: true, currentAssignmentId: true },
-    });
-    for (const chore of frozen) {
-      await unfreeze(tx, chore, now);
-      await catchUpChore(tx, chore.id, ctx.timezone, now);
-    }
-    return { chores: await activeSummaries(ctx), groupPausedAt: null };
   });
 }
 
 export function listPauses(userId: string, groupId: string, query: ListPausesQuery) {
   return withChores(userId, groupId, {}, async ({ tx }) => {
-    const where: Prisma.ChorePauseWhereInput = {
-      groupId,
-      ...(query.groupWide ? { choreId: null } : query.choreId ? { choreId: query.choreId } : {}),
-    };
+    const where: Prisma.ChorePauseWhereInput = { groupId, choreId: query.choreId };
     const pauses = await tx.chorePause.findMany({
       where,
       orderBy: [{ pausedAt: "desc" }, { id: "desc" }],

@@ -27,7 +27,6 @@ const groupSelect = {
   isArchived: true,
   archivedAt: true,
   timezone: true,
-  choresPausedAt: true,
 } as const satisfies Prisma.GroupSelect;
 
 type GroupScalars = Prisma.GroupGetPayload<{ select: typeof groupSelect }>;

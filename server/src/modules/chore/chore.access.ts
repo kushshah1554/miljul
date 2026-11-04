@@ -10,7 +10,6 @@ export type ChoreContext = {
   groupId: string;
   role: GroupRole;
   timezone: string;
-  choresPausedAt: Date | null;
   now: Date;
 };
 
@@ -34,7 +33,7 @@ export function withChores<T>(
       where: { userId_groupId: { userId, groupId } },
       select: {
         role: true,
-        group: { select: { isArchived: true, timezone: true, choresPausedAt: true } },
+        group: { select: { isArchived: true, timezone: true } },
       },
     });
     if (!membership) {
@@ -43,7 +42,7 @@ export function withChores<T>(
     if (opts.owner && membership.role !== GroupRole.OWNER) {
       throw new AppError(403, `Only the group owner can ${opts.owner}`);
     }
-    const { isArchived, timezone, choresPausedAt } = membership.group;
+    const { isArchived, timezone } = membership.group;
     if ((opts.write || opts.owner) && isArchived) {
       throw new AppError(409, GROUP_ARCHIVED_MESSAGE);
     }
@@ -54,6 +53,6 @@ export function withChores<T>(
       await catchUpGroup(tx, groupId, timezone, now);
     }
 
-    return work({ tx, userId, groupId, role: membership.role, timezone, choresPausedAt, now });
+    return work({ tx, userId, groupId, role: membership.role, timezone, now });
   });
 }

@@ -169,7 +169,6 @@ export const replaceChecklistSchema = z.strictObject({
 export const listPausesQuerySchema = z.strictObject({
   ...paginationQueryShape,
   choreId: idSchema("Chore id").optional(),
-  groupWide: z.literal("true").optional(),
 });
 
 // ─── Inferred types ───────────────────────────────────────────────────────────

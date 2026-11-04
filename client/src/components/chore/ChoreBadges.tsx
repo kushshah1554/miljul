@@ -50,7 +50,5 @@ export function ChoreStatusBadge({ chore }: { chore: ChoreSummary }) {
   if (chore.status === "ARCHIVED") return <Pill>Archived</Pill>;
   if (chore.status === "NEEDS_ATTENTION") return <Pill tone="danger">Needs attention</Pill>;
   if (chore.status === "PAUSED") return <Pill tone="info">Paused</Pill>;
-  // ACTIVE but frozen by a group-wide pause
-  if (chore.isFrozen) return <Pill tone="info">Frozen</Pill>;
   return null;
 }

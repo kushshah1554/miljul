@@ -181,22 +181,6 @@ export const resume = asyncHandler(async (req: Request, res: Response) => {
   res.json(ok({ chore }));
 });
 
-export const pauseAll = asyncHandler(async (req: Request, res: Response) => {
-  const authUser = requireFound(req.user, "Authentication required", 401);
-  const { groupId } = parseBody(groupIdParamSchema, req.params);
-  const input = parseBody(optionalReasonBodySchema, req.body ?? {});
-
-  res.json(ok(await choreService.pauseAll(authUser.id, groupId, input)));
-});
-
-export const resumeAll = asyncHandler(async (req: Request, res: Response) => {
-  const authUser = requireFound(req.user, "Authentication required", 401);
-  const { groupId } = parseBody(groupIdParamSchema, req.params);
-  const input = parseBody(optionalReasonBodySchema, req.body ?? {});
-
-  res.json(ok(await choreService.resumeAll(authUser.id, groupId, input)));
-});
-
 export const listPauses = asyncHandler(async (req: Request, res: Response) => {
   const authUser = requireFound(req.user, "Authentication required", 401);
   const { groupId } = parseBody(groupIdParamSchema, req.params);

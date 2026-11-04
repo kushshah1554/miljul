@@ -36,8 +36,6 @@ export type Group = {
   memberCount: number;
   /** IANA timezone used for chore deadlines, e.g. "Asia/Kathmandu" */
   timezone: string;
-  /** Non-null while a group-wide chore pause is active */
-  choresPausedAt: string | null;
 };
 
 /** Safe user fields embedded inside membership records */
@@ -222,7 +220,7 @@ export type ChoreFine = {
 
 export type ChorePause = {
   id: string;
-  /** null = group-wide pause */
+  /** null = old group-wide pause, kept as history */
   choreId: string | null;
   pausedBy: MemberUser;
   pausedAt: string;
@@ -242,7 +240,7 @@ export type ChoreSummary = {
   /** Decimal string */
   finePerMember: string;
   status: ChoreStatus;
-  /** Paused individually OR by a group-wide pause */
+  /** The chore's clock is stopped because it is paused */
   isFrozen: boolean;
   currentAssignment: ChoreAssignment | null;
   nextRotationAt: string | null;

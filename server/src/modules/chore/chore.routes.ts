@@ -5,11 +5,7 @@ import * as choreController from "./chore.controller";
 export const choreRouter = Router();
 
 // Mounted at /api/groups, so the full paths are /api/groups/:groupId/chores[...].
-// The group-wide pause-all / resume-all paths are registered before the
-// /:choreId routes so the literals are never read as a chore id.
 
-choreRouter.post("/:groupId/chores/pause-all", requireAuth, choreController.pauseAll);
-choreRouter.post("/:groupId/chores/resume-all", requireAuth, choreController.resumeAll);
 choreRouter.get("/:groupId/chore-pauses", requireAuth, choreController.listPauses);
 
 choreRouter.post("/:groupId/chores", requireAuth, choreController.create);

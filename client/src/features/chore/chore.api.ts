@@ -22,7 +22,6 @@ interface ChoreSummaryPayload {
 
 export interface ChoresPayload {
   chores: ChoreSummary[];
-  groupPausedAt: string | null;
 }
 
 interface CyclePayload {
@@ -72,7 +71,6 @@ export interface ListPausesQuery {
   page?: number;
   limit?: number;
   choreId?: string;
-  groupWide?: "true";
 }
 
 const choresUrl = (groupId: string) => `/api/groups/${groupId}/chores`;
@@ -178,19 +176,9 @@ export function pauseChore(groupId: string, choreId: string, reason?: string) {
   return apiPost<ChoreSummaryPayload>(`${choreUrl(groupId, choreId)}/pause`, { reason });
 }
 
-/** POST …/:choreId/resume — clock stays frozen while a group-wide pause is active */
+/** POST …/:choreId/resume — OWNER */
 export function resumeChore(groupId: string, choreId: string, reason?: string) {
   return apiPost<ChoreSummaryPayload>(`${choreUrl(groupId, choreId)}/resume`, { reason });
-}
-
-/** POST /api/groups/:groupId/chores/pause-all — OWNER */
-export function pauseAllChores(groupId: string, reason?: string) {
-  return apiPost<ChoresPayload>(`${choresUrl(groupId)}/pause-all`, { reason });
-}
-
-/** POST /api/groups/:groupId/chores/resume-all — individually paused chores stay paused */
-export function resumeAllChores(groupId: string, reason?: string) {
-  return apiPost<ChoresPayload>(`${choresUrl(groupId)}/resume-all`, { reason });
 }
 
 /** GET /api/groups/:groupId/chore-pauses — newest first, paginated */

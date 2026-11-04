@@ -8,13 +8,11 @@ import {
   listChores,
   listPauses,
   moveInCycle,
-  pauseAllChores,
   pauseChore,
   removeParticipant,
   reorderOriginalQueue,
   replaceChecklist,
   restoreChore,
-  resumeAllChores,
   resumeChore,
   setAvailability,
   swapInCycle,
@@ -48,23 +46,19 @@ export const choreKeys = {
 
 /**
  * Shared mutation wrapper for every chore-related write: refetches the chore
- * subtree (or the whole group when `group` is set, e.g. pause-all changes
- * group.choresPausedAt) and toasts the outcome.
+ * subtree and toasts the outcome.
  */
 export function useChoreMutation<TVars, TData>(
   groupId: string,
   mutationFn: (vars: TVars) => Promise<TData>,
   success: string | ((data: TData) => string),
-  options: { group?: boolean } = {},
 ) {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn,
     onSuccess: (data) => {
-      queryClient.invalidateQueries({
-        queryKey: options.group ? groupKeys.detail(groupId) : choreKeys.all(groupId),
-      });
+      queryClient.invalidateQueries({ queryKey: choreKeys.all(groupId) });
       toast.success(typeof success === "function" ? success(data) : success);
     },
     onError: (error: Error) => {
@@ -206,25 +200,6 @@ export function useResumeChore(groupId: string, choreId: string) {
   return useChoreMutation(
     groupId,
     (reason?: string) => resumeChore(groupId, choreId, reason),
-    ({ chore }) =>
-      chore.isFrozen ? "Chore resumed — still frozen by the group-wide pause" : "Chore resumed",
-  );
-}
-
-export function usePauseAllChores(groupId: string) {
-  return useChoreMutation(
-    groupId,
-    (reason?: string) => pauseAllChores(groupId, reason),
-    "All chores paused",
-    { group: true },
-  );
-}
-
-export function useResumeAllChores(groupId: string) {
-  return useChoreMutation(
-    groupId,
-    (reason?: string) => resumeAllChores(groupId, reason),
-    "All chores resumed",
-    { group: true },
+    "Chore resumed",
   );
 }

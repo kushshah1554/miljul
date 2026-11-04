@@ -118,13 +118,15 @@ function ChoreView({ group, chore }: { group: Group; chore: ChoreDetail }) {
                   <Play /> {resume.isPending ? "Resuming…" : "Resume"}
                 </Button>
               ) : (
-                <Button size="sm" variant="outline" onClick={() => setOwnerAction("pause")}>
-                  <Pause /> Pause
-                </Button>
+                <>
+                  <Button size="sm" variant="outline" onClick={() => setOwnerAction("pause")}>
+                    <Pause /> Pause
+                  </Button>
+                  <Button size="sm" variant="destructive" onClick={() => setOwnerAction("archive")}>
+                    <Archive /> Archive
+                  </Button>
+                </>
               )}
-              <Button size="sm" variant="destructive" onClick={() => setOwnerAction("archive")}>
-                <Archive /> Archive
-              </Button>
             </div>
           )}
           {manage && archived && (
@@ -160,23 +162,22 @@ function ChoreView({ group, chore }: { group: Group; chore: ChoreDetail }) {
             onCancel={() => setOwnerAction(null)}
           >
             <p className="text-xs text-muted-foreground">
-              The clock freezes until restored, then the rotation continues where it stopped. Open
-              turns can still be submitted and reviewed; fines are kept. Stopping for a while? Use
-              Pause instead.
+              Open turns are closed and existing fines are kept. Restoring starts again from the
+              first member of the default order. Stopping for a while? Use Pause instead.
             </p>
           </ReasonForm>
         )}
 
         {archived && (
           <p className="rounded-2xl bg-background/70 px-3 py-2.5 text-sm text-muted-foreground">
-            This chore is archived. The clock is frozen: restoring it continues the current turn with
-            the time it had left.
+            This chore is archived. Restoring it starts again from the first member of the default
+            order.
           </p>
         )}
-        {chore.isFrozen && !archived && (
+        {chore.status === "PAUSED" && (
           <p className="rounded-2xl bg-background/70 px-3 py-2.5 text-sm text-muted-foreground">
-            {chore.status === "PAUSED" ? "This chore is paused." : "All chores are paused."} The clock
-            is frozen: deadlines move forward by the paused time when it resumes.
+            This chore is paused. The clock is frozen: deadlines move forward by the paused time when
+            it resumes. Resume it before archiving.
           </p>
         )}
         {chore.status === "NEEDS_ATTENTION" && (

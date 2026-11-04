@@ -1,18 +1,17 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { ListChecks, Pause, Play, Plus } from "lucide-react";
+import { ListChecks, Plus } from "lucide-react";
 
 import { AssignmentRow } from "@/components/chore/AssignmentRow";
 import { AssignmentSheet, type AssignmentRef } from "@/components/chore/AssignmentSheet";
 import { ChoreStatusBadge } from "@/components/chore/ChoreBadges";
 import { ChoreFormSheet } from "@/components/chore/ChoreFormSheet";
 import { PauseHistory } from "@/components/chore/PauseHistory";
-import { ReasonForm } from "@/components/chore/ReasonForm";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 
 import { useMyAssignments } from "@/features/chore-assignment/useChoreAssignments";
-import { useChores, usePauseAllChores, useResumeAllChores } from "@/features/chore/useChores";
+import { useChores } from "@/features/chore/useChores";
 import { useAuthStore } from "@/features/auth/authStore";
 import { isOwner } from "@/lib/roles";
 import { formatDateTime, fromNow } from "@/lib/time";
@@ -26,15 +25,11 @@ export default function GroupChoresPage() {
   const [tab, setTab] = useState<Tab>("active");
   const [creating, setCreating] = useState(false);
   const [viewing, setViewing] = useState<AssignmentRef | null>(null);
-  const [pauseOpen, setPauseOpen] = useState(false);
 
   const chores = useChores(group.id, tab === "archived" ? "ARCHIVED" : undefined);
   const mine = useMyAssignments(group.id, { open: "true", limit: 5 });
-  const pauseAll = usePauseAllChores(group.id);
-  const resumeAll = useResumeAllChores(group.id);
 
   const manage = isOwner(group.role) && !group.isArchived;
-  const groupPausedAt = chores.data?.groupPausedAt ?? group.choresPausedAt;
   const choreNames = new Map(chores.data?.chores.map((c) => [c.id, c.name]));
   const tz = group.timezone;
 
@@ -64,45 +59,11 @@ export default function GroupChoresPage() {
         <div className="flex flex-wrap items-center justify-between gap-2">
           <h2 className="text-lg font-semibold">Chores</h2>
           {manage && (
-            <div className="flex gap-2">
-              {groupPausedAt ? (
-                <Button
-                  size="sm"
-                  variant="outline"
-                  disabled={resumeAll.isPending}
-                  onClick={() => resumeAll.mutate(undefined)}
-                >
-                  <Play /> {resumeAll.isPending ? "Resuming…" : "Resume all"}
-                </Button>
-              ) : (
-                <Button size="sm" variant="outline" onClick={() => setPauseOpen(true)}>
-                  <Pause /> Pause all
-                </Button>
-              )}
-              <Button size="sm" onClick={() => setCreating(true)}>
-                <Plus /> New chore
-              </Button>
-            </div>
+            <Button size="sm" onClick={() => setCreating(true)}>
+              <Plus /> New chore
+            </Button>
           )}
         </div>
-
-        {pauseOpen && (
-          <ReasonForm
-            required={false}
-            placeholder="Holiday, everyone away…"
-            submitLabel="Pause all chores"
-            isPending={pauseAll.isPending}
-            onSubmit={(reason) => pauseAll.mutate(reason, { onSuccess: () => setPauseOpen(false) })}
-            onCancel={() => setPauseOpen(false)}
-          />
-        )}
-
-        {groupPausedAt && (
-          <p className="rounded-2xl bg-background px-3 py-2.5 text-sm text-muted-foreground">
-            All chores are paused since {formatDateTime(groupPausedAt, tz)}. Deadlines move forward
-            by the paused time when they resume.
-          </p>
-        )}
 
         <div className="flex gap-2">
           {(["active", "archived"] as const).map((t) => (
