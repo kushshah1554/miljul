@@ -163,5 +163,3 @@ export function apiDelete<TResponse = void>(
 ) {
   return request<TResponse>({ ...config, method: "delete", url });
 }
-
-export default api;

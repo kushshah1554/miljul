@@ -116,7 +116,6 @@ export const choreStateSelect = {
   finePerMember: true,
 } as const satisfies Prisma.ChoreSelect;
 
-export type ChoreState = Prisma.ChoreGetPayload<{ select: typeof choreStateSelect }>;
 type AssignmentRow = Prisma.ChoreAssignmentGetPayload<{ select: typeof assignmentSelect }>;
 type FineRow = Prisma.ChoreFineGetPayload<{ select: typeof fineSelect }>;
 type SummaryRow = Prisma.ChoreGetPayload<{ select: typeof choreSummarySelect }>;

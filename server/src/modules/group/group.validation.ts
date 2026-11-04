@@ -75,5 +75,4 @@ export const joinGroupSchema = z.strictObject({
 export type CreateGroupInput = z.infer<typeof createGroupSchema>;
 export type JoinGroupInput = z.infer<typeof joinGroupSchema>;
 export type UpdateGroupInput = z.infer<typeof updateGroupSchema>;
-export type GroupIdParam = z.infer<typeof groupIdParamSchema>;
 export type ListGroupsQuery = z.infer<typeof listGroupsQuerySchema>;

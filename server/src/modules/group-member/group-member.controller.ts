@@ -22,19 +22,6 @@ export const list = asyncHandler(async (req: Request, res: Response) => {
   res.json(ok({ members }));
 });
 
-export const me = asyncHandler(async (req: Request, res: Response) => {
-  const authUser = requireFound(req.user, "Authentication required", 401);
-  const { groupId } = parseBody(groupIdParamSchema, req.params);
-
-  // Identity comes only from the verified token, never from the request.
-  const membership = await groupMemberService.getMyMembership(
-    authUser.id,
-    groupId,
-  );
-
-  res.json(ok({ membership }));
-});
-
 export const remove = asyncHandler(async (req: Request, res: Response) => {
   const authUser = requireFound(req.user, "Authentication required", 401);
   const { groupId, userId } = parseBody(memberParamsSchema, req.params);

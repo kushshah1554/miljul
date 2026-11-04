@@ -2,7 +2,6 @@ import type { Request, Response } from "express";
 import { asyncHandler } from "../../utils/asyncHandler";
 import { ok } from "../../utils/envelope";
 import { AppError } from "../../utils/AppError";
-import { requireFound } from "../../utils/helpers";
 import { loginSchema, parseBody, signupSchema } from "./auth.validation";
 import * as authService from "./auth.service";
 import {
@@ -53,11 +52,4 @@ export const logout = asyncHandler(async (req: Request, res: Response) => {
 
   clearRefreshCookie(res);
   res.json(ok({ message: "Logged out" }));
-});
-
-export const me = asyncHandler(async (req: Request, res: Response) => {
-  const authUser = requireFound(req.user, "Authentication required", 401);
-  const user = await authService.getMe(authUser.id);
-
-  res.json(ok({ user }));
 });

@@ -8,18 +8,10 @@ export const groupMemberRouter = Router();
 // /api/groups/:groupId/members[...]. Every endpoint requires
 // authentication; params and bodies are validated with Zod inside the
 // controllers, matching the group module's convention.
-//
-// "/members/me" is registered before any "/members/:userId" route so
-// "me" can never be interpreted as a user id.
 groupMemberRouter.get(
   "/:groupId/members",
   requireAuth,
   groupMemberController.list,
-);
-groupMemberRouter.get(
-  "/:groupId/members/me",
-  requireAuth,
-  groupMemberController.me,
 );
 groupMemberRouter.delete(
   "/:groupId/members/:userId",

@@ -112,5 +112,4 @@ export const listExpensesQuerySchema = z
 export type CreateExpenseInput = z.infer<typeof createExpenseSchema>;
 export type UpdateExpenseInput = z.infer<typeof updateExpenseSchema>;
 export type ListExpensesQuery = z.infer<typeof listExpensesQuerySchema>;
-export type ExpenseIdParam = z.infer<typeof expenseIdParamSchema>;
 export type SplitInput = z.infer<typeof splitInputSchema>;

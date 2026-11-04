@@ -14,7 +14,7 @@ const memberUserSelect = {
   email: true,
 } as const satisfies Prisma.UserSelect;
 
-// Membership columns returned without any user payload ("me" endpoint).
+// Safe membership columns.
 const membershipScalarsSelect = {
   id: true,
   userId: true,
@@ -30,10 +30,6 @@ const membershipSelect = {
 } as const satisfies Prisma.GroupMemberSelect;
 
 type MemberUser = Prisma.UserGetPayload<{ select: typeof memberUserSelect }>;
-
-export type MembershipScalars = Prisma.GroupMemberGetPayload<{
-  select: typeof membershipScalarsSelect;
-}>;
 
 export type GroupMemberRecord = Prisma.GroupMemberGetPayload<{
   select: typeof membershipSelect;
@@ -65,26 +61,6 @@ export async function listGroupMembers(
   });
 
   return requireFound(group, "Group not found", 404).members;
-}
-
-/**
- * Returns the caller's own membership in a group. The identity comes only
- * from the verified auth context - no client-supplied userId is accepted.
- *
- * A missing record means either the group does not exist or the caller is
- * not a member; both answer 404 "Group not found" identically so private
- * group existence is never disclosed.
- */
-export async function getMyMembership(
-  authUserId: string,
-  groupId: string,
-): Promise<MembershipScalars> {
-  const membership = await prisma.groupMember.findUnique({
-    where: { userId_groupId: { userId: authUserId, groupId } },
-    select: membershipScalarsSelect,
-  });
-
-  return requireFound(membership, "Group not found", 404);
 }
 
 /**

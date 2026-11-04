@@ -1,4 +1,4 @@
-import { apiGet, apiPost, refreshSession } from "@/lib/api";
+import { apiPost, refreshSession } from "@/lib/api";
 import type { AuthUser } from "@/lib/types";
 
 // ─── Response shapes (matches API_DOCS.md) ───────────────────────────────────
@@ -47,9 +47,4 @@ export function logout() {
  */
 export function refreshToken(): Promise<AuthPayload> {
   return refreshSession();
-}
-
-/** GET /auth/me — requires a valid access token in the store */
-export function getMe() {
-  return apiGet<{ user: AuthUser }>("/auth/me");
 }

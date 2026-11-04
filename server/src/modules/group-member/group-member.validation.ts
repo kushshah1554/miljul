@@ -21,5 +21,4 @@ export const transferOwnershipSchema = z.strictObject({
   newOwnerId: userIdSchema,
 });
 
-export type MemberParams = z.infer<typeof memberParamsSchema>;
 export type TransferOwnershipInput = z.infer<typeof transferOwnershipSchema>;

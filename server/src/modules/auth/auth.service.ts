@@ -102,12 +102,3 @@ export async function logout(refreshToken: string | undefined): Promise<void> {
     data: { refreshToken: null },
   });
 }
-
-export async function getMe(userId: string): Promise<AuthUser> {
-  const user = await prisma.user.findUnique({
-    where: { id: userId },
-    select: { id: true, email: true, name: true },
-  });
-
-  return requireFound(user, "User not found", 404);
-}

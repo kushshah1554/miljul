@@ -1,5 +1,5 @@
 import { apiDelete, apiGet, apiPost } from "@/lib/api";
-import type { GroupMemberRecord, MembershipScalars } from "@/lib/types";
+import type { GroupMemberRecord } from "@/lib/types";
 
 // ─── Response shapes (matches API_DOCS.md) ───────────────────────────────────
 interface MembersPayload {
@@ -22,11 +22,6 @@ const membersUrl = (groupId: string) => `/api/groups/${groupId}/members`;
 /** GET /api/groups/:groupId/members — ordered OWNER → MEMBER, then joinedAt */
 export function listMembers(groupId: string) {
   return apiGet<MembersPayload>(membersUrl(groupId));
-}
-
-/** GET /api/groups/:groupId/members/me */
-export function getMyMembership(groupId: string) {
-  return apiGet<{ membership: MembershipScalars }>(`${membersUrl(groupId)}/me`);
 }
 
 /** DELETE /api/groups/:groupId/members/:userId — 204; own userId = leave */

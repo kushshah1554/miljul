@@ -52,11 +52,6 @@ async function catchError(promise: Promise<unknown>): Promise<AppError> {
   throw new Error("Expected promise to reject, but it resolved");
 }
 
-/** Returns a tx-like object that all service calls use inside $transaction. */
-function makeTx(overrides: Partial<typeof prismaMock> = {}): typeof prismaMock {
-  return { ...prismaMock, ...overrides };
-}
-
 /** Makes prismaMock.$transaction delegate to the callback with the mock itself. */
 function useTransactionPassthrough() {
   prismaMock.$transaction.mockImplementation(

@@ -55,15 +55,6 @@ export type GroupMemberRecord = {
   user: MemberUser;
 };
 
-/** Membership without user info (GET /members/me) */
-export type MembershipScalars = {
-  id: string;
-  userId: string;
-  groupId: string;
-  role: GroupRole;
-  joinedAt: string; // ISO date string
-};
-
 /** Split record embedded in an expense */
 export type ExpenseSplit = {
   id: string;
