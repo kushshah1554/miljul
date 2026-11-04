@@ -10,6 +10,7 @@ import {
   Pencil,
   Play,
 } from "lucide-react";
+import { Tabs } from "radix-ui";
 
 import { AssignmentRow } from "@/components/chore/AssignmentRow";
 import { AssignmentSheet, type AssignmentRef } from "@/components/chore/AssignmentSheet";
@@ -61,6 +62,8 @@ export default function GroupChoreDetailPage() {
 
 type OwnerAction = "pause" | "archive" | null;
 
+const TABS = ["Turn", "Cycle", "Participants", "Checklist", "History", "Pause history"];
+
 function ChoreView({ group, chore }: { group: Group; chore: ChoreDetail }) {
   const myUserId = useAuthStore((s) => s.user?.id ?? "");
   const { data: members = [] } = useMembers(group.id);
@@ -68,6 +71,7 @@ function ChoreView({ group, chore }: { group: Group; chore: ChoreDetail }) {
   const [editing, setEditing] = useState(false);
   const [editingChecklist, setEditingChecklist] = useState(false);
   const [ownerAction, setOwnerAction] = useState<OwnerAction>(null);
+  const [selectedTab, setSelectedTab] = useState("Turn");
   const pause = usePauseChore(group.id, chore.id);
   const resume = useResumeChore(group.id, chore.id);
   const archive = useArchiveChore(group.id, chore.id);
@@ -86,6 +90,8 @@ function ChoreView({ group, chore }: { group: Group; chore: ChoreDetail }) {
   ]);
   const nameOf = (id: string) => (id === myUserId ? "You" : (names.get(id) ?? "Former member"));
   const pastOpen = chore.openAssignments.filter((a) => a.id !== current?.id);
+  // Archived chores have no cycle tab, so archiving while on it must not leave a blank page
+  const tab = archived && selectedTab === "Cycle" ? "Turn" : selectedTab;
 
   return (
     <>
@@ -186,108 +192,135 @@ function ChoreView({ group, chore }: { group: Group; chore: ChoreDetail }) {
             restart the rotation.
           </p>
         )}
-
-        {current && (
-          <button
-            type="button"
-            onClick={() => open(current.id)}
-            className="flex w-full items-center gap-3 rounded-2xl bg-background/70 px-4 py-3 text-left transition-colors hover:bg-background"
-          >
-            <div className="min-w-0 flex-1">
-              <p className="text-xs font-semibold text-muted-foreground uppercase">Current turn</p>
-              <p className="truncate text-lg font-semibold">{nameOf(current.userId)}</p>
-              <p className="truncate text-sm text-muted-foreground">
-                Due {formatDateTime(current.deadlineAt, tz)} ({fromNow(current.deadlineAt)})
-                {current.skipRequestedAt && " · asked to skip"}
-              </p>
-            </div>
-            <AssignmentStatusBadge assignment={current} />
-          </button>
-        )}
       </section>
 
-      {pastOpen.length > 0 && (
-        <section className="surface space-y-3">
-          <h2 className="text-lg font-semibold">Still open</h2>
-          <p className="text-xs text-muted-foreground">
-            Earlier turns not yet done or reviewed. Late work can still be submitted.
-          </p>
-          <ul className="space-y-1">
-            {pastOpen.map((a) => (
-              <AssignmentRow key={a.id} assignment={a} timeZone={tz} onSelect={() => open(a.id)} />
-            ))}
-          </ul>
-        </section>
-      )}
-
-      {!archived && (
-        <section className="surface space-y-3">
-          <h2 className="text-lg font-semibold">Coming up</h2>
-          {chore.upcoming.length === 0 && (
-            <p className="text-sm text-muted-foreground">
-              {chore.isFrozen ? "Paused — nothing is scheduled." : "Nobody is scheduled."}
-            </p>
-          )}
-          <ol className="space-y-1">
-            {chore.upcoming.map((turn) => (
-              <li
-                key={`${turn.userId}-${turn.startsAt}`}
-                className="flex items-center gap-3 rounded-2xl px-3 py-2 text-sm hover:bg-background/60"
-              >
-                <span className="w-24 shrink-0 text-muted-foreground">{formatDay(turn.startsAt, tz)}</span>
-                <span className="min-w-0 flex-1 truncate font-medium">{nameOf(turn.userId)}</span>
-                <span className="shrink-0 text-xs text-muted-foreground">cycle {turn.cycleNumber}</span>
-              </li>
-            ))}
-          </ol>
-          <p className="text-xs text-muted-foreground">
-            Projected — skips people marked away and may change.
-          </p>
-        </section>
-      )}
-
-      {!archived && (
-        <ChoreQueueCard
-          groupId={group.id}
-          chore={chore}
-          names={names}
-          canManage={manage}
-          timeZone={tz}
-        />
-      )}
-
-      <ChoreParticipantsCard
-        groupId={group.id}
-        chore={chore}
-        members={members}
-        canManage={manage}
-        timeZone={tz}
-      />
-
-      <section className="surface space-y-3">
-        <div className="flex items-center justify-between gap-2">
-          <h2 className="text-lg font-semibold">Checklist</h2>
-          {manage && !archived && (
-            <Button size="sm" variant="outline" onClick={() => setEditingChecklist(true)}>
-              <Pencil /> Edit
-            </Button>
-          )}
-        </div>
-        {chore.checklist.length === 0 && (
-          <p className="text-sm text-muted-foreground">No checklist items.</p>
-        )}
-        <ul className="space-y-1">
-          {chore.checklist.map((item) => (
-            <li key={item.id} className="flex items-center gap-3 rounded-2xl px-3 py-2 text-sm">
-              <ListChecks className="size-4 shrink-0 text-muted-foreground" />
-              {item.label}
-            </li>
+      <Tabs.Root value={tab} onValueChange={setSelectedTab} className="space-y-5">
+        <Tabs.List aria-label="Chore details" className="flex flex-wrap gap-2">
+          {TABS.filter((t) => !archived || t !== "Cycle").map((t) => (
+            <Tabs.Trigger key={t} value={t} asChild>
+              <Button size="sm" variant={tab === t ? "default" : "outline"}>
+                {t}
+              </Button>
+            </Tabs.Trigger>
           ))}
-        </ul>
-      </section>
+        </Tabs.List>
 
-      <HistoryCard group={group} chore={chore} nameOf={nameOf} onSelect={open} />
-      <PauseHistory groupId={group.id} choreId={chore.id} timeZone={tz} />
+        <Tabs.Content value="Turn" className="space-y-5">
+          <section className="surface space-y-3">
+            <h2 className="text-lg font-semibold">Current turn</h2>
+            {current ? (
+              <button
+                type="button"
+                onClick={() => open(current.id)}
+                className="flex w-full items-center gap-3 rounded-2xl bg-background/70 px-4 py-3 text-left transition-colors hover:bg-background"
+              >
+                <div className="min-w-0 flex-1">
+                  <p className="truncate text-lg font-semibold">{nameOf(current.userId)}</p>
+                  <p className="truncate text-sm text-muted-foreground">
+                    Due {formatDateTime(current.deadlineAt, tz)} ({fromNow(current.deadlineAt)})
+                    {current.skipRequestedAt && " · asked to skip"}
+                  </p>
+                </div>
+                <AssignmentStatusBadge assignment={current} />
+              </button>
+            ) : (
+              <p className="text-sm text-muted-foreground">Nobody has a turn right now.</p>
+            )}
+          </section>
+
+          {pastOpen.length > 0 && (
+            <section className="surface space-y-3">
+              <h2 className="text-lg font-semibold">Still open</h2>
+              <p className="text-xs text-muted-foreground">
+                Earlier turns not yet done or reviewed. Late work can still be submitted.
+              </p>
+              <ul className="space-y-1">
+                {pastOpen.map((a) => (
+                  <AssignmentRow key={a.id} assignment={a} timeZone={tz} onSelect={() => open(a.id)} />
+                ))}
+              </ul>
+            </section>
+          )}
+
+          {!archived && (
+            <section className="surface space-y-3">
+              <h2 className="text-lg font-semibold">Coming up</h2>
+              {chore.upcoming.length === 0 && (
+                <p className="text-sm text-muted-foreground">
+                  {chore.isFrozen ? "Paused — nothing is scheduled." : "Nobody is scheduled."}
+                </p>
+              )}
+              <ol className="space-y-1">
+                {chore.upcoming.map((turn) => (
+                  <li
+                    key={`${turn.userId}-${turn.startsAt}`}
+                    className="flex items-center gap-3 rounded-2xl px-3 py-2 text-sm hover:bg-background/60"
+                  >
+                    <span className="w-24 shrink-0 text-muted-foreground">{formatDay(turn.startsAt, tz)}</span>
+                    <span className="min-w-0 flex-1 truncate font-medium">{nameOf(turn.userId)}</span>
+                    <span className="shrink-0 text-xs text-muted-foreground">cycle {turn.cycleNumber}</span>
+                  </li>
+                ))}
+              </ol>
+              <p className="text-xs text-muted-foreground">
+                Projected — skips people marked away and may change.
+              </p>
+            </section>
+          )}
+        </Tabs.Content>
+
+        <Tabs.Content value="Cycle">
+          <ChoreQueueCard
+            groupId={group.id}
+            chore={chore}
+            names={names}
+            canManage={manage}
+            timeZone={tz}
+          />
+        </Tabs.Content>
+
+        <Tabs.Content value="Participants">
+          <ChoreParticipantsCard
+            groupId={group.id}
+            chore={chore}
+            members={members}
+            canManage={manage}
+            timeZone={tz}
+          />
+        </Tabs.Content>
+
+        <Tabs.Content value="Checklist">
+          <section className="surface space-y-3">
+            <div className="flex items-center justify-between gap-2">
+              <h2 className="text-lg font-semibold">Checklist</h2>
+              {manage && !archived && (
+                <Button size="sm" variant="outline" onClick={() => setEditingChecklist(true)}>
+                  <Pencil /> Edit
+                </Button>
+              )}
+            </div>
+            {chore.checklist.length === 0 && (
+              <p className="text-sm text-muted-foreground">No checklist items.</p>
+            )}
+            <ul className="space-y-1">
+              {chore.checklist.map((item) => (
+                <li key={item.id} className="flex items-center gap-3 rounded-2xl px-3 py-2 text-sm">
+                  <ListChecks className="size-4 shrink-0 text-muted-foreground" />
+                  {item.label}
+                </li>
+              ))}
+            </ul>
+          </section>
+        </Tabs.Content>
+
+        <Tabs.Content value="History">
+          <HistoryCard group={group} chore={chore} nameOf={nameOf} onSelect={open} />
+        </Tabs.Content>
+
+        <Tabs.Content value="Pause history">
+          <PauseHistory groupId={group.id} choreId={chore.id} timeZone={tz} />
+        </Tabs.Content>
+      </Tabs.Root>
 
       <ChoreFormSheet groupId={group.id} open={editing} onOpenChange={setEditing} chore={chore} />
       <ChecklistSheet
