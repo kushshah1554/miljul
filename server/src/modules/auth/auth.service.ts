@@ -146,7 +146,11 @@ export async function googleLogin(code: string): Promise<AuthResult> {
   const user = existing
     ? await prisma.user.update({
         where: { id: existing.id },
-        data: { googleId: profile.sub, profileUrl: profile.picture },
+        // Only fills a missing picture, so it never replaces an uploaded one
+        data: {
+          googleId: profile.sub,
+          profileUrl: existing.profileUrl ?? profile.picture,
+        },
       })
     : await prisma.user.create({
         data: {

@@ -410,7 +410,7 @@ describe("computeSettlements", () => {
     const netDec = new Prisma.Decimal(net);
     const paid = netDec.greaterThan(0) ? net : "0.00";
     const shares = netDec.lessThan(0) ? netDec.abs().toFixed(2) : "0.00";
-    return { userId, name, email: `${name}@test.com`, totalPaid: paid, totalShares: shares, netBalance: net };
+    return { userId, name, email: `${name}@test.com`, profileUrl: null, totalPaid: paid, totalShares: shares, netBalance: net };
   }
 
   it("produces no suggestions when all balances are zero", () => {

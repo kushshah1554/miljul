@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { HandCoins } from "lucide-react";
 
 import { AssignmentSheet, type AssignmentRef } from "@/components/chore/AssignmentSheet";
 import { Pill } from "@/components/chore/ChoreBadges";
@@ -7,6 +6,7 @@ import { ReasonForm } from "@/components/chore/ReasonForm";
 import { Button } from "@/components/ui/button";
 import { Pagination } from "@/components/ui/pagination";
 import { Skeleton } from "@/components/ui/skeleton";
+import { UserAvatar } from "@/components/ui/user-avatar";
 
 import { useAuthStore } from "@/features/auth/authStore";
 import type { ListFinesQuery } from "@/features/chore-fine/chore-fine.api";
@@ -70,6 +70,7 @@ export default function GroupChoreFinesPage() {
         <ul className="space-y-1">
           {summary.data?.map((m) => (
             <li key={m.user.id} className="flex items-center gap-3 rounded-2xl px-3 py-3 hover:bg-background/60">
+              <UserAvatar user={m.user} />
               <div className="min-w-0 flex-1">
                 <p className="truncate text-sm font-medium">
                   {m.user.name}
@@ -201,9 +202,7 @@ function FineRow({
           onClick={() => onOpenAssignment({ choreId: fine.choreId, assignmentId: fine.assignmentId })}
           className="flex min-w-0 flex-1 items-center gap-3 text-left"
         >
-          <span className="grid size-11 shrink-0 place-items-center rounded-full bg-background">
-            <HandCoins className="size-5" />
-          </span>
+          <UserAvatar user={fine.payer} />
           <div className="min-w-0 flex-1">
             <p className="truncate text-sm font-semibold">
               {fine.payer.name} · {fine.choreName}

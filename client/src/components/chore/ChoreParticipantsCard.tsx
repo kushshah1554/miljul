@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { UserAvatar } from "@/components/ui/user-avatar";
 
 import {
   useAddParticipant,
@@ -117,6 +118,7 @@ function ParticipantRow({
   return (
     <li className="space-y-2 rounded-2xl px-3 py-2.5 hover:bg-background/60">
       <div className="flex items-center gap-3">
+        <UserAvatar user={p.user} />
         <div className="min-w-0 flex-1">
           <p className="truncate text-sm font-medium">{p.user.name}</p>
           {isAway && (

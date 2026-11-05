@@ -16,6 +16,7 @@ export const choreUserSelect = {
   id: true,
   name: true,
   email: true,
+  profileUrl: true,
 } as const satisfies Prisma.UserSelect;
 
 export const assignmentSelect = {

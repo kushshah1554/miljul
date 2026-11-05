@@ -1,8 +1,8 @@
 import { Crown, LogOut, MoreHorizontal, UserMinus } from "lucide-react";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import { UserAvatar } from "@/components/ui/user-avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -108,17 +108,7 @@ function MemberRow({
 
   return (
     <li className="flex items-center gap-3 rounded-2xl px-3 py-2.5 hover:bg-background/60">
-      <Avatar className="size-11">
-        {/* Google's image host can refuse requests that send a referrer */}
-        <AvatarImage
-          src={member.user.profileUrl ?? undefined}
-          alt=""
-          referrerPolicy="no-referrer"
-        />
-        <AvatarFallback className="bg-background font-semibold">
-          {member.user.name.charAt(0).toUpperCase()}
-        </AvatarFallback>
-      </Avatar>
+      <UserAvatar user={member.user} />
       <div className="min-w-0 flex-1">
         <p className="truncate text-sm font-medium">
           {member.user.name}

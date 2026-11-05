@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { Plus, Receipt, X } from "lucide-react";
+import { Plus, X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Pagination } from "@/components/ui/pagination";
 import { Skeleton } from "@/components/ui/skeleton";
+import { UserAvatar } from "@/components/ui/user-avatar";
 import { ExpenseDetailSheet } from "@/components/expense/ExpenseDetailSheet";
 import { ExpenseFormSheet } from "@/components/expense/ExpenseFormSheet";
 
@@ -177,9 +178,7 @@ function ExpenseList({
               onClick={() => onSelect(expense.id)}
               className="flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 text-left transition-colors hover:bg-background/70"
             >
-              <span className="grid size-11 shrink-0 place-items-center rounded-full bg-background">
-                <Receipt className="size-5" />
-              </span>
+              <UserAvatar user={expense.paidBy} />
               <div className="min-w-0 flex-1">
                 <p className="truncate text-sm font-semibold">{expense.description}</p>
                 <p className="truncate text-xs text-muted-foreground">

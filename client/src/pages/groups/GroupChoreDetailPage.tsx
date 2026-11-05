@@ -24,6 +24,7 @@ import { ReasonForm } from "@/components/chore/ReasonForm";
 import { Button } from "@/components/ui/button";
 import { Pagination } from "@/components/ui/pagination";
 import { Skeleton } from "@/components/ui/skeleton";
+import { UserAvatar } from "@/components/ui/user-avatar";
 
 import { useAuthStore } from "@/features/auth/authStore";
 import { useChoreAssignments } from "@/features/chore-assignment/useChoreAssignments";
@@ -37,7 +38,7 @@ import {
 import { useMembers } from "@/features/member/useMembers";
 import { isOwner } from "@/lib/roles";
 import { formatDateTime, formatDay, fromNow, minutesToTime } from "@/lib/time";
-import type { ChoreAssignmentStatus, ChoreDetail, Group } from "@/lib/types";
+import type { ChoreAssignmentStatus, ChoreDetail, Group, MemberUser } from "@/lib/types";
 import { useCurrentGroup } from "@/pages/groups/GroupLayout";
 
 export default function GroupChoreDetailPage() {
@@ -84,11 +85,12 @@ function ChoreView({ group, chore }: { group: Group; chore: ChoreDetail }) {
   const open = (assignmentId: string) => setViewing({ choreId: chore.id, assignmentId });
 
   // Former members can still appear in queues and history
-  const names = new Map<string, string>([
-    ...members.map((m) => [m.userId, m.user.name] as const),
-    ...chore.participants.map((p) => [p.userId, p.user.name] as const),
+  const users = new Map<string, MemberUser>([
+    ...members.map((m) => [m.userId, m.user] as const),
+    ...chore.participants.map((p) => [p.userId, p.user] as const),
   ]);
-  const nameOf = (id: string) => (id === myUserId ? "You" : (names.get(id) ?? "Former member"));
+  const nameOf = (id: string) =>
+    id === myUserId ? "You" : (users.get(id)?.name ?? "Former member");
   const pastOpen = chore.openAssignments.filter((a) => a.id !== current?.id);
   // Archived chores have no cycle tab, so archiving while on it must not leave a blank page
   const tab = archived && selectedTab === "Cycle" ? "Turn" : selectedTab;
@@ -214,6 +216,7 @@ function ChoreView({ group, chore }: { group: Group; chore: ChoreDetail }) {
                 onClick={() => open(current.id)}
                 className="flex w-full items-center gap-3 rounded-2xl bg-background/70 px-4 py-3 text-left transition-colors hover:bg-background"
               >
+                <UserAvatar user={current.user} />
                 <div className="min-w-0 flex-1">
                   <p className="truncate text-lg font-semibold">{nameOf(current.userId)}</p>
                   <p className="truncate text-sm text-muted-foreground">
@@ -257,6 +260,7 @@ function ChoreView({ group, chore }: { group: Group; chore: ChoreDetail }) {
                     className="flex items-center gap-3 rounded-2xl px-3 py-2 text-sm hover:bg-background/60"
                   >
                     <span className="w-24 shrink-0 text-muted-foreground">{formatDay(turn.startsAt, tz)}</span>
+                    <UserAvatar user={users.get(turn.userId)} className="size-8" />
                     <span className="min-w-0 flex-1 truncate font-medium">{nameOf(turn.userId)}</span>
                     <span className="shrink-0 text-xs text-muted-foreground">cycle {turn.cycleNumber}</span>
                   </li>
@@ -273,7 +277,7 @@ function ChoreView({ group, chore }: { group: Group; chore: ChoreDetail }) {
           <ChoreQueueCard
             groupId={group.id}
             chore={chore}
-            names={names}
+            users={users}
             canManage={manage}
             timeZone={tz}
           />

@@ -5,6 +5,7 @@ import LoginPage from "@/pages/auth/LoginPage";
 import SignupPage from "@/pages/auth/SignupPage";
 import DashboardPage from "@/pages/dashboard/DashboardPage";
 import GroupsPage from "@/pages/groups/GroupsPage";
+import SettingsPage from "@/pages/settings/SettingsPage";
 import GroupLayout from "@/pages/groups/GroupLayout";
 import GroupOverviewPage from "@/pages/groups/GroupOverviewPage";
 import GroupExpensesPage from "@/pages/groups/GroupExpensesPage";
@@ -40,6 +41,7 @@ export const router = createBrowserRouter([
         element: <AppLayout />,
         children: [
           { path: "/dashboard", element: <DashboardPage /> },
+          { path: "/settings", element: <SettingsPage /> },
           { path: "/groups", element: <GroupsPage /> },
           {
             path: "/groups/:groupId",

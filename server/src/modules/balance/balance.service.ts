@@ -8,6 +8,7 @@ export type MemberBalance = {
   userId: string;
   name: string;
   email: string;
+  profileUrl: string | null;
   /** Decimal string, e.g. "500.00" */
   totalPaid: string;
   /** Decimal string, e.g. "100.00" */
@@ -55,7 +56,7 @@ async function computeGroupBalances(groupId: string): Promise<MemberBalance[]> {
     where: { groupId },
     select: {
       userId: true,
-      user: { select: { id: true, name: true, email: true } },
+      user: { select: { id: true, name: true, email: true, profileUrl: true } },
     },
     orderBy: { user: { name: "asc" } },
   });
@@ -103,6 +104,7 @@ async function computeGroupBalances(groupId: string): Promise<MemberBalance[]> {
       userId,
       name: user.name,
       email: user.email,
+      profileUrl: user.profileUrl,
       totalPaid: totalPaid.toFixed(2),
       totalShares: totalShares.toFixed(2),
       netBalance: netBalance.toFixed(2),

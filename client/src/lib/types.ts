@@ -88,6 +88,7 @@ export type MemberBalance = {
   userId: string;
   name: string;
   email: string;
+  profileUrl: string | null;
   /** Decimal string */
   totalPaid: string;
   /** Decimal string */

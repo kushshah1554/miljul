@@ -48,6 +48,7 @@ export default function GroupChoresPage() {
               key={a.id}
               assignment={a}
               title={a.choreName}
+              showAssignee={false}
               timeZone={tz}
               onSelect={() => setViewing({ choreId: a.choreId, assignmentId: a.id })}
             />

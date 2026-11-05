@@ -17,6 +17,7 @@ const safeUserSelect = {
   id: true,
   name: true,
   email: true,
+  profileUrl: true,
 } as const satisfies Prisma.UserSelect;
 
 // Safe split record: amount + safe user info.

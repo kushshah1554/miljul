@@ -87,6 +87,20 @@ describe("googleLogin", () => {
     });
   });
 
+  it("keeps a picture the user already has", async () => {
+    const uploaded = "https://res.cloudinary.com/demo/image/upload/v1/user1.jpg";
+    stubGoogle();
+    prismaMock.user.findUnique.mockResolvedValueOnce({
+      ...USER,
+      googleId: "google-1",
+      profileUrl: uploaded,
+    });
+
+    await authService.googleLogin("code");
+
+    expect(prismaMock.user.update.mock.calls[0]![0].data.profileUrl).toBe(uploaded);
+  });
+
   it("rejects a Google email that Google has not verified", async () => {
     stubGoogle({ ...PROFILE, email_verified: false });
     prismaMock.user.findUnique.mockResolvedValue(USER);

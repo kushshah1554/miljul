@@ -3,13 +3,14 @@ import { ArrowDown, ArrowLeftRight, ArrowUp, Check } from "lucide-react";
 
 import { Pill } from "@/components/chore/ChoreBadges";
 import { Button } from "@/components/ui/button";
+import { UserAvatar } from "@/components/ui/user-avatar";
 import {
   useMoveInCycle,
   useReorderOriginalQueue,
   useSwapInCycle,
 } from "@/features/chore/useChores";
 import { formatDateTime } from "@/lib/time";
-import type { ChoreDetail } from "@/lib/types";
+import type { ChoreDetail, MemberUser } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 /**
@@ -19,13 +20,13 @@ import { cn } from "@/lib/utils";
 export function ChoreQueueCard({
   groupId,
   chore,
-  names,
+  users,
   canManage,
   timeZone,
 }: {
   groupId: string;
   chore: ChoreDetail;
-  names: Map<string, string>;
+  users: Map<string, MemberUser>;
   canManage: boolean;
   timeZone: string;
 }) {
@@ -39,7 +40,7 @@ export function ChoreQueueCard({
   const canEditCycle = canManage && (chore.status === "ACTIVE" || chore.status === "PAUSED");
   const busy = move.isPending || swap.isPending || reorder.isPending;
   const away = new Map(chore.participants.map((p) => [p.userId, p.unavailableUntil]));
-  const nameOf = (id: string) => names.get(id) ?? "Former member";
+  const nameOf = (id: string) => users.get(id)?.name ?? "Former member";
 
   const handleSwap = (userId: string) => {
     if (!swapping) return setSwapping(userId);
@@ -82,6 +83,7 @@ export function ChoreQueueCard({
                   <span className="grid size-8 shrink-0 place-items-center rounded-full bg-background font-mono text-xs">
                     {locked && !isCurrent ? <Check className="size-4" /> : i + 1}
                   </span>
+                  <UserAvatar user={users.get(userId)} className="size-8" />
                   <div className="min-w-0 flex-1">
                     <p className={cn("truncate text-sm font-medium", locked && !isCurrent && "text-muted-foreground")}>
                       {nameOf(userId)}
@@ -144,6 +146,7 @@ export function ChoreQueueCard({
               <span className="grid size-8 shrink-0 place-items-center rounded-full bg-background font-mono text-xs">
                 {i + 1}
               </span>
+              <UserAvatar user={users.get(userId)} className="size-8" />
               <span className="min-w-0 flex-1 truncate text-sm font-medium">{nameOf(userId)}</span>
               {canManage && chore.status !== "ARCHIVED" && (
                 <div className="flex shrink-0 gap-0.5">

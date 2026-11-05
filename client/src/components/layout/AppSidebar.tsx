@@ -1,5 +1,5 @@
 import { Fragment, useState } from "react";
-import { NavLink, useMatch } from "react-router-dom";
+import { Link, NavLink, useMatch } from "react-router-dom";
 import {
   ArrowLeft,
   HandCoins,
@@ -18,7 +18,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { UserAvatar } from "@/components/ui/user-avatar";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -325,17 +325,11 @@ function UserMenu({
               expanded !== undefined && "size-14",
             )}
           >
-            <Avatar className="size-12">
-              {/* Google's image host can refuse requests that send a referrer */}
-              <AvatarImage
-                src={user?.profileUrl ?? undefined}
-                alt=""
-                referrerPolicy="no-referrer"
-              />
-              <AvatarFallback className="bg-primary text-base font-semibold text-primary-foreground">
-                {user?.name.charAt(0).toUpperCase() ?? "?"}
-              </AvatarFallback>
-            </Avatar>
+            <UserAvatar
+              user={user}
+              className="size-12"
+              fallbackClassName="bg-primary text-base text-primary-foreground"
+            />
           </span>
           {expanded !== undefined && (
             <Label expanded={expanded}>
@@ -357,6 +351,11 @@ function UserMenu({
           </span>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
+        <DropdownMenuItem asChild>
+          <Link to="/settings">
+            <Settings /> Settings
+          </Link>
+        </DropdownMenuItem>
         <DropdownMenuItem disabled={isPending} onSelect={() => handleLogout()}>
           <LogOut /> {isPending ? "Logging out…" : "Log out"}
         </DropdownMenuItem>

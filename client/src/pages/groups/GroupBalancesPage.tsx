@@ -1,6 +1,7 @@
 import { ArrowRight } from "lucide-react";
 
 import { Skeleton } from "@/components/ui/skeleton";
+import { UserAvatar } from "@/components/ui/user-avatar";
 import { useAuthStore } from "@/features/auth/authStore";
 import { useGroupBalances, useMyBalance } from "@/features/balance/useBalances";
 import { cn } from "@/lib/utils";
@@ -19,6 +20,7 @@ export default function GroupBalancesPage() {
   const all = useGroupBalances(group.id);
 
   const net = mine.data ? Number(mine.data.netBalance) : 0;
+  const pictures = new Map(all.data?.balances.map((b) => [b.userId, b.profileUrl]));
 
   return (
     <>
@@ -49,10 +51,18 @@ export default function GroupBalancesPage() {
         <ul className="space-y-1">
           {all.data?.suggestedSettlements.map((s) => (
             <li key={`${s.fromUserId}-${s.toUserId}`} className="flex items-center gap-2 rounded-2xl px-3 py-3 text-sm hover:bg-background/60">
+              <UserAvatar
+                user={{ name: s.fromName, profileUrl: pictures.get(s.fromUserId) }}
+                className="size-8"
+              />
               <span className="min-w-0 truncate font-medium">
                 {s.fromUserId === myUserId ? "You" : s.fromName}
               </span>
               <ArrowRight className="size-4 shrink-0 text-muted-foreground" />
+              <UserAvatar
+                user={{ name: s.toName, profileUrl: pictures.get(s.toUserId) }}
+                className="size-8"
+              />
               <span className="min-w-0 flex-1 truncate font-medium">
                 {s.toUserId === myUserId ? "You" : s.toName}
               </span>
@@ -68,6 +78,7 @@ export default function GroupBalancesPage() {
         <ul className="space-y-1">
           {all.data?.balances.map((b) => (
             <li key={b.userId} className="flex items-center gap-3 rounded-2xl px-3 py-3 hover:bg-background/60">
+              <UserAvatar user={b} />
               <div className="min-w-0 flex-1">
                 <p className="truncate text-sm font-medium">
                   {b.name}
