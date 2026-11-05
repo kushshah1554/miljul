@@ -33,6 +33,11 @@ const schema = z.object({
   SMTP_USER: z.string().optional(),
   SMTP_PASS: z.string().optional(),
   EMAIL_FROM: z.string().default("no-reply@telemed.local"),
+
+  GOOGLE_CLIENT_ID: z.string().min(1, "GOOGLE_CLIENT_ID is required"),
+  GOOGLE_CLIENT_SECRET: z.string().min(1, "GOOGLE_CLIENT_SECRET is required"),
+  GOOGLE_CALLBACK_URL: z.string().url(),
+  CLIENT_URL: z.string().url().default("http://localhost:5173"),
 });
 
 export type Env = z.infer<typeof schema>;

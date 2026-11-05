@@ -2,6 +2,8 @@ export type AuthUser = {
   id: string;
   email: string;
   name: string;
+  // Not in the access token, so absent on req.user
+  profileUrl?: string | null;
 };
 
 export type AccessTokenPayload = {

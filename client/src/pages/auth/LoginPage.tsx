@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Eye, EyeOff, Mail, Lock, ArrowRight } from "lucide-react";
@@ -12,6 +12,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { loginSchema, type LoginFormValues } from "@/features/auth/auth.schema";
 import { useLogin } from "@/features/auth/useAuth";
 import { GoogleIcon } from "../../components/auth/GoogleIcon";
+import { env } from "@/lib/env";
 
 // Soft grey pill fields, matching the app's cards
 const FIELD = "h-12 rounded-2xl border-transparent bg-card pl-11 shadow-none";
@@ -19,6 +20,8 @@ const FIELD = "h-12 rounded-2xl border-transparent bg-card pl-11 shadow-none";
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const { mutate: handleLogin, isPending } = useLogin();
+  const [searchParams] = useSearchParams();
+  const googleFailed = searchParams.get("error") === "google";
 
   const {
     register,
@@ -158,12 +161,24 @@ export default function LoginPage() {
           <div className="flex-1 border-t border-border" />
         </div>
 
+        {googleFailed && (
+          <p
+            role="alert"
+            className="mb-4 text-sm text-destructive"
+          >
+            Google sign-in failed. Please try again.
+          </p>
+        )}
+
         <Button
+          asChild
           variant="outline"
           className="h-12 w-full"
         >
-          <GoogleIcon className="size-5" />
-          Continue with Google
+          <a href={`${env.backendUrl}/auth/google`}>
+            <GoogleIcon className="size-5" />
+            Continue with Google
+          </a>
         </Button>
       </div>
     </div>

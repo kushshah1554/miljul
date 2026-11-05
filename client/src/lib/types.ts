@@ -16,6 +16,7 @@ export type AuthUser = {
   id: string;
   name: string;
   email: string;
+  profileUrl: string | null;
 };
 
 /** Group record returned by most group endpoints */
@@ -43,6 +44,7 @@ export type MemberUser = {
   id: string;
   name: string;
   email: string;
+  profileUrl: string | null;
 };
 
 /** Full membership record (list members endpoint) */

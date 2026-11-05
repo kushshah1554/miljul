@@ -18,7 +18,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -28,8 +28,17 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import {
+  Sheet,
+  SheetContent,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 import { useAuthStore } from "@/features/auth/authStore";
 import { useLogout } from "@/features/auth/useAuth";
@@ -99,7 +108,9 @@ function Logo({ withName }: { withName?: boolean }) {
   return (
     <span className="flex items-center gap-2">
       <Mountain className="size-8 stroke-[2.25]" />
-      {withName && <span className="text-lg font-bold tracking-tight">Miljul</span>}
+      {withName && (
+        <span className="text-lg font-bold tracking-tight">Miljul</span>
+      )}
     </span>
   );
 }
@@ -118,7 +129,8 @@ function ItemGlyph({ item }: { item: NavItem }) {
 // Every row is a fixed 56px icon box + a label, left-aligned. Collapsing only
 // animates the rail's width and fades the labels, so nothing jumps around.
 const EXPANDED_KEY = "sidebar-expanded";
-const EASE = "duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] motion-reduce:transition-none";
+const EASE =
+  "duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] motion-reduce:transition-none";
 
 function readExpanded() {
   try {
@@ -128,7 +140,13 @@ function readExpanded() {
   }
 }
 
-function Label({ expanded, children }: { expanded: boolean; children: React.ReactNode }) {
+function Label({
+  expanded,
+  children,
+}: {
+  expanded: boolean;
+  children: React.ReactNode;
+}) {
   return (
     <span
       className={cn(
@@ -241,7 +259,9 @@ export function AppSidebar() {
             </Label>
           </button>
         </TooltipTrigger>
-        <TooltipContent side="right">{expanded ? "Collapse" : "Expand"}</TooltipContent>
+        <TooltipContent side="right">
+          {expanded ? "Collapse" : "Expand"}
+        </TooltipContent>
       </Tooltip>
 
       <nav className="no-scrollbar flex min-h-0 flex-1 flex-col justify-center overflow-x-hidden overflow-y-auto py-6">
@@ -277,7 +297,13 @@ export function AppSidebar() {
   );
 }
 
-function UserMenu({ side, expanded }: { side: "right" | "bottom"; expanded?: boolean }) {
+function UserMenu({
+  side,
+  expanded,
+}: {
+  side: "right" | "bottom";
+  expanded?: boolean;
+}) {
   const user = useAuthStore((s) => s.user);
   const { mutate: handleLogout, isPending } = useLogout();
 
@@ -289,11 +315,23 @@ function UserMenu({ side, expanded }: { side: "right" | "bottom"; expanded?: boo
           aria-label="Account menu"
           className={cn(
             "flex items-center overflow-hidden rounded-full text-left",
-            expanded !== undefined && "h-14 w-full rounded-2xl pr-3 transition-colors hover:bg-muted",
+            expanded !== undefined &&
+              "h-14 w-full rounded-2xl pr-3 transition-colors hover:bg-muted",
           )}
         >
-          <span className={cn("grid shrink-0 place-items-center", expanded !== undefined && "size-14")}>
+          <span
+            className={cn(
+              "grid shrink-0 place-items-center",
+              expanded !== undefined && "size-14",
+            )}
+          >
             <Avatar className="size-12">
+              {/* Google's image host can refuse requests that send a referrer */}
+              <AvatarImage
+                src={user?.profileUrl ?? undefined}
+                alt=""
+                referrerPolicy="no-referrer"
+              />
               <AvatarFallback className="bg-primary text-base font-semibold text-primary-foreground">
                 {user?.name.charAt(0).toUpperCase() ?? "?"}
               </AvatarFallback>
@@ -301,8 +339,12 @@ function UserMenu({ side, expanded }: { side: "right" | "bottom"; expanded?: boo
           </span>
           {expanded !== undefined && (
             <Label expanded={expanded}>
-              <span className="block truncate text-sm font-semibold">{user?.name}</span>
-              <span className="block truncate text-xs text-muted-foreground">{user?.email}</span>
+              <span className="block truncate text-sm font-semibold">
+                {user?.name}
+              </span>
+              <span className="block truncate text-xs text-muted-foreground">
+                {user?.email}
+              </span>
             </Label>
           )}
         </button>
@@ -310,7 +352,9 @@ function UserMenu({ side, expanded }: { side: "right" | "bottom"; expanded?: boo
       <DropdownMenuContent side={side} align="end" className="min-w-56">
         <DropdownMenuLabel className="grid">
           <span className="truncate font-semibold">{user?.name}</span>
-          <span className="truncate text-xs font-normal text-muted-foreground">{user?.email}</span>
+          <span className="truncate text-xs font-normal text-muted-foreground">
+            {user?.email}
+          </span>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem disabled={isPending} onSelect={() => handleLogout()}>
@@ -322,7 +366,13 @@ function UserMenu({ side, expanded }: { side: "right" | "bottom"; expanded?: boo
 }
 
 // ─── Mobile: top bar + slide-out menu with labels ────────────────────────────
-function SheetLink({ item, onNavigate }: { item: NavItem; onNavigate: () => void }) {
+function SheetLink({
+  item,
+  onNavigate,
+}: {
+  item: NavItem;
+  onNavigate: () => void;
+}) {
   return (
     <NavLink
       to={item.to}

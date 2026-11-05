@@ -1,4 +1,6 @@
+import { randomBytes } from "node:crypto";
 import type { Request, Response } from "express";
+import { env } from "../../config/env";
 import { asyncHandler } from "../../utils/asyncHandler";
 import { ok } from "../../utils/envelope";
 import { AppError } from "../../utils/AppError";
@@ -9,6 +11,14 @@ import {
   clearRefreshCookie,
   setRefreshCookie,
 } from "./token.service";
+
+const OAUTH_STATE_COOKIE = "oauthState";
+const oauthStateCookieOptions = {
+  httpOnly: true,
+  secure: env.NODE_ENV === "production",
+  sameSite: "lax" as const, // Lax still sends it on the redirect back from Google
+  path: "/auth/google",
+};
 
 function getRefreshToken(req: Request): string | undefined {
   const token = req.cookies?.[REFRESH_COOKIE_NAME];
@@ -53,3 +63,35 @@ export const logout = asyncHandler(async (req: Request, res: Response) => {
   clearRefreshCookie(res);
   res.json(ok({ message: "Logged out" }));
 });
+
+export const googleStart = (_req: Request, res: Response) => {
+  const state = randomBytes(32).toString("hex");
+
+  res.cookie(OAUTH_STATE_COOKIE, state, {
+    ...oauthStateCookieOptions,
+    maxAge: 10 * 60 * 1000,
+  });
+  res.redirect(authService.googleAuthUrl(state));
+};
+
+// The browser arrives here by redirect, so failures go back to the login page
+// instead of showing the user a JSON error.
+export const googleCallback = async (req: Request, res: Response) => {
+  const { code, state } = req.query;
+  const expectedState = req.cookies?.[OAUTH_STATE_COOKIE];
+  res.clearCookie(OAUTH_STATE_COOKIE, oauthStateCookieOptions);
+
+  try {
+    // The state check stops an attacker logging a victim into the attacker's account
+    if (!expectedState || state !== expectedState || typeof code !== "string") {
+      throw new AppError(400, "Invalid Google login response");
+    }
+
+    const { refreshToken } = await authService.googleLogin(code);
+    setRefreshCookie(res, refreshToken);
+    res.redirect(new URL("/dashboard", env.CLIENT_URL).href);
+  } catch (error) {
+    console.error("Google login failed:", error);
+    res.redirect(new URL("/login?error=google", env.CLIENT_URL).href);
+  }
+};

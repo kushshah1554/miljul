@@ -1,6 +1,6 @@
 import { Crown, LogOut, MoreHorizontal, UserMinus } from "lucide-react";
 
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
@@ -27,7 +27,11 @@ export function MembersCard({ group }: { group: Group }) {
   const leave = useLeaveGroup(group.id, myUserId);
 
   const handleLeave = () => {
-    if (window.confirm(`Leave "${group.name}"? Your expense history stays in the group.`)) {
+    if (
+      window.confirm(
+        `Leave "${group.name}"? Your expense history stays in the group.`,
+      )
+    ) {
       leave.mutate();
     }
   };
@@ -36,7 +40,12 @@ export function MembersCard({ group }: { group: Group }) {
     <section className="surface space-y-3">
       <div className="flex items-center justify-between gap-2">
         <h2 className="text-lg font-semibold">Members</h2>
-        <Button variant="ghost" size="sm" onClick={handleLeave} disabled={leave.isPending}>
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={handleLeave}
+          disabled={leave.isPending}
+        >
           <LogOut /> {leave.isPending ? "Leaving…" : "Leave group"}
         </Button>
       </div>
@@ -100,14 +109,24 @@ function MemberRow({
   return (
     <li className="flex items-center gap-3 rounded-2xl px-3 py-2.5 hover:bg-background/60">
       <Avatar className="size-11">
-        <AvatarFallback className="bg-background font-semibold">{member.user.name.charAt(0).toUpperCase()}</AvatarFallback>
+        {/* Google's image host can refuse requests that send a referrer */}
+        <AvatarImage
+          src={member.user.profileUrl ?? undefined}
+          alt=""
+          referrerPolicy="no-referrer"
+        />
+        <AvatarFallback className="bg-background font-semibold">
+          {member.user.name.charAt(0).toUpperCase()}
+        </AvatarFallback>
       </Avatar>
       <div className="min-w-0 flex-1">
         <p className="truncate text-sm font-medium">
           {member.user.name}
           {isMe && <span className="text-muted-foreground"> (you)</span>}
         </p>
-        <p className="truncate text-xs text-muted-foreground">{member.user.email}</p>
+        <p className="truncate text-xs text-muted-foreground">
+          {member.user.email}
+        </p>
       </div>
       <span className="flex shrink-0 items-center gap-1 rounded-full bg-background px-3 py-1 text-xs font-semibold">
         {member.role === "OWNER" && <Crown className="size-3.5" />}

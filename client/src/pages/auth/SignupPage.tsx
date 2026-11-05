@@ -14,6 +14,7 @@ import {
 } from "@/features/auth/auth.schema";
 import { useSignup } from "@/features/auth/useAuth";
 import { GoogleIcon } from "../../components/auth/GoogleIcon";
+import { env } from "@/lib/env";
 
 // Soft grey pill fields, matching the app's cards
 const FIELD = "h-12 rounded-2xl border-transparent bg-card pl-11 shadow-none";
@@ -218,11 +219,14 @@ export default function SignupPage() {
         </div>
 
         <Button
+          asChild
           variant="outline"
           className="h-12 w-full"
         >
-          <GoogleIcon className="size-5" />
-          Sign up with Google
+          <a href={`${env.backendUrl}/auth/google`}>
+            <GoogleIcon className="size-5" />
+            Sign up with Google
+          </a>
         </Button>
       </div>
     </div>

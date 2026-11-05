@@ -12,6 +12,7 @@ const memberUserSelect = {
   id: true,
   name: true,
   email: true,
+  profileUrl: true,
 } as const satisfies Prisma.UserSelect;
 
 // Safe membership columns.
