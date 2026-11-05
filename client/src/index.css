@@ -59,6 +59,8 @@
 }
 
 .dark {
+  /* Makes native controls dark too: date/time picker icons and popups, scrollbars */
+  color-scheme: dark;
   /* Same layout, charcoal instead of white; primary flips to near-white */
   --page-from:           oklch(0.16 0.005 270);
   --page-to:             oklch(0.1 0.005 270);
