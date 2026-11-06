@@ -118,34 +118,37 @@ function MemberRow({
           {member.user.email}
         </p>
       </div>
-      <span className="flex shrink-0 items-center gap-1 rounded-full bg-background px-3 py-1 text-xs font-semibold">
+      {/* Fixed widths keep badges and menus in one column on every row */}
+      <span className="flex w-24 shrink-0 items-center justify-center gap-1 rounded-full bg-background py-1 text-xs font-semibold">
         {member.role === "OWNER" && <Crown className="size-3.5" />}
         {member.role}
       </span>
 
-      {showActions && (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant="ghost"
-              size="icon-sm"
-              disabled={isBusy}
-              aria-label={`Actions for ${member.user.name}`}
-            >
-              <MoreHorizontal />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem onSelect={handleTransfer}>
-              <Crown /> Make owner
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem variant="destructive" onSelect={handleRemove}>
-              <UserMinus /> Remove from group
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      )}
+      <div className="size-8 shrink-0">
+        {showActions && (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="ghost"
+                size="icon-sm"
+                disabled={isBusy}
+                aria-label={`Actions for ${member.user.name}`}
+              >
+                <MoreHorizontal />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem onSelect={handleTransfer}>
+                <Crown /> Make owner
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem variant="destructive" onSelect={handleRemove}>
+                <UserMinus /> Remove from group
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        )}
+      </div>
     </li>
   );
 }
