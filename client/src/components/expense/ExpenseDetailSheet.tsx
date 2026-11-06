@@ -2,6 +2,7 @@ import { Pencil, Trash2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import { UserAvatar } from "@/components/ui/user-avatar";
 import {
   Sheet,
   SheetContent,
@@ -71,10 +72,15 @@ function ExpenseDetailBody({
     <>
       <SheetHeader>
         <SheetTitle className="pr-8">{expense?.description ?? "Expense"}</SheetTitle>
-        <SheetDescription>
-          {expense
-            ? `Paid by ${expense.paidBy.name} on ${new Date(expense.createdAt).toLocaleDateString()}`
-            : "Loading…"}
+        <SheetDescription className="flex items-center gap-2">
+          {expense ? (
+            <>
+              <UserAvatar user={expense.paidBy} className="size-6" fallbackClassName="bg-card text-xs" />
+              {`Paid by ${expense.paidBy.name} on ${new Date(expense.createdAt).toLocaleDateString()}`}
+            </>
+          ) : (
+            "Loading…"
+          )}
         </SheetDescription>
       </SheetHeader>
 
@@ -93,7 +99,10 @@ function ExpenseDetailBody({
               <ul className="space-y-1 rounded-2xl bg-card p-1.5">
                 {expense.splits.map((split) => (
                   <li key={split.id} className="flex items-center justify-between gap-3 rounded-xl bg-background px-3 py-2.5">
-                    <span className="truncate text-sm">{split.user.name}</span>
+                    <span className="flex min-w-0 items-center gap-3">
+                      <UserAvatar user={split.user} className="size-8" fallbackClassName="bg-card" />
+                      <span className="truncate text-sm">{split.user.name}</span>
+                    </span>
                     <span className="font-mono text-sm">{split.amount}</span>
                   </li>
                 ))}
