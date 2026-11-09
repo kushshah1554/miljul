@@ -1,3 +1,4 @@
+import { confirm } from "@/components/ui/confirm-dialog";
 import { Navigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -58,11 +59,13 @@ function JoinCodeCard({ group }: { group: Group }) {
     }
   };
 
-  const regenerate = () => {
+  const regenerate = async () => {
     if (
-      window.confirm(
-        "Generate a new code? The current code will stop working immediately.",
-      )
+      await confirm({
+        title: "Generate a new code?",
+        description: "The current code will stop working immediately.",
+        confirmText: "Generate",
+      })
     ) {
       handleRegenerate();
     }
@@ -190,11 +193,15 @@ function LifecycleCard({ group }: { group: Group }) {
   const archive = useArchiveGroup(group.id);
   const restore = useRestoreGroup(group.id);
 
-  const handleArchive = () => {
+  const handleArchive = async () => {
     if (
-      window.confirm(
-        `Archive "${group.name}"? It becomes read-only until restored.`,
-      )
+      await confirm({
+        title: `Archive "${group.name}"?`,
+        description:
+          "It becomes read-only until restored. Every chore's current turn is waived, and chores start a fresh cycle when the group is restored.",
+        confirmText: "Archive",
+        destructive: true,
+      })
     ) {
       archive.mutate();
     }

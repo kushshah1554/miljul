@@ -1,3 +1,4 @@
+import { confirm } from "@/components/ui/confirm-dialog";
 import { useState } from "react";
 import { CalendarClock, UserMinus, UserPlus } from "lucide-react";
 import { toast } from "sonner";
@@ -107,10 +108,17 @@ function ParticipantRow({
   const holdsTurn = chore.currentAssignment?.userId === p.userId;
   const done = { onSuccess: () => setMode(null) };
 
-  const handleRemove = () => {
+  const handleRemove = async () => {
     // Removing whoever holds the current turn needs a decision about that turn
     if (holdsTurn) return setMode("remove");
-    if (window.confirm(`Remove ${p.user.name} from "${chore.name}"? Their history is kept.`)) {
+    if (
+      await confirm({
+        title: `Remove ${p.user.name} from "${chore.name}"?`,
+        description: "Their history is kept.",
+        confirmText: "Remove",
+        destructive: true,
+      })
+    ) {
       remove.mutate({ userId: p.userId });
     }
   };

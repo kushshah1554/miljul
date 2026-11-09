@@ -1,12 +1,19 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { ChoreStatus, GroupRole, Prisma } from "../../generated/prisma/client";
+import { resetChoresForGroupArchive, restartChoresForGroupRestore } from "./chore.engine";
 import { archiveChore, restoreChore, setAvailability } from "./chore.service";
 
 const { tx } = vi.hoisted(() => ({
   tx: {
     group: { findUnique: vi.fn() },
     groupMember: { findUnique: vi.fn(), findMany: vi.fn() },
-    chore: { findFirst: vi.fn(), findMany: vi.fn(), findUniqueOrThrow: vi.fn(), update: vi.fn() },
+    chore: {
+      findFirst: vi.fn(),
+      findMany: vi.fn(),
+      findUniqueOrThrow: vi.fn(),
+      update: vi.fn(),
+      updateMany: vi.fn(),
+    },
     choreAssignment: {
       findMany: vi.fn(),
       updateMany: vi.fn(),
@@ -103,6 +110,61 @@ describe("restoreChore", () => {
       order: ["a", "b", "c"],
     });
     expect(tx.choreAssignment.create.mock.calls[0][0].data.userId).toBe("a");
+  });
+});
+
+describe("group archive / restore", () => {
+  it("archive waives open turns of every non-archived chore and ends their cycles", async () => {
+    const now = new Date();
+    await resetChoresForGroupArchive(tx as never, "group", "owner", now);
+
+    const notArchived = { groupId: "group", status: { not: ChoreStatus.ARCHIVED } };
+    expect(tx.choreAssignment.updateMany.mock.calls[0][0]).toMatchObject({
+      where: { chore: notArchived },
+      data: { status: "WAIVED", closeReason: "Group archived", closedById: "owner" },
+    });
+    expect(tx.choreCycle.updateMany.mock.calls[0][0]).toEqual({
+      where: { chore: notArchived, endedAt: null },
+      data: { endedAt: now },
+    });
+    expect(tx.chore.updateMany.mock.calls[0][0]).toEqual({
+      where: notArchived,
+      data: { currentAssignmentId: null },
+    });
+  });
+
+  it("restore gives a paused chore a fresh first turn but keeps it frozen", async () => {
+    const now = new Date();
+    tx.chore.findMany
+      .mockResolvedValueOnce([{ id: "chore" }]) // paused chores
+      .mockResolvedValueOnce([]); // catchUpGroup: running chores
+    tx.chore.findUniqueOrThrow.mockResolvedValue(choreRow(ChoreStatus.PAUSED));
+    tx.choreParticipant.findMany.mockResolvedValue([
+      { userId: "a", unavailableUntil: null },
+      { userId: "b", unavailableUntil: null },
+    ]);
+    tx.choreCycle.findFirst.mockResolvedValueOnce(null).mockResolvedValueOnce({ number: 2 });
+    tx.choreCycle.create.mockResolvedValue({
+      id: "cycle",
+      number: 3,
+      order: ["a", "b"],
+      startedAt: now,
+      endedAt: null,
+    });
+    tx.choreAssignment.create.mockResolvedValue({ id: "turn" });
+
+    await restartChoresForGroupRestore(tx as never, "group", "UTC", now);
+
+    expect(tx.chore.findMany.mock.calls[0][0].where).toEqual({
+      groupId: "group",
+      status: ChoreStatus.PAUSED,
+    });
+    expect(tx.choreAssignment.create.mock.calls[0][0].data.userId).toBe("a");
+    const updates = tx.chore.update.mock.calls.map((c) => c[0].data);
+    expect(updates[0]).toEqual({ frozenAt: null });
+    expect(updates.at(-1)).toEqual({ frozenAt: now });
+    // Never flipped out of PAUSED
+    expect(updates.some((d) => "status" in d)).toBe(false);
   });
 });
 

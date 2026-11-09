@@ -1,3 +1,4 @@
+import { confirm } from "@/components/ui/confirm-dialog";
 import { Crown, LogOut, MoreHorizontal, UserMinus } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -26,11 +27,14 @@ export function MembersCard({ group }: { group: Group }) {
   const { data: members, isPending, isError, error } = useMembers(group.id);
   const leave = useLeaveGroup(group.id, myUserId);
 
-  const handleLeave = () => {
+  const handleLeave = async () => {
     if (
-      window.confirm(
-        `Leave "${group.name}"? Your expense history stays in the group.`,
-      )
+      await confirm({
+        title: `Leave "${group.name}"?`,
+        description: "Your expense history stays in the group.",
+        confirmText: "Leave",
+        destructive: true,
+      })
     ) {
       leave.mutate();
     }
@@ -90,17 +94,25 @@ function MemberRow({
   const showActions = !group.isArchived && !isMe && isOwner(group.role);
   const isBusy = remove.isPending || transfer.isPending;
 
-  const handleRemove = () => {
-    if (window.confirm(`Remove ${member.user.name} from the group?`)) {
+  const handleRemove = async () => {
+    if (
+      await confirm({
+        title: `Remove ${member.user.name} from the group?`,
+        confirmText: "Remove",
+        destructive: true,
+      })
+    ) {
       remove.mutate(member.userId);
     }
   };
 
-  const handleTransfer = () => {
+  const handleTransfer = async () => {
     if (
-      window.confirm(
-        `Make ${member.user.name} the owner? You will become a regular member.`,
-      )
+      await confirm({
+        title: `Make ${member.user.name} the owner?`,
+        description: "You will become a regular member.",
+        confirmText: "Transfer",
+      })
     ) {
       transfer.mutate(member.userId);
     }

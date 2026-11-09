@@ -1,3 +1,4 @@
+import { confirm } from "@/components/ui/confirm-dialog";
 import { Pencil, Trash2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -62,8 +63,16 @@ function ExpenseDetailBody({
   const { data: expense, isPending, isError, error } = useExpense(groupId, expenseId);
   const remove = useDeleteExpense(groupId);
 
-  const handleDelete = () => {
-    if (expense && window.confirm(`Delete "${expense.description}"? This cannot be undone.`)) {
+  const handleDelete = async () => {
+    if (
+      expense &&
+      (await confirm({
+        title: `Delete "${expense.description}"?`,
+        description: "This cannot be undone.",
+        confirmText: "Delete",
+        destructive: true,
+      }))
+    ) {
       remove.mutate(expense.id, { onSuccess: onClose });
     }
   };

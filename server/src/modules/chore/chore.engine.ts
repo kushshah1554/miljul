@@ -202,6 +202,49 @@ export async function catchUpGroup(tx: Tx, groupId: string, timezone: string, no
   await recordOverdueFines(tx, groupId, now);
 }
 
+/**
+ * Group archive: like archiving each chore, but statuses are kept. Open
+ * turns of every non-archived chore (paused ones too) are waived and the
+ * open cycle ends, so a group restore starts fresh from the original queue.
+ * Call catchUpGroup first so turns that ended before the archive keep their fines.
+ */
+export async function resetChoresForGroupArchive(tx: Tx, groupId: string, userId: string, now: Date) {
+  const chore = { groupId, status: { not: ChoreStatus.ARCHIVED } };
+  await tx.choreAssignment.updateMany({
+    where: {
+      chore,
+      status: { in: [ChoreAssignmentStatus.PENDING, ChoreAssignmentStatus.SUBMITTED] },
+    },
+    data: {
+      status: ChoreAssignmentStatus.WAIVED,
+      closedById: userId,
+      closedAt: now,
+      closeReason: "Group archived",
+    },
+  });
+  await tx.choreCycle.updateMany({ where: { chore, endedAt: null }, data: { endedAt: now } });
+  await tx.chore.updateMany({ where: chore, data: { currentAssignmentId: null } });
+}
+
+/**
+ * Group restore: every non-archived chore starts a fresh cycle with a turn
+ * starting now. Paused chores get their fresh turn but stay paused (clock
+ * stopped at once); chores archived on their own stay archived.
+ */
+export async function restartChoresForGroupRestore(tx: Tx, groupId: string, timezone: string, now: Date) {
+  const paused = await tx.chore.findMany({
+    where: { groupId, status: ChoreStatus.PAUSED },
+    select: { id: true },
+  });
+  for (const { id } of paused) {
+    await tx.chore.update({ where: { id }, data: { frozenAt: null } });
+    await catchUpChore(tx, id, timezone, now);
+    await tx.chore.update({ where: { id }, data: { frozenAt: now } });
+  }
+  // Paused chores are frozen again, so this only restarts the running ones.
+  await catchUpGroup(tx, groupId, timezone, now);
+}
+
 /** Background job body: catch up every active group that has chores. */
 export async function catchUpAllGroups() {
   const groups = await prisma.group.findMany({

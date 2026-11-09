@@ -2,6 +2,12 @@ import { randomInt } from "node:crypto";
 import { prisma } from "../../utils/prisma";
 import { AppError } from "../../utils/AppError";
 import { requireFound } from "../../utils/helpers";
+import { runSerializable } from "../../utils/transaction";
+import {
+  catchUpGroup,
+  resetChoresForGroupArchive,
+  restartChoresForGroupRestore,
+} from "../chore/chore.engine";
 import { Prisma, GroupRole } from "../../generated/prisma/client";
 import { JOIN_CODE_LENGTH } from "./group.validation";
 import type {
@@ -341,23 +347,19 @@ export async function regenerateJoinCode(
   });
 }
 
-/**
- * Archives a group: a lifecycle transition, never a delete. Only the OWNER
- * may archive (non-members get 404, other members 403). The state flip is
- * a conditional updateMany, so a concurrent duplicate archive can never
- * both report success - exactly one wins and the other gets 409.
- *
- * Only isArchived/archivedAt on the group row change: memberships,
- * expenses, expense splits and every other historical record are
- * deliberately untouched.
- */
-export async function archiveGroup(
+/** Owner-only lookup shared by archive/restore (non-members 404, members 403). */
+async function requireOwnerForLifecycle(
+  tx: Prisma.TransactionClient,
   userId: string,
   groupId: string,
-): Promise<GroupSummary> {
-  const existing = await prisma.group.findFirst({
+  action: string,
+) {
+  const existing = await tx.group.findFirst({
     where: { id: groupId, members: { some: { userId } } },
-    select: { members: { where: { userId }, select: { role: true }, take: 1 } },
+    select: {
+      timezone: true,
+      members: { where: { userId }, select: { role: true }, take: 1 },
+    },
   });
 
   if (!existing) {
@@ -365,17 +367,42 @@ export async function archiveGroup(
   }
 
   if (existing.members[0]?.role !== GroupRole.OWNER) {
-    throw new AppError(403, "Only the group owner can archive the group");
+    throw new AppError(403, `Only the group owner can ${action} the group`);
   }
 
-  const archived = await prisma.group.updateMany({
-    where: { id: groupId, isArchived: false },
-    data: { isArchived: true, archivedAt: new Date() },
+  return existing;
+}
+
+/**
+ * Archives a group: a lifecycle transition, never a delete. Only the OWNER
+ * may archive (non-members get 404, other members 403). The state flip is
+ * a conditional updateMany, so a concurrent duplicate archive can never
+ * both report success - exactly one wins and the other gets 409.
+ *
+ * Chores are settled up to now (rotations, overdue fines), then every
+ * open turn is waived and every open cycle ends, so a restore starts each
+ * chore fresh. Memberships, expenses and other history are untouched.
+ */
+export async function archiveGroup(
+  userId: string,
+  groupId: string,
+): Promise<GroupSummary> {
+  await runSerializable(async (tx) => {
+    const { timezone } = await requireOwnerForLifecycle(tx, userId, groupId, "archive");
+    const now = new Date();
+
+    const archived = await tx.group.updateMany({
+      where: { id: groupId, isArchived: false },
+      data: { isArchived: true, archivedAt: now },
+    });
+
+    if (archived.count === 0) {
+      throw new AppError(409, "Group is already archived");
+    }
+
+    await catchUpGroup(tx, groupId, timezone, now);
+    await resetChoresForGroupArchive(tx, groupId, userId, now);
   });
-
-  if (archived.count === 0) {
-    throw new AppError(409, "Group is already archived");
-  }
 
   return getSummary(userId, groupId);
 }
@@ -384,32 +411,27 @@ export async function archiveGroup(
  * Restores an archived group to active. Only the OWNER may restore
  * (symmetric with archiving); archivedAt is cleared. Uses the same
  * conditional-write protection as archiving against duplicate restores.
+ * Every chore not archived on its own starts a fresh cycle now; paused
+ * chores stay paused.
  */
 export async function restoreGroup(
   userId: string,
   groupId: string,
 ): Promise<GroupSummary> {
-  const existing = await prisma.group.findFirst({
-    where: { id: groupId, members: { some: { userId } } },
-    select: { members: { where: { userId }, select: { role: true }, take: 1 } },
+  await runSerializable(async (tx) => {
+    const { timezone } = await requireOwnerForLifecycle(tx, userId, groupId, "restore");
+
+    const restored = await tx.group.updateMany({
+      where: { id: groupId, isArchived: true },
+      data: { isArchived: false, archivedAt: null },
+    });
+
+    if (restored.count === 0) {
+      throw new AppError(409, "Group is not archived");
+    }
+
+    await restartChoresForGroupRestore(tx, groupId, timezone, new Date());
   });
-
-  if (!existing) {
-    throw new AppError(404, "Group not found");
-  }
-
-  if (existing.members[0]?.role !== GroupRole.OWNER) {
-    throw new AppError(403, "Only the group owner can restore the group");
-  }
-
-  const restored = await prisma.group.updateMany({
-    where: { id: groupId, isArchived: true },
-    data: { isArchived: false, archivedAt: null },
-  });
-
-  if (restored.count === 0) {
-    throw new AppError(409, "Group is not archived");
-  }
 
   return getSummary(userId, groupId);
 }

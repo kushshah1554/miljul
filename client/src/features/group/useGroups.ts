@@ -120,12 +120,15 @@ export function useRegenerateJoinCode(groupId: string) {
 }
 
 export function useArchiveGroup(groupId: string) {
+  const queryClient = useQueryClient();
   const syncGroup = useSyncGroup();
 
   return useMutation({
     mutationFn: () => archiveGroup(groupId),
     onSuccess: ({ group }) => {
       syncGroup(group);
+      // Archive waives / restore restarts every chore turn (choreKeys.all, inlined to avoid a cycle)
+      queryClient.invalidateQueries({ queryKey: [...groupKeys.detail(groupId), "chores"] });
       toast.success("Group archived");
     },
     onError: (error: Error) => {
@@ -135,12 +138,15 @@ export function useArchiveGroup(groupId: string) {
 }
 
 export function useRestoreGroup(groupId: string) {
+  const queryClient = useQueryClient();
   const syncGroup = useSyncGroup();
 
   return useMutation({
     mutationFn: () => restoreGroup(groupId),
     onSuccess: ({ group }) => {
       syncGroup(group);
+      // Archive waives / restore restarts every chore turn (choreKeys.all, inlined to avoid a cycle)
+      queryClient.invalidateQueries({ queryKey: [...groupKeys.detail(groupId), "chores"] });
       toast.success("Group restored");
     },
     onError: (error: Error) => {
