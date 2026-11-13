@@ -74,6 +74,8 @@ model Group {
   chores         Chore[]
   chorePauses    ChorePause[]
 
+  anonymousMessages AnonymousMessage[]
+
   @@index([createdById])
   @@map("groups")
 }
@@ -375,4 +377,19 @@ model ChorePause {
 
   @@index([groupId, choreId, resumedAt])
   @@map("chore_pauses")
+}
+
+// ─── Anonymous messages ───────────────────────────────────────────────────────
+// Deliberately has NO user reference: the author must never be recoverable.
+
+model AnonymousMessage {
+  id        String   @id @default(cuid())
+  groupId   String
+  content   String
+  createdAt DateTime @default(now())
+
+  group Group @relation(fields: [groupId], references: [id], onDelete: Cascade)
+
+  @@index([groupId, createdAt])
+  @@map("anonymous_messages")
 }

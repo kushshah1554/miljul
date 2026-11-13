@@ -64,7 +64,8 @@ export const ModelName = {
   ChoreReview: 'ChoreReview',
   ChoreFine: 'ChoreFine',
   ChoreFineShare: 'ChoreFineShare',
-  ChorePause: 'ChorePause'
+  ChorePause: 'ChorePause',
+  AnonymousMessage: 'AnonymousMessage'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -282,6 +283,16 @@ export const ChorePauseScalarFieldEnum = {
 } as const
 
 export type ChorePauseScalarFieldEnum = (typeof ChorePauseScalarFieldEnum)[keyof typeof ChorePauseScalarFieldEnum]
+
+
+export const AnonymousMessageScalarFieldEnum = {
+  id: 'id',
+  groupId: 'groupId',
+  content: 'content',
+  createdAt: 'createdAt'
+} as const
+
+export type AnonymousMessageScalarFieldEnum = (typeof AnonymousMessageScalarFieldEnum)[keyof typeof AnonymousMessageScalarFieldEnum]
 
 
 export const SortOrder = {

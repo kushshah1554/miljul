@@ -410,7 +410,8 @@ export const ModelName = {
   ChoreReview: 'ChoreReview',
   ChoreFine: 'ChoreFine',
   ChoreFineShare: 'ChoreFineShare',
-  ChorePause: 'ChorePause'
+  ChorePause: 'ChorePause',
+  AnonymousMessage: 'AnonymousMessage'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -426,7 +427,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "group" | "groupMember" | "expense" | "expenseSplit" | "chore" | "choreParticipant" | "choreCycle" | "choreAssignment" | "choreChecklistItem" | "choreReview" | "choreFine" | "choreFineShare" | "chorePause"
+    modelProps: "user" | "group" | "groupMember" | "expense" | "expenseSplit" | "chore" | "choreParticipant" | "choreCycle" | "choreAssignment" | "choreChecklistItem" | "choreReview" | "choreFine" | "choreFineShare" | "chorePause" | "anonymousMessage"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1466,6 +1467,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    AnonymousMessage: {
+      payload: Prisma.$AnonymousMessagePayload<ExtArgs>
+      fields: Prisma.AnonymousMessageFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.AnonymousMessageFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnonymousMessagePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.AnonymousMessageFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnonymousMessagePayload>
+        }
+        findFirst: {
+          args: Prisma.AnonymousMessageFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnonymousMessagePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.AnonymousMessageFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnonymousMessagePayload>
+        }
+        findMany: {
+          args: Prisma.AnonymousMessageFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnonymousMessagePayload>[]
+        }
+        create: {
+          args: Prisma.AnonymousMessageCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnonymousMessagePayload>
+        }
+        createMany: {
+          args: Prisma.AnonymousMessageCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.AnonymousMessageCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnonymousMessagePayload>[]
+        }
+        delete: {
+          args: Prisma.AnonymousMessageDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnonymousMessagePayload>
+        }
+        update: {
+          args: Prisma.AnonymousMessageUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnonymousMessagePayload>
+        }
+        deleteMany: {
+          args: Prisma.AnonymousMessageDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.AnonymousMessageUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.AnonymousMessageUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnonymousMessagePayload>[]
+        }
+        upsert: {
+          args: Prisma.AnonymousMessageUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnonymousMessagePayload>
+        }
+        aggregate: {
+          args: Prisma.AnonymousMessageAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAnonymousMessage>
+        }
+        groupBy: {
+          args: Prisma.AnonymousMessageGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AnonymousMessageGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.AnonymousMessageCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AnonymousMessageCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1704,6 +1779,16 @@ export const ChorePauseScalarFieldEnum = {
 } as const
 
 export type ChorePauseScalarFieldEnum = (typeof ChorePauseScalarFieldEnum)[keyof typeof ChorePauseScalarFieldEnum]
+
+
+export const AnonymousMessageScalarFieldEnum = {
+  id: 'id',
+  groupId: 'groupId',
+  content: 'content',
+  createdAt: 'createdAt'
+} as const
+
+export type AnonymousMessageScalarFieldEnum = (typeof AnonymousMessageScalarFieldEnum)[keyof typeof AnonymousMessageScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -2105,6 +2190,7 @@ export type GlobalOmitConfig = {
   choreFine?: Prisma.ChoreFineOmit
   choreFineShare?: Prisma.ChoreFineShareOmit
   chorePause?: Prisma.ChorePauseOmit
+  anonymousMessage?: Prisma.AnonymousMessageOmit
 }
 
 /* Types for Logging */

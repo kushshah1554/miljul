@@ -8,6 +8,7 @@ import {
   ListChecks,
   LogOut,
   Menu,
+  MessageSquareWarning,
   Mountain,
   PanelLeftClose,
   PanelLeftOpen,
@@ -95,6 +96,7 @@ function useNavSections(): NavSections {
       { title: "Chores", to: `${base}/chores`, icon: ListChecks, prefix: true },
       { title: "Fines", to: `${base}/fines`, icon: HandCoins },
       { title: "Members", to: `${base}/members`, icon: Users },
+      { title: "Messages", to: `${base}/messages`, icon: MessageSquareWarning },
       // Settings (join code, edit, archive) are owner-only
       ...(group && isOwner(group.role)
         ? [{ title: "Settings", to: `${base}/settings`, icon: Settings }]

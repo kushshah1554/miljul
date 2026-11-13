@@ -87,3 +87,8 @@ export type ChoreFineShare = Prisma.ChoreFineShareModel
  * 
  */
 export type ChorePause = Prisma.ChorePauseModel
+/**
+ * Model AnonymousMessage
+ * 
+ */
+export type AnonymousMessage = Prisma.AnonymousMessageModel
