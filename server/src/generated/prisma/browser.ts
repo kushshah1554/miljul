@@ -92,3 +92,8 @@ export type ChorePause = Prisma.ChorePauseModel
  * 
  */
 export type AnonymousMessage = Prisma.AnonymousMessageModel
+/**
+ * Model AnonymousMessageQuota
+ * 
+ */
+export type AnonymousMessageQuota = Prisma.AnonymousMessageQuotaModel

@@ -5,7 +5,7 @@ import * as messageController from "./anonymous-message.controller";
 export const anonymousMessageRouter = Router();
 
 // Mounted at /api/groups:
-//   POST   /api/groups/:groupId/anonymous-messages              any member
+//   POST   /api/groups/:groupId/anonymous-messages              any member, 3 per day
 //   GET    /api/groups/:groupId/anonymous-messages              any member, paginated
 //   DELETE /api/groups/:groupId/anonymous-messages/:messageId   owner only
 

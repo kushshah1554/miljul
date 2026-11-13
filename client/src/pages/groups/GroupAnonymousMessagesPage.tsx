@@ -59,7 +59,7 @@ export default function GroupAnonymousMessagesPage() {
       <div>
         <h2 className="text-lg font-semibold">Anonymous messages</h2>
         <p className="text-sm text-muted-foreground">
-          Raise a complaint or concern. Your name is never stored with the message.
+          Raise a complaint or concern. Your name is never stored with the message. You can post up to 3 messages a day.
         </p>
       </div>
 

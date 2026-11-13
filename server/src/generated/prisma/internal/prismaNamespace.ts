@@ -411,7 +411,8 @@ export const ModelName = {
   ChoreFine: 'ChoreFine',
   ChoreFineShare: 'ChoreFineShare',
   ChorePause: 'ChorePause',
-  AnonymousMessage: 'AnonymousMessage'
+  AnonymousMessage: 'AnonymousMessage',
+  AnonymousMessageQuota: 'AnonymousMessageQuota'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -427,7 +428,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "group" | "groupMember" | "expense" | "expenseSplit" | "chore" | "choreParticipant" | "choreCycle" | "choreAssignment" | "choreChecklistItem" | "choreReview" | "choreFine" | "choreFineShare" | "chorePause" | "anonymousMessage"
+    modelProps: "user" | "group" | "groupMember" | "expense" | "expenseSplit" | "chore" | "choreParticipant" | "choreCycle" | "choreAssignment" | "choreChecklistItem" | "choreReview" | "choreFine" | "choreFineShare" | "chorePause" | "anonymousMessage" | "anonymousMessageQuota"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1541,6 +1542,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    AnonymousMessageQuota: {
+      payload: Prisma.$AnonymousMessageQuotaPayload<ExtArgs>
+      fields: Prisma.AnonymousMessageQuotaFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.AnonymousMessageQuotaFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnonymousMessageQuotaPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.AnonymousMessageQuotaFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnonymousMessageQuotaPayload>
+        }
+        findFirst: {
+          args: Prisma.AnonymousMessageQuotaFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnonymousMessageQuotaPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.AnonymousMessageQuotaFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnonymousMessageQuotaPayload>
+        }
+        findMany: {
+          args: Prisma.AnonymousMessageQuotaFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnonymousMessageQuotaPayload>[]
+        }
+        create: {
+          args: Prisma.AnonymousMessageQuotaCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnonymousMessageQuotaPayload>
+        }
+        createMany: {
+          args: Prisma.AnonymousMessageQuotaCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.AnonymousMessageQuotaCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnonymousMessageQuotaPayload>[]
+        }
+        delete: {
+          args: Prisma.AnonymousMessageQuotaDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnonymousMessageQuotaPayload>
+        }
+        update: {
+          args: Prisma.AnonymousMessageQuotaUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnonymousMessageQuotaPayload>
+        }
+        deleteMany: {
+          args: Prisma.AnonymousMessageQuotaDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.AnonymousMessageQuotaUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.AnonymousMessageQuotaUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnonymousMessageQuotaPayload>[]
+        }
+        upsert: {
+          args: Prisma.AnonymousMessageQuotaUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnonymousMessageQuotaPayload>
+        }
+        aggregate: {
+          args: Prisma.AnonymousMessageQuotaAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAnonymousMessageQuota>
+        }
+        groupBy: {
+          args: Prisma.AnonymousMessageQuotaGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AnonymousMessageQuotaGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.AnonymousMessageQuotaCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AnonymousMessageQuotaCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1789,6 +1864,16 @@ export const AnonymousMessageScalarFieldEnum = {
 } as const
 
 export type AnonymousMessageScalarFieldEnum = (typeof AnonymousMessageScalarFieldEnum)[keyof typeof AnonymousMessageScalarFieldEnum]
+
+
+export const AnonymousMessageQuotaScalarFieldEnum = {
+  userId: 'userId',
+  groupId: 'groupId',
+  day: 'day',
+  count: 'count'
+} as const
+
+export type AnonymousMessageQuotaScalarFieldEnum = (typeof AnonymousMessageQuotaScalarFieldEnum)[keyof typeof AnonymousMessageQuotaScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -2191,6 +2276,7 @@ export type GlobalOmitConfig = {
   choreFineShare?: Prisma.ChoreFineShareOmit
   chorePause?: Prisma.ChorePauseOmit
   anonymousMessage?: Prisma.AnonymousMessageOmit
+  anonymousMessageQuota?: Prisma.AnonymousMessageQuotaOmit
 }
 
 /* Types for Logging */

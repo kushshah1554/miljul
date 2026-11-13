@@ -236,6 +236,7 @@ export type GroupWhereInput = {
   chores?: Prisma.ChoreListRelationFilter
   chorePauses?: Prisma.ChorePauseListRelationFilter
   anonymousMessages?: Prisma.AnonymousMessageListRelationFilter
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaListRelationFilter
 }
 
 export type GroupOrderByWithRelationInput = {
@@ -256,6 +257,7 @@ export type GroupOrderByWithRelationInput = {
   chores?: Prisma.ChoreOrderByRelationAggregateInput
   chorePauses?: Prisma.ChorePauseOrderByRelationAggregateInput
   anonymousMessages?: Prisma.AnonymousMessageOrderByRelationAggregateInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaOrderByRelationAggregateInput
 }
 
 export type GroupWhereUniqueInput = Prisma.AtLeast<{
@@ -279,6 +281,7 @@ export type GroupWhereUniqueInput = Prisma.AtLeast<{
   chores?: Prisma.ChoreListRelationFilter
   chorePauses?: Prisma.ChorePauseListRelationFilter
   anonymousMessages?: Prisma.AnonymousMessageListRelationFilter
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaListRelationFilter
 }, "id" | "joinCode">
 
 export type GroupOrderByWithAggregationInput = {
@@ -332,6 +335,7 @@ export type GroupCreateInput = {
   chores?: Prisma.ChoreCreateNestedManyWithoutGroupInput
   chorePauses?: Prisma.ChorePauseCreateNestedManyWithoutGroupInput
   anonymousMessages?: Prisma.AnonymousMessageCreateNestedManyWithoutGroupInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaCreateNestedManyWithoutGroupInput
 }
 
 export type GroupUncheckedCreateInput = {
@@ -351,6 +355,7 @@ export type GroupUncheckedCreateInput = {
   chores?: Prisma.ChoreUncheckedCreateNestedManyWithoutGroupInput
   chorePauses?: Prisma.ChorePauseUncheckedCreateNestedManyWithoutGroupInput
   anonymousMessages?: Prisma.AnonymousMessageUncheckedCreateNestedManyWithoutGroupInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaUncheckedCreateNestedManyWithoutGroupInput
 }
 
 export type GroupUpdateInput = {
@@ -370,6 +375,7 @@ export type GroupUpdateInput = {
   chores?: Prisma.ChoreUpdateManyWithoutGroupNestedInput
   chorePauses?: Prisma.ChorePauseUpdateManyWithoutGroupNestedInput
   anonymousMessages?: Prisma.AnonymousMessageUpdateManyWithoutGroupNestedInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaUpdateManyWithoutGroupNestedInput
 }
 
 export type GroupUncheckedUpdateInput = {
@@ -389,6 +395,7 @@ export type GroupUncheckedUpdateInput = {
   chores?: Prisma.ChoreUncheckedUpdateManyWithoutGroupNestedInput
   chorePauses?: Prisma.ChorePauseUncheckedUpdateManyWithoutGroupNestedInput
   anonymousMessages?: Prisma.AnonymousMessageUncheckedUpdateManyWithoutGroupNestedInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaUncheckedUpdateManyWithoutGroupNestedInput
 }
 
 export type GroupCreateManyInput = {
@@ -609,6 +616,20 @@ export type GroupUpdateOneRequiredWithoutAnonymousMessagesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.GroupUpdateToOneWithWhereWithoutAnonymousMessagesInput, Prisma.GroupUpdateWithoutAnonymousMessagesInput>, Prisma.GroupUncheckedUpdateWithoutAnonymousMessagesInput>
 }
 
+export type GroupCreateNestedOneWithoutAnonymousMessageQuotasInput = {
+  create?: Prisma.XOR<Prisma.GroupCreateWithoutAnonymousMessageQuotasInput, Prisma.GroupUncheckedCreateWithoutAnonymousMessageQuotasInput>
+  connectOrCreate?: Prisma.GroupCreateOrConnectWithoutAnonymousMessageQuotasInput
+  connect?: Prisma.GroupWhereUniqueInput
+}
+
+export type GroupUpdateOneRequiredWithoutAnonymousMessageQuotasNestedInput = {
+  create?: Prisma.XOR<Prisma.GroupCreateWithoutAnonymousMessageQuotasInput, Prisma.GroupUncheckedCreateWithoutAnonymousMessageQuotasInput>
+  connectOrCreate?: Prisma.GroupCreateOrConnectWithoutAnonymousMessageQuotasInput
+  upsert?: Prisma.GroupUpsertWithoutAnonymousMessageQuotasInput
+  connect?: Prisma.GroupWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.GroupUpdateToOneWithWhereWithoutAnonymousMessageQuotasInput, Prisma.GroupUpdateWithoutAnonymousMessageQuotasInput>, Prisma.GroupUncheckedUpdateWithoutAnonymousMessageQuotasInput>
+}
+
 export type GroupCreateWithoutCreatedByInput = {
   id?: string
   name: string
@@ -625,6 +646,7 @@ export type GroupCreateWithoutCreatedByInput = {
   chores?: Prisma.ChoreCreateNestedManyWithoutGroupInput
   chorePauses?: Prisma.ChorePauseCreateNestedManyWithoutGroupInput
   anonymousMessages?: Prisma.AnonymousMessageCreateNestedManyWithoutGroupInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaCreateNestedManyWithoutGroupInput
 }
 
 export type GroupUncheckedCreateWithoutCreatedByInput = {
@@ -643,6 +665,7 @@ export type GroupUncheckedCreateWithoutCreatedByInput = {
   chores?: Prisma.ChoreUncheckedCreateNestedManyWithoutGroupInput
   chorePauses?: Prisma.ChorePauseUncheckedCreateNestedManyWithoutGroupInput
   anonymousMessages?: Prisma.AnonymousMessageUncheckedCreateNestedManyWithoutGroupInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaUncheckedCreateNestedManyWithoutGroupInput
 }
 
 export type GroupCreateOrConnectWithoutCreatedByInput = {
@@ -704,6 +727,7 @@ export type GroupCreateWithoutMembersInput = {
   chores?: Prisma.ChoreCreateNestedManyWithoutGroupInput
   chorePauses?: Prisma.ChorePauseCreateNestedManyWithoutGroupInput
   anonymousMessages?: Prisma.AnonymousMessageCreateNestedManyWithoutGroupInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaCreateNestedManyWithoutGroupInput
 }
 
 export type GroupUncheckedCreateWithoutMembersInput = {
@@ -722,6 +746,7 @@ export type GroupUncheckedCreateWithoutMembersInput = {
   chores?: Prisma.ChoreUncheckedCreateNestedManyWithoutGroupInput
   chorePauses?: Prisma.ChorePauseUncheckedCreateNestedManyWithoutGroupInput
   anonymousMessages?: Prisma.AnonymousMessageUncheckedCreateNestedManyWithoutGroupInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaUncheckedCreateNestedManyWithoutGroupInput
 }
 
 export type GroupCreateOrConnectWithoutMembersInput = {
@@ -756,6 +781,7 @@ export type GroupUpdateWithoutMembersInput = {
   chores?: Prisma.ChoreUpdateManyWithoutGroupNestedInput
   chorePauses?: Prisma.ChorePauseUpdateManyWithoutGroupNestedInput
   anonymousMessages?: Prisma.AnonymousMessageUpdateManyWithoutGroupNestedInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaUpdateManyWithoutGroupNestedInput
 }
 
 export type GroupUncheckedUpdateWithoutMembersInput = {
@@ -774,6 +800,7 @@ export type GroupUncheckedUpdateWithoutMembersInput = {
   chores?: Prisma.ChoreUncheckedUpdateManyWithoutGroupNestedInput
   chorePauses?: Prisma.ChorePauseUncheckedUpdateManyWithoutGroupNestedInput
   anonymousMessages?: Prisma.AnonymousMessageUncheckedUpdateManyWithoutGroupNestedInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaUncheckedUpdateManyWithoutGroupNestedInput
 }
 
 export type GroupCreateWithoutExpensesInput = {
@@ -792,6 +819,7 @@ export type GroupCreateWithoutExpensesInput = {
   chores?: Prisma.ChoreCreateNestedManyWithoutGroupInput
   chorePauses?: Prisma.ChorePauseCreateNestedManyWithoutGroupInput
   anonymousMessages?: Prisma.AnonymousMessageCreateNestedManyWithoutGroupInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaCreateNestedManyWithoutGroupInput
 }
 
 export type GroupUncheckedCreateWithoutExpensesInput = {
@@ -810,6 +838,7 @@ export type GroupUncheckedCreateWithoutExpensesInput = {
   chores?: Prisma.ChoreUncheckedCreateNestedManyWithoutGroupInput
   chorePauses?: Prisma.ChorePauseUncheckedCreateNestedManyWithoutGroupInput
   anonymousMessages?: Prisma.AnonymousMessageUncheckedCreateNestedManyWithoutGroupInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaUncheckedCreateNestedManyWithoutGroupInput
 }
 
 export type GroupCreateOrConnectWithoutExpensesInput = {
@@ -844,6 +873,7 @@ export type GroupUpdateWithoutExpensesInput = {
   chores?: Prisma.ChoreUpdateManyWithoutGroupNestedInput
   chorePauses?: Prisma.ChorePauseUpdateManyWithoutGroupNestedInput
   anonymousMessages?: Prisma.AnonymousMessageUpdateManyWithoutGroupNestedInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaUpdateManyWithoutGroupNestedInput
 }
 
 export type GroupUncheckedUpdateWithoutExpensesInput = {
@@ -862,6 +892,7 @@ export type GroupUncheckedUpdateWithoutExpensesInput = {
   chores?: Prisma.ChoreUncheckedUpdateManyWithoutGroupNestedInput
   chorePauses?: Prisma.ChorePauseUncheckedUpdateManyWithoutGroupNestedInput
   anonymousMessages?: Prisma.AnonymousMessageUncheckedUpdateManyWithoutGroupNestedInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaUncheckedUpdateManyWithoutGroupNestedInput
 }
 
 export type GroupCreateWithoutChoresInput = {
@@ -880,6 +911,7 @@ export type GroupCreateWithoutChoresInput = {
   members?: Prisma.GroupMemberCreateNestedManyWithoutGroupInput
   chorePauses?: Prisma.ChorePauseCreateNestedManyWithoutGroupInput
   anonymousMessages?: Prisma.AnonymousMessageCreateNestedManyWithoutGroupInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaCreateNestedManyWithoutGroupInput
 }
 
 export type GroupUncheckedCreateWithoutChoresInput = {
@@ -898,6 +930,7 @@ export type GroupUncheckedCreateWithoutChoresInput = {
   members?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutGroupInput
   chorePauses?: Prisma.ChorePauseUncheckedCreateNestedManyWithoutGroupInput
   anonymousMessages?: Prisma.AnonymousMessageUncheckedCreateNestedManyWithoutGroupInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaUncheckedCreateNestedManyWithoutGroupInput
 }
 
 export type GroupCreateOrConnectWithoutChoresInput = {
@@ -932,6 +965,7 @@ export type GroupUpdateWithoutChoresInput = {
   members?: Prisma.GroupMemberUpdateManyWithoutGroupNestedInput
   chorePauses?: Prisma.ChorePauseUpdateManyWithoutGroupNestedInput
   anonymousMessages?: Prisma.AnonymousMessageUpdateManyWithoutGroupNestedInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaUpdateManyWithoutGroupNestedInput
 }
 
 export type GroupUncheckedUpdateWithoutChoresInput = {
@@ -950,6 +984,7 @@ export type GroupUncheckedUpdateWithoutChoresInput = {
   members?: Prisma.GroupMemberUncheckedUpdateManyWithoutGroupNestedInput
   chorePauses?: Prisma.ChorePauseUncheckedUpdateManyWithoutGroupNestedInput
   anonymousMessages?: Prisma.AnonymousMessageUncheckedUpdateManyWithoutGroupNestedInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaUncheckedUpdateManyWithoutGroupNestedInput
 }
 
 export type GroupCreateWithoutChorePausesInput = {
@@ -968,6 +1003,7 @@ export type GroupCreateWithoutChorePausesInput = {
   members?: Prisma.GroupMemberCreateNestedManyWithoutGroupInput
   chores?: Prisma.ChoreCreateNestedManyWithoutGroupInput
   anonymousMessages?: Prisma.AnonymousMessageCreateNestedManyWithoutGroupInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaCreateNestedManyWithoutGroupInput
 }
 
 export type GroupUncheckedCreateWithoutChorePausesInput = {
@@ -986,6 +1022,7 @@ export type GroupUncheckedCreateWithoutChorePausesInput = {
   members?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutGroupInput
   chores?: Prisma.ChoreUncheckedCreateNestedManyWithoutGroupInput
   anonymousMessages?: Prisma.AnonymousMessageUncheckedCreateNestedManyWithoutGroupInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaUncheckedCreateNestedManyWithoutGroupInput
 }
 
 export type GroupCreateOrConnectWithoutChorePausesInput = {
@@ -1020,6 +1057,7 @@ export type GroupUpdateWithoutChorePausesInput = {
   members?: Prisma.GroupMemberUpdateManyWithoutGroupNestedInput
   chores?: Prisma.ChoreUpdateManyWithoutGroupNestedInput
   anonymousMessages?: Prisma.AnonymousMessageUpdateManyWithoutGroupNestedInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaUpdateManyWithoutGroupNestedInput
 }
 
 export type GroupUncheckedUpdateWithoutChorePausesInput = {
@@ -1038,6 +1076,7 @@ export type GroupUncheckedUpdateWithoutChorePausesInput = {
   members?: Prisma.GroupMemberUncheckedUpdateManyWithoutGroupNestedInput
   chores?: Prisma.ChoreUncheckedUpdateManyWithoutGroupNestedInput
   anonymousMessages?: Prisma.AnonymousMessageUncheckedUpdateManyWithoutGroupNestedInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaUncheckedUpdateManyWithoutGroupNestedInput
 }
 
 export type GroupCreateWithoutAnonymousMessagesInput = {
@@ -1056,6 +1095,7 @@ export type GroupCreateWithoutAnonymousMessagesInput = {
   members?: Prisma.GroupMemberCreateNestedManyWithoutGroupInput
   chores?: Prisma.ChoreCreateNestedManyWithoutGroupInput
   chorePauses?: Prisma.ChorePauseCreateNestedManyWithoutGroupInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaCreateNestedManyWithoutGroupInput
 }
 
 export type GroupUncheckedCreateWithoutAnonymousMessagesInput = {
@@ -1074,6 +1114,7 @@ export type GroupUncheckedCreateWithoutAnonymousMessagesInput = {
   members?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutGroupInput
   chores?: Prisma.ChoreUncheckedCreateNestedManyWithoutGroupInput
   chorePauses?: Prisma.ChorePauseUncheckedCreateNestedManyWithoutGroupInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaUncheckedCreateNestedManyWithoutGroupInput
 }
 
 export type GroupCreateOrConnectWithoutAnonymousMessagesInput = {
@@ -1108,6 +1149,7 @@ export type GroupUpdateWithoutAnonymousMessagesInput = {
   members?: Prisma.GroupMemberUpdateManyWithoutGroupNestedInput
   chores?: Prisma.ChoreUpdateManyWithoutGroupNestedInput
   chorePauses?: Prisma.ChorePauseUpdateManyWithoutGroupNestedInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaUpdateManyWithoutGroupNestedInput
 }
 
 export type GroupUncheckedUpdateWithoutAnonymousMessagesInput = {
@@ -1126,6 +1168,99 @@ export type GroupUncheckedUpdateWithoutAnonymousMessagesInput = {
   members?: Prisma.GroupMemberUncheckedUpdateManyWithoutGroupNestedInput
   chores?: Prisma.ChoreUncheckedUpdateManyWithoutGroupNestedInput
   chorePauses?: Prisma.ChorePauseUncheckedUpdateManyWithoutGroupNestedInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaUncheckedUpdateManyWithoutGroupNestedInput
+}
+
+export type GroupCreateWithoutAnonymousMessageQuotasInput = {
+  id?: string
+  name: string
+  description?: string | null
+  joinCode?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  isArchived?: boolean
+  archivedAt?: Date | string | null
+  timezone?: string
+  choresPausedAt?: Date | string | null
+  createdBy: Prisma.UserCreateNestedOneWithoutGroupsCreatedInput
+  expenses?: Prisma.ExpenseCreateNestedManyWithoutGroupInput
+  members?: Prisma.GroupMemberCreateNestedManyWithoutGroupInput
+  chores?: Prisma.ChoreCreateNestedManyWithoutGroupInput
+  chorePauses?: Prisma.ChorePauseCreateNestedManyWithoutGroupInput
+  anonymousMessages?: Prisma.AnonymousMessageCreateNestedManyWithoutGroupInput
+}
+
+export type GroupUncheckedCreateWithoutAnonymousMessageQuotasInput = {
+  id?: string
+  name: string
+  description?: string | null
+  joinCode?: string | null
+  createdById: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  isArchived?: boolean
+  archivedAt?: Date | string | null
+  timezone?: string
+  choresPausedAt?: Date | string | null
+  expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutGroupInput
+  members?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutGroupInput
+  chores?: Prisma.ChoreUncheckedCreateNestedManyWithoutGroupInput
+  chorePauses?: Prisma.ChorePauseUncheckedCreateNestedManyWithoutGroupInput
+  anonymousMessages?: Prisma.AnonymousMessageUncheckedCreateNestedManyWithoutGroupInput
+}
+
+export type GroupCreateOrConnectWithoutAnonymousMessageQuotasInput = {
+  where: Prisma.GroupWhereUniqueInput
+  create: Prisma.XOR<Prisma.GroupCreateWithoutAnonymousMessageQuotasInput, Prisma.GroupUncheckedCreateWithoutAnonymousMessageQuotasInput>
+}
+
+export type GroupUpsertWithoutAnonymousMessageQuotasInput = {
+  update: Prisma.XOR<Prisma.GroupUpdateWithoutAnonymousMessageQuotasInput, Prisma.GroupUncheckedUpdateWithoutAnonymousMessageQuotasInput>
+  create: Prisma.XOR<Prisma.GroupCreateWithoutAnonymousMessageQuotasInput, Prisma.GroupUncheckedCreateWithoutAnonymousMessageQuotasInput>
+  where?: Prisma.GroupWhereInput
+}
+
+export type GroupUpdateToOneWithWhereWithoutAnonymousMessageQuotasInput = {
+  where?: Prisma.GroupWhereInput
+  data: Prisma.XOR<Prisma.GroupUpdateWithoutAnonymousMessageQuotasInput, Prisma.GroupUncheckedUpdateWithoutAnonymousMessageQuotasInput>
+}
+
+export type GroupUpdateWithoutAnonymousMessageQuotasInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  joinCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isArchived?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  archivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  choresPausedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdBy?: Prisma.UserUpdateOneRequiredWithoutGroupsCreatedNestedInput
+  expenses?: Prisma.ExpenseUpdateManyWithoutGroupNestedInput
+  members?: Prisma.GroupMemberUpdateManyWithoutGroupNestedInput
+  chores?: Prisma.ChoreUpdateManyWithoutGroupNestedInput
+  chorePauses?: Prisma.ChorePauseUpdateManyWithoutGroupNestedInput
+  anonymousMessages?: Prisma.AnonymousMessageUpdateManyWithoutGroupNestedInput
+}
+
+export type GroupUncheckedUpdateWithoutAnonymousMessageQuotasInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  joinCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdById?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isArchived?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  archivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  choresPausedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutGroupNestedInput
+  members?: Prisma.GroupMemberUncheckedUpdateManyWithoutGroupNestedInput
+  chores?: Prisma.ChoreUncheckedUpdateManyWithoutGroupNestedInput
+  chorePauses?: Prisma.ChorePauseUncheckedUpdateManyWithoutGroupNestedInput
+  anonymousMessages?: Prisma.AnonymousMessageUncheckedUpdateManyWithoutGroupNestedInput
 }
 
 export type GroupCreateManyCreatedByInput = {
@@ -1157,6 +1292,7 @@ export type GroupUpdateWithoutCreatedByInput = {
   chores?: Prisma.ChoreUpdateManyWithoutGroupNestedInput
   chorePauses?: Prisma.ChorePauseUpdateManyWithoutGroupNestedInput
   anonymousMessages?: Prisma.AnonymousMessageUpdateManyWithoutGroupNestedInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaUpdateManyWithoutGroupNestedInput
 }
 
 export type GroupUncheckedUpdateWithoutCreatedByInput = {
@@ -1175,6 +1311,7 @@ export type GroupUncheckedUpdateWithoutCreatedByInput = {
   chores?: Prisma.ChoreUncheckedUpdateManyWithoutGroupNestedInput
   chorePauses?: Prisma.ChorePauseUncheckedUpdateManyWithoutGroupNestedInput
   anonymousMessages?: Prisma.AnonymousMessageUncheckedUpdateManyWithoutGroupNestedInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaUncheckedUpdateManyWithoutGroupNestedInput
 }
 
 export type GroupUncheckedUpdateManyWithoutCreatedByInput = {
@@ -1201,6 +1338,7 @@ export type GroupCountOutputType = {
   chores: number
   chorePauses: number
   anonymousMessages: number
+  anonymousMessageQuotas: number
 }
 
 export type GroupCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1209,6 +1347,7 @@ export type GroupCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.
   chores?: boolean | GroupCountOutputTypeCountChoresArgs
   chorePauses?: boolean | GroupCountOutputTypeCountChorePausesArgs
   anonymousMessages?: boolean | GroupCountOutputTypeCountAnonymousMessagesArgs
+  anonymousMessageQuotas?: boolean | GroupCountOutputTypeCountAnonymousMessageQuotasArgs
 }
 
 /**
@@ -1256,6 +1395,13 @@ export type GroupCountOutputTypeCountAnonymousMessagesArgs<ExtArgs extends runti
   where?: Prisma.AnonymousMessageWhereInput
 }
 
+/**
+ * GroupCountOutputType without action
+ */
+export type GroupCountOutputTypeCountAnonymousMessageQuotasArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AnonymousMessageQuotaWhereInput
+}
+
 
 export type GroupSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1275,6 +1421,7 @@ export type GroupSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   chores?: boolean | Prisma.Group$choresArgs<ExtArgs>
   chorePauses?: boolean | Prisma.Group$chorePausesArgs<ExtArgs>
   anonymousMessages?: boolean | Prisma.Group$anonymousMessagesArgs<ExtArgs>
+  anonymousMessageQuotas?: boolean | Prisma.Group$anonymousMessageQuotasArgs<ExtArgs>
   _count?: boolean | Prisma.GroupCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["group"]>
 
@@ -1330,6 +1477,7 @@ export type GroupInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   chores?: boolean | Prisma.Group$choresArgs<ExtArgs>
   chorePauses?: boolean | Prisma.Group$chorePausesArgs<ExtArgs>
   anonymousMessages?: boolean | Prisma.Group$anonymousMessagesArgs<ExtArgs>
+  anonymousMessageQuotas?: boolean | Prisma.Group$anonymousMessageQuotasArgs<ExtArgs>
   _count?: boolean | Prisma.GroupCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type GroupIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1348,6 +1496,7 @@ export type $GroupPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     chores: Prisma.$ChorePayload<ExtArgs>[]
     chorePauses: Prisma.$ChorePausePayload<ExtArgs>[]
     anonymousMessages: Prisma.$AnonymousMessagePayload<ExtArgs>[]
+    anonymousMessageQuotas: Prisma.$AnonymousMessageQuotaPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1761,6 +1910,7 @@ export interface Prisma__GroupClient<T, Null = never, ExtArgs extends runtime.Ty
   chores<T extends Prisma.Group$choresArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Group$choresArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ChorePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   chorePauses<T extends Prisma.Group$chorePausesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Group$chorePausesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ChorePausePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   anonymousMessages<T extends Prisma.Group$anonymousMessagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Group$anonymousMessagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AnonymousMessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  anonymousMessageQuotas<T extends Prisma.Group$anonymousMessageQuotasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Group$anonymousMessageQuotasArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AnonymousMessageQuotaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2319,6 +2469,30 @@ export type Group$anonymousMessagesArgs<ExtArgs extends runtime.Types.Extensions
   take?: number
   skip?: number
   distinct?: Prisma.AnonymousMessageScalarFieldEnum | Prisma.AnonymousMessageScalarFieldEnum[]
+}
+
+/**
+ * Group.anonymousMessageQuotas
+ */
+export type Group$anonymousMessageQuotasArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AnonymousMessageQuota
+   */
+  select?: Prisma.AnonymousMessageQuotaSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the AnonymousMessageQuota
+   */
+  omit?: Prisma.AnonymousMessageQuotaOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AnonymousMessageQuotaInclude<ExtArgs> | null
+  where?: Prisma.AnonymousMessageQuotaWhereInput
+  orderBy?: Prisma.AnonymousMessageQuotaOrderByWithRelationInput | Prisma.AnonymousMessageQuotaOrderByWithRelationInput[]
+  cursor?: Prisma.AnonymousMessageQuotaWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AnonymousMessageQuotaScalarFieldEnum | Prisma.AnonymousMessageQuotaScalarFieldEnum[]
 }
 
 /**

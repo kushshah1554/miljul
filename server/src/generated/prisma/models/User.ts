@@ -228,6 +228,7 @@ export type UserWhereInput = {
   choreFineShares?: Prisma.ChoreFineShareListRelationFilter
   chorePausesStarted?: Prisma.ChorePauseListRelationFilter
   chorePausesEnded?: Prisma.ChorePauseListRelationFilter
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -254,6 +255,7 @@ export type UserOrderByWithRelationInput = {
   choreFineShares?: Prisma.ChoreFineShareOrderByRelationAggregateInput
   chorePausesStarted?: Prisma.ChorePauseOrderByRelationAggregateInput
   chorePausesEnded?: Prisma.ChorePauseOrderByRelationAggregateInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -283,6 +285,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   choreFineShares?: Prisma.ChoreFineShareListRelationFilter
   chorePausesStarted?: Prisma.ChorePauseListRelationFilter
   chorePausesEnded?: Prisma.ChorePauseListRelationFilter
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaListRelationFilter
 }, "id" | "email" | "googleId" | "refreshToken">
 
 export type UserOrderByWithAggregationInput = {
@@ -339,6 +342,7 @@ export type UserCreateInput = {
   choreFineShares?: Prisma.ChoreFineShareCreateNestedManyWithoutRecipientInput
   chorePausesStarted?: Prisma.ChorePauseCreateNestedManyWithoutPausedByInput
   chorePausesEnded?: Prisma.ChorePauseCreateNestedManyWithoutResumedByInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -365,6 +369,7 @@ export type UserUncheckedCreateInput = {
   choreFineShares?: Prisma.ChoreFineShareUncheckedCreateNestedManyWithoutRecipientInput
   chorePausesStarted?: Prisma.ChorePauseUncheckedCreateNestedManyWithoutPausedByInput
   chorePausesEnded?: Prisma.ChorePauseUncheckedCreateNestedManyWithoutResumedByInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -391,6 +396,7 @@ export type UserUpdateInput = {
   choreFineShares?: Prisma.ChoreFineShareUpdateManyWithoutRecipientNestedInput
   chorePausesStarted?: Prisma.ChorePauseUpdateManyWithoutPausedByNestedInput
   chorePausesEnded?: Prisma.ChorePauseUpdateManyWithoutResumedByNestedInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -417,6 +423,7 @@ export type UserUncheckedUpdateInput = {
   choreFineShares?: Prisma.ChoreFineShareUncheckedUpdateManyWithoutRecipientNestedInput
   chorePausesStarted?: Prisma.ChorePauseUncheckedUpdateManyWithoutPausedByNestedInput
   chorePausesEnded?: Prisma.ChorePauseUncheckedUpdateManyWithoutResumedByNestedInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -715,6 +722,20 @@ export type UserUpdateOneWithoutChorePausesEndedNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutChorePausesEndedInput, Prisma.UserUpdateWithoutChorePausesEndedInput>, Prisma.UserUncheckedUpdateWithoutChorePausesEndedInput>
 }
 
+export type UserCreateNestedOneWithoutAnonymousMessageQuotasInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAnonymousMessageQuotasInput, Prisma.UserUncheckedCreateWithoutAnonymousMessageQuotasInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAnonymousMessageQuotasInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutAnonymousMessageQuotasNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAnonymousMessageQuotasInput, Prisma.UserUncheckedCreateWithoutAnonymousMessageQuotasInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAnonymousMessageQuotasInput
+  upsert?: Prisma.UserUpsertWithoutAnonymousMessageQuotasInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAnonymousMessageQuotasInput, Prisma.UserUpdateWithoutAnonymousMessageQuotasInput>, Prisma.UserUncheckedUpdateWithoutAnonymousMessageQuotasInput>
+}
+
 export type UserCreateWithoutGroupsCreatedInput = {
   id?: string
   name: string
@@ -738,6 +759,7 @@ export type UserCreateWithoutGroupsCreatedInput = {
   choreFineShares?: Prisma.ChoreFineShareCreateNestedManyWithoutRecipientInput
   chorePausesStarted?: Prisma.ChorePauseCreateNestedManyWithoutPausedByInput
   chorePausesEnded?: Prisma.ChorePauseCreateNestedManyWithoutResumedByInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutGroupsCreatedInput = {
@@ -763,6 +785,7 @@ export type UserUncheckedCreateWithoutGroupsCreatedInput = {
   choreFineShares?: Prisma.ChoreFineShareUncheckedCreateNestedManyWithoutRecipientInput
   chorePausesStarted?: Prisma.ChorePauseUncheckedCreateNestedManyWithoutPausedByInput
   chorePausesEnded?: Prisma.ChorePauseUncheckedCreateNestedManyWithoutResumedByInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutGroupsCreatedInput = {
@@ -804,6 +827,7 @@ export type UserUpdateWithoutGroupsCreatedInput = {
   choreFineShares?: Prisma.ChoreFineShareUpdateManyWithoutRecipientNestedInput
   chorePausesStarted?: Prisma.ChorePauseUpdateManyWithoutPausedByNestedInput
   chorePausesEnded?: Prisma.ChorePauseUpdateManyWithoutResumedByNestedInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutGroupsCreatedInput = {
@@ -829,6 +853,7 @@ export type UserUncheckedUpdateWithoutGroupsCreatedInput = {
   choreFineShares?: Prisma.ChoreFineShareUncheckedUpdateManyWithoutRecipientNestedInput
   chorePausesStarted?: Prisma.ChorePauseUncheckedUpdateManyWithoutPausedByNestedInput
   chorePausesEnded?: Prisma.ChorePauseUncheckedUpdateManyWithoutResumedByNestedInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutGroupMembershipsInput = {
@@ -854,6 +879,7 @@ export type UserCreateWithoutGroupMembershipsInput = {
   choreFineShares?: Prisma.ChoreFineShareCreateNestedManyWithoutRecipientInput
   chorePausesStarted?: Prisma.ChorePauseCreateNestedManyWithoutPausedByInput
   chorePausesEnded?: Prisma.ChorePauseCreateNestedManyWithoutResumedByInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutGroupMembershipsInput = {
@@ -879,6 +905,7 @@ export type UserUncheckedCreateWithoutGroupMembershipsInput = {
   choreFineShares?: Prisma.ChoreFineShareUncheckedCreateNestedManyWithoutRecipientInput
   chorePausesStarted?: Prisma.ChorePauseUncheckedCreateNestedManyWithoutPausedByInput
   chorePausesEnded?: Prisma.ChorePauseUncheckedCreateNestedManyWithoutResumedByInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutGroupMembershipsInput = {
@@ -920,6 +947,7 @@ export type UserUpdateWithoutGroupMembershipsInput = {
   choreFineShares?: Prisma.ChoreFineShareUpdateManyWithoutRecipientNestedInput
   chorePausesStarted?: Prisma.ChorePauseUpdateManyWithoutPausedByNestedInput
   chorePausesEnded?: Prisma.ChorePauseUpdateManyWithoutResumedByNestedInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutGroupMembershipsInput = {
@@ -945,6 +973,7 @@ export type UserUncheckedUpdateWithoutGroupMembershipsInput = {
   choreFineShares?: Prisma.ChoreFineShareUncheckedUpdateManyWithoutRecipientNestedInput
   chorePausesStarted?: Prisma.ChorePauseUncheckedUpdateManyWithoutPausedByNestedInput
   chorePausesEnded?: Prisma.ChorePauseUncheckedUpdateManyWithoutResumedByNestedInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutExpensesPaidInput = {
@@ -970,6 +999,7 @@ export type UserCreateWithoutExpensesPaidInput = {
   choreFineShares?: Prisma.ChoreFineShareCreateNestedManyWithoutRecipientInput
   chorePausesStarted?: Prisma.ChorePauseCreateNestedManyWithoutPausedByInput
   chorePausesEnded?: Prisma.ChorePauseCreateNestedManyWithoutResumedByInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutExpensesPaidInput = {
@@ -995,6 +1025,7 @@ export type UserUncheckedCreateWithoutExpensesPaidInput = {
   choreFineShares?: Prisma.ChoreFineShareUncheckedCreateNestedManyWithoutRecipientInput
   chorePausesStarted?: Prisma.ChorePauseUncheckedCreateNestedManyWithoutPausedByInput
   chorePausesEnded?: Prisma.ChorePauseUncheckedCreateNestedManyWithoutResumedByInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutExpensesPaidInput = {
@@ -1036,6 +1067,7 @@ export type UserUpdateWithoutExpensesPaidInput = {
   choreFineShares?: Prisma.ChoreFineShareUpdateManyWithoutRecipientNestedInput
   chorePausesStarted?: Prisma.ChorePauseUpdateManyWithoutPausedByNestedInput
   chorePausesEnded?: Prisma.ChorePauseUpdateManyWithoutResumedByNestedInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutExpensesPaidInput = {
@@ -1061,6 +1093,7 @@ export type UserUncheckedUpdateWithoutExpensesPaidInput = {
   choreFineShares?: Prisma.ChoreFineShareUncheckedUpdateManyWithoutRecipientNestedInput
   chorePausesStarted?: Prisma.ChorePauseUncheckedUpdateManyWithoutPausedByNestedInput
   chorePausesEnded?: Prisma.ChorePauseUncheckedUpdateManyWithoutResumedByNestedInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutExpenseSplitsInput = {
@@ -1086,6 +1119,7 @@ export type UserCreateWithoutExpenseSplitsInput = {
   choreFineShares?: Prisma.ChoreFineShareCreateNestedManyWithoutRecipientInput
   chorePausesStarted?: Prisma.ChorePauseCreateNestedManyWithoutPausedByInput
   chorePausesEnded?: Prisma.ChorePauseCreateNestedManyWithoutResumedByInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutExpenseSplitsInput = {
@@ -1111,6 +1145,7 @@ export type UserUncheckedCreateWithoutExpenseSplitsInput = {
   choreFineShares?: Prisma.ChoreFineShareUncheckedCreateNestedManyWithoutRecipientInput
   chorePausesStarted?: Prisma.ChorePauseUncheckedCreateNestedManyWithoutPausedByInput
   chorePausesEnded?: Prisma.ChorePauseUncheckedCreateNestedManyWithoutResumedByInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutExpenseSplitsInput = {
@@ -1152,6 +1187,7 @@ export type UserUpdateWithoutExpenseSplitsInput = {
   choreFineShares?: Prisma.ChoreFineShareUpdateManyWithoutRecipientNestedInput
   chorePausesStarted?: Prisma.ChorePauseUpdateManyWithoutPausedByNestedInput
   chorePausesEnded?: Prisma.ChorePauseUpdateManyWithoutResumedByNestedInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutExpenseSplitsInput = {
@@ -1177,6 +1213,7 @@ export type UserUncheckedUpdateWithoutExpenseSplitsInput = {
   choreFineShares?: Prisma.ChoreFineShareUncheckedUpdateManyWithoutRecipientNestedInput
   chorePausesStarted?: Prisma.ChorePauseUncheckedUpdateManyWithoutPausedByNestedInput
   chorePausesEnded?: Prisma.ChorePauseUncheckedUpdateManyWithoutResumedByNestedInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutChoresCreatedInput = {
@@ -1202,6 +1239,7 @@ export type UserCreateWithoutChoresCreatedInput = {
   choreFineShares?: Prisma.ChoreFineShareCreateNestedManyWithoutRecipientInput
   chorePausesStarted?: Prisma.ChorePauseCreateNestedManyWithoutPausedByInput
   chorePausesEnded?: Prisma.ChorePauseCreateNestedManyWithoutResumedByInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutChoresCreatedInput = {
@@ -1227,6 +1265,7 @@ export type UserUncheckedCreateWithoutChoresCreatedInput = {
   choreFineShares?: Prisma.ChoreFineShareUncheckedCreateNestedManyWithoutRecipientInput
   chorePausesStarted?: Prisma.ChorePauseUncheckedCreateNestedManyWithoutPausedByInput
   chorePausesEnded?: Prisma.ChorePauseUncheckedCreateNestedManyWithoutResumedByInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutChoresCreatedInput = {
@@ -1268,6 +1307,7 @@ export type UserUpdateWithoutChoresCreatedInput = {
   choreFineShares?: Prisma.ChoreFineShareUpdateManyWithoutRecipientNestedInput
   chorePausesStarted?: Prisma.ChorePauseUpdateManyWithoutPausedByNestedInput
   chorePausesEnded?: Prisma.ChorePauseUpdateManyWithoutResumedByNestedInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutChoresCreatedInput = {
@@ -1293,6 +1333,7 @@ export type UserUncheckedUpdateWithoutChoresCreatedInput = {
   choreFineShares?: Prisma.ChoreFineShareUncheckedUpdateManyWithoutRecipientNestedInput
   chorePausesStarted?: Prisma.ChorePauseUncheckedUpdateManyWithoutPausedByNestedInput
   chorePausesEnded?: Prisma.ChorePauseUncheckedUpdateManyWithoutResumedByNestedInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutChoreParticipationsInput = {
@@ -1318,6 +1359,7 @@ export type UserCreateWithoutChoreParticipationsInput = {
   choreFineShares?: Prisma.ChoreFineShareCreateNestedManyWithoutRecipientInput
   chorePausesStarted?: Prisma.ChorePauseCreateNestedManyWithoutPausedByInput
   chorePausesEnded?: Prisma.ChorePauseCreateNestedManyWithoutResumedByInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutChoreParticipationsInput = {
@@ -1343,6 +1385,7 @@ export type UserUncheckedCreateWithoutChoreParticipationsInput = {
   choreFineShares?: Prisma.ChoreFineShareUncheckedCreateNestedManyWithoutRecipientInput
   chorePausesStarted?: Prisma.ChorePauseUncheckedCreateNestedManyWithoutPausedByInput
   chorePausesEnded?: Prisma.ChorePauseUncheckedCreateNestedManyWithoutResumedByInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutChoreParticipationsInput = {
@@ -1384,6 +1427,7 @@ export type UserUpdateWithoutChoreParticipationsInput = {
   choreFineShares?: Prisma.ChoreFineShareUpdateManyWithoutRecipientNestedInput
   chorePausesStarted?: Prisma.ChorePauseUpdateManyWithoutPausedByNestedInput
   chorePausesEnded?: Prisma.ChorePauseUpdateManyWithoutResumedByNestedInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutChoreParticipationsInput = {
@@ -1409,6 +1453,7 @@ export type UserUncheckedUpdateWithoutChoreParticipationsInput = {
   choreFineShares?: Prisma.ChoreFineShareUncheckedUpdateManyWithoutRecipientNestedInput
   chorePausesStarted?: Prisma.ChorePauseUncheckedUpdateManyWithoutPausedByNestedInput
   chorePausesEnded?: Prisma.ChorePauseUncheckedUpdateManyWithoutResumedByNestedInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutChoreAssignmentsInput = {
@@ -1434,6 +1479,7 @@ export type UserCreateWithoutChoreAssignmentsInput = {
   choreFineShares?: Prisma.ChoreFineShareCreateNestedManyWithoutRecipientInput
   chorePausesStarted?: Prisma.ChorePauseCreateNestedManyWithoutPausedByInput
   chorePausesEnded?: Prisma.ChorePauseCreateNestedManyWithoutResumedByInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutChoreAssignmentsInput = {
@@ -1459,6 +1505,7 @@ export type UserUncheckedCreateWithoutChoreAssignmentsInput = {
   choreFineShares?: Prisma.ChoreFineShareUncheckedCreateNestedManyWithoutRecipientInput
   chorePausesStarted?: Prisma.ChorePauseUncheckedCreateNestedManyWithoutPausedByInput
   chorePausesEnded?: Prisma.ChorePauseUncheckedCreateNestedManyWithoutResumedByInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutChoreAssignmentsInput = {
@@ -1489,6 +1536,7 @@ export type UserCreateWithoutChoreAssignmentsClosedInput = {
   choreFineShares?: Prisma.ChoreFineShareCreateNestedManyWithoutRecipientInput
   chorePausesStarted?: Prisma.ChorePauseCreateNestedManyWithoutPausedByInput
   chorePausesEnded?: Prisma.ChorePauseCreateNestedManyWithoutResumedByInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutChoreAssignmentsClosedInput = {
@@ -1514,6 +1562,7 @@ export type UserUncheckedCreateWithoutChoreAssignmentsClosedInput = {
   choreFineShares?: Prisma.ChoreFineShareUncheckedCreateNestedManyWithoutRecipientInput
   chorePausesStarted?: Prisma.ChorePauseUncheckedCreateNestedManyWithoutPausedByInput
   chorePausesEnded?: Prisma.ChorePauseUncheckedCreateNestedManyWithoutResumedByInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutChoreAssignmentsClosedInput = {
@@ -1555,6 +1604,7 @@ export type UserUpdateWithoutChoreAssignmentsInput = {
   choreFineShares?: Prisma.ChoreFineShareUpdateManyWithoutRecipientNestedInput
   chorePausesStarted?: Prisma.ChorePauseUpdateManyWithoutPausedByNestedInput
   chorePausesEnded?: Prisma.ChorePauseUpdateManyWithoutResumedByNestedInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutChoreAssignmentsInput = {
@@ -1580,6 +1630,7 @@ export type UserUncheckedUpdateWithoutChoreAssignmentsInput = {
   choreFineShares?: Prisma.ChoreFineShareUncheckedUpdateManyWithoutRecipientNestedInput
   chorePausesStarted?: Prisma.ChorePauseUncheckedUpdateManyWithoutPausedByNestedInput
   chorePausesEnded?: Prisma.ChorePauseUncheckedUpdateManyWithoutResumedByNestedInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUpsertWithoutChoreAssignmentsClosedInput = {
@@ -1616,6 +1667,7 @@ export type UserUpdateWithoutChoreAssignmentsClosedInput = {
   choreFineShares?: Prisma.ChoreFineShareUpdateManyWithoutRecipientNestedInput
   chorePausesStarted?: Prisma.ChorePauseUpdateManyWithoutPausedByNestedInput
   chorePausesEnded?: Prisma.ChorePauseUpdateManyWithoutResumedByNestedInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutChoreAssignmentsClosedInput = {
@@ -1641,6 +1693,7 @@ export type UserUncheckedUpdateWithoutChoreAssignmentsClosedInput = {
   choreFineShares?: Prisma.ChoreFineShareUncheckedUpdateManyWithoutRecipientNestedInput
   chorePausesStarted?: Prisma.ChorePauseUncheckedUpdateManyWithoutPausedByNestedInput
   chorePausesEnded?: Prisma.ChorePauseUncheckedUpdateManyWithoutResumedByNestedInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutChoreReviewsInput = {
@@ -1666,6 +1719,7 @@ export type UserCreateWithoutChoreReviewsInput = {
   choreFineShares?: Prisma.ChoreFineShareCreateNestedManyWithoutRecipientInput
   chorePausesStarted?: Prisma.ChorePauseCreateNestedManyWithoutPausedByInput
   chorePausesEnded?: Prisma.ChorePauseCreateNestedManyWithoutResumedByInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutChoreReviewsInput = {
@@ -1691,6 +1745,7 @@ export type UserUncheckedCreateWithoutChoreReviewsInput = {
   choreFineShares?: Prisma.ChoreFineShareUncheckedCreateNestedManyWithoutRecipientInput
   chorePausesStarted?: Prisma.ChorePauseUncheckedCreateNestedManyWithoutPausedByInput
   chorePausesEnded?: Prisma.ChorePauseUncheckedCreateNestedManyWithoutResumedByInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutChoreReviewsInput = {
@@ -1732,6 +1787,7 @@ export type UserUpdateWithoutChoreReviewsInput = {
   choreFineShares?: Prisma.ChoreFineShareUpdateManyWithoutRecipientNestedInput
   chorePausesStarted?: Prisma.ChorePauseUpdateManyWithoutPausedByNestedInput
   chorePausesEnded?: Prisma.ChorePauseUpdateManyWithoutResumedByNestedInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutChoreReviewsInput = {
@@ -1757,6 +1813,7 @@ export type UserUncheckedUpdateWithoutChoreReviewsInput = {
   choreFineShares?: Prisma.ChoreFineShareUncheckedUpdateManyWithoutRecipientNestedInput
   chorePausesStarted?: Prisma.ChorePauseUncheckedUpdateManyWithoutPausedByNestedInput
   chorePausesEnded?: Prisma.ChorePauseUncheckedUpdateManyWithoutResumedByNestedInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutChoreFinesOwedInput = {
@@ -1782,6 +1839,7 @@ export type UserCreateWithoutChoreFinesOwedInput = {
   choreFineShares?: Prisma.ChoreFineShareCreateNestedManyWithoutRecipientInput
   chorePausesStarted?: Prisma.ChorePauseCreateNestedManyWithoutPausedByInput
   chorePausesEnded?: Prisma.ChorePauseCreateNestedManyWithoutResumedByInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutChoreFinesOwedInput = {
@@ -1807,6 +1865,7 @@ export type UserUncheckedCreateWithoutChoreFinesOwedInput = {
   choreFineShares?: Prisma.ChoreFineShareUncheckedCreateNestedManyWithoutRecipientInput
   chorePausesStarted?: Prisma.ChorePauseUncheckedCreateNestedManyWithoutPausedByInput
   chorePausesEnded?: Prisma.ChorePauseUncheckedCreateNestedManyWithoutResumedByInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutChoreFinesOwedInput = {
@@ -1837,6 +1896,7 @@ export type UserCreateWithoutChoreFinesVoidedInput = {
   choreFineShares?: Prisma.ChoreFineShareCreateNestedManyWithoutRecipientInput
   chorePausesStarted?: Prisma.ChorePauseCreateNestedManyWithoutPausedByInput
   chorePausesEnded?: Prisma.ChorePauseCreateNestedManyWithoutResumedByInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutChoreFinesVoidedInput = {
@@ -1862,6 +1922,7 @@ export type UserUncheckedCreateWithoutChoreFinesVoidedInput = {
   choreFineShares?: Prisma.ChoreFineShareUncheckedCreateNestedManyWithoutRecipientInput
   chorePausesStarted?: Prisma.ChorePauseUncheckedCreateNestedManyWithoutPausedByInput
   chorePausesEnded?: Prisma.ChorePauseUncheckedCreateNestedManyWithoutResumedByInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutChoreFinesVoidedInput = {
@@ -1903,6 +1964,7 @@ export type UserUpdateWithoutChoreFinesOwedInput = {
   choreFineShares?: Prisma.ChoreFineShareUpdateManyWithoutRecipientNestedInput
   chorePausesStarted?: Prisma.ChorePauseUpdateManyWithoutPausedByNestedInput
   chorePausesEnded?: Prisma.ChorePauseUpdateManyWithoutResumedByNestedInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutChoreFinesOwedInput = {
@@ -1928,6 +1990,7 @@ export type UserUncheckedUpdateWithoutChoreFinesOwedInput = {
   choreFineShares?: Prisma.ChoreFineShareUncheckedUpdateManyWithoutRecipientNestedInput
   chorePausesStarted?: Prisma.ChorePauseUncheckedUpdateManyWithoutPausedByNestedInput
   chorePausesEnded?: Prisma.ChorePauseUncheckedUpdateManyWithoutResumedByNestedInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUpsertWithoutChoreFinesVoidedInput = {
@@ -1964,6 +2027,7 @@ export type UserUpdateWithoutChoreFinesVoidedInput = {
   choreFineShares?: Prisma.ChoreFineShareUpdateManyWithoutRecipientNestedInput
   chorePausesStarted?: Prisma.ChorePauseUpdateManyWithoutPausedByNestedInput
   chorePausesEnded?: Prisma.ChorePauseUpdateManyWithoutResumedByNestedInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutChoreFinesVoidedInput = {
@@ -1989,6 +2053,7 @@ export type UserUncheckedUpdateWithoutChoreFinesVoidedInput = {
   choreFineShares?: Prisma.ChoreFineShareUncheckedUpdateManyWithoutRecipientNestedInput
   chorePausesStarted?: Prisma.ChorePauseUncheckedUpdateManyWithoutPausedByNestedInput
   chorePausesEnded?: Prisma.ChorePauseUncheckedUpdateManyWithoutResumedByNestedInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutChoreFineSharesInput = {
@@ -2014,6 +2079,7 @@ export type UserCreateWithoutChoreFineSharesInput = {
   choreFinesVoided?: Prisma.ChoreFineCreateNestedManyWithoutVoidedByInput
   chorePausesStarted?: Prisma.ChorePauseCreateNestedManyWithoutPausedByInput
   chorePausesEnded?: Prisma.ChorePauseCreateNestedManyWithoutResumedByInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutChoreFineSharesInput = {
@@ -2039,6 +2105,7 @@ export type UserUncheckedCreateWithoutChoreFineSharesInput = {
   choreFinesVoided?: Prisma.ChoreFineUncheckedCreateNestedManyWithoutVoidedByInput
   chorePausesStarted?: Prisma.ChorePauseUncheckedCreateNestedManyWithoutPausedByInput
   chorePausesEnded?: Prisma.ChorePauseUncheckedCreateNestedManyWithoutResumedByInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutChoreFineSharesInput = {
@@ -2080,6 +2147,7 @@ export type UserUpdateWithoutChoreFineSharesInput = {
   choreFinesVoided?: Prisma.ChoreFineUpdateManyWithoutVoidedByNestedInput
   chorePausesStarted?: Prisma.ChorePauseUpdateManyWithoutPausedByNestedInput
   chorePausesEnded?: Prisma.ChorePauseUpdateManyWithoutResumedByNestedInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutChoreFineSharesInput = {
@@ -2105,6 +2173,7 @@ export type UserUncheckedUpdateWithoutChoreFineSharesInput = {
   choreFinesVoided?: Prisma.ChoreFineUncheckedUpdateManyWithoutVoidedByNestedInput
   chorePausesStarted?: Prisma.ChorePauseUncheckedUpdateManyWithoutPausedByNestedInput
   chorePausesEnded?: Prisma.ChorePauseUncheckedUpdateManyWithoutResumedByNestedInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutChorePausesStartedInput = {
@@ -2130,6 +2199,7 @@ export type UserCreateWithoutChorePausesStartedInput = {
   choreFinesVoided?: Prisma.ChoreFineCreateNestedManyWithoutVoidedByInput
   choreFineShares?: Prisma.ChoreFineShareCreateNestedManyWithoutRecipientInput
   chorePausesEnded?: Prisma.ChorePauseCreateNestedManyWithoutResumedByInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutChorePausesStartedInput = {
@@ -2155,6 +2225,7 @@ export type UserUncheckedCreateWithoutChorePausesStartedInput = {
   choreFinesVoided?: Prisma.ChoreFineUncheckedCreateNestedManyWithoutVoidedByInput
   choreFineShares?: Prisma.ChoreFineShareUncheckedCreateNestedManyWithoutRecipientInput
   chorePausesEnded?: Prisma.ChorePauseUncheckedCreateNestedManyWithoutResumedByInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutChorePausesStartedInput = {
@@ -2185,6 +2256,7 @@ export type UserCreateWithoutChorePausesEndedInput = {
   choreFinesVoided?: Prisma.ChoreFineCreateNestedManyWithoutVoidedByInput
   choreFineShares?: Prisma.ChoreFineShareCreateNestedManyWithoutRecipientInput
   chorePausesStarted?: Prisma.ChorePauseCreateNestedManyWithoutPausedByInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutChorePausesEndedInput = {
@@ -2210,6 +2282,7 @@ export type UserUncheckedCreateWithoutChorePausesEndedInput = {
   choreFinesVoided?: Prisma.ChoreFineUncheckedCreateNestedManyWithoutVoidedByInput
   choreFineShares?: Prisma.ChoreFineShareUncheckedCreateNestedManyWithoutRecipientInput
   chorePausesStarted?: Prisma.ChorePauseUncheckedCreateNestedManyWithoutPausedByInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutChorePausesEndedInput = {
@@ -2251,6 +2324,7 @@ export type UserUpdateWithoutChorePausesStartedInput = {
   choreFinesVoided?: Prisma.ChoreFineUpdateManyWithoutVoidedByNestedInput
   choreFineShares?: Prisma.ChoreFineShareUpdateManyWithoutRecipientNestedInput
   chorePausesEnded?: Prisma.ChorePauseUpdateManyWithoutResumedByNestedInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutChorePausesStartedInput = {
@@ -2276,6 +2350,7 @@ export type UserUncheckedUpdateWithoutChorePausesStartedInput = {
   choreFinesVoided?: Prisma.ChoreFineUncheckedUpdateManyWithoutVoidedByNestedInput
   choreFineShares?: Prisma.ChoreFineShareUncheckedUpdateManyWithoutRecipientNestedInput
   chorePausesEnded?: Prisma.ChorePauseUncheckedUpdateManyWithoutResumedByNestedInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUpsertWithoutChorePausesEndedInput = {
@@ -2312,6 +2387,7 @@ export type UserUpdateWithoutChorePausesEndedInput = {
   choreFinesVoided?: Prisma.ChoreFineUpdateManyWithoutVoidedByNestedInput
   choreFineShares?: Prisma.ChoreFineShareUpdateManyWithoutRecipientNestedInput
   chorePausesStarted?: Prisma.ChorePauseUpdateManyWithoutPausedByNestedInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutChorePausesEndedInput = {
@@ -2337,6 +2413,127 @@ export type UserUncheckedUpdateWithoutChorePausesEndedInput = {
   choreFinesVoided?: Prisma.ChoreFineUncheckedUpdateManyWithoutVoidedByNestedInput
   choreFineShares?: Prisma.ChoreFineShareUncheckedUpdateManyWithoutRecipientNestedInput
   chorePausesStarted?: Prisma.ChorePauseUncheckedUpdateManyWithoutPausedByNestedInput
+  anonymousMessageQuotas?: Prisma.AnonymousMessageQuotaUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutAnonymousMessageQuotasInput = {
+  id?: string
+  name: string
+  email: string
+  password?: string | null
+  googleId?: string | null
+  profileUrl?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  refreshToken?: string | null
+  groupsCreated?: Prisma.GroupCreateNestedManyWithoutCreatedByInput
+  groupMemberships?: Prisma.GroupMemberCreateNestedManyWithoutUserInput
+  expensesPaid?: Prisma.ExpenseCreateNestedManyWithoutPaidByInput
+  expenseSplits?: Prisma.ExpenseSplitCreateNestedManyWithoutUserInput
+  choresCreated?: Prisma.ChoreCreateNestedManyWithoutCreatedByInput
+  choreParticipations?: Prisma.ChoreParticipantCreateNestedManyWithoutUserInput
+  choreAssignments?: Prisma.ChoreAssignmentCreateNestedManyWithoutUserInput
+  choreAssignmentsClosed?: Prisma.ChoreAssignmentCreateNestedManyWithoutClosedByInput
+  choreReviews?: Prisma.ChoreReviewCreateNestedManyWithoutReviewerInput
+  choreFinesOwed?: Prisma.ChoreFineCreateNestedManyWithoutPayerInput
+  choreFinesVoided?: Prisma.ChoreFineCreateNestedManyWithoutVoidedByInput
+  choreFineShares?: Prisma.ChoreFineShareCreateNestedManyWithoutRecipientInput
+  chorePausesStarted?: Prisma.ChorePauseCreateNestedManyWithoutPausedByInput
+  chorePausesEnded?: Prisma.ChorePauseCreateNestedManyWithoutResumedByInput
+}
+
+export type UserUncheckedCreateWithoutAnonymousMessageQuotasInput = {
+  id?: string
+  name: string
+  email: string
+  password?: string | null
+  googleId?: string | null
+  profileUrl?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  refreshToken?: string | null
+  groupsCreated?: Prisma.GroupUncheckedCreateNestedManyWithoutCreatedByInput
+  groupMemberships?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutUserInput
+  expensesPaid?: Prisma.ExpenseUncheckedCreateNestedManyWithoutPaidByInput
+  expenseSplits?: Prisma.ExpenseSplitUncheckedCreateNestedManyWithoutUserInput
+  choresCreated?: Prisma.ChoreUncheckedCreateNestedManyWithoutCreatedByInput
+  choreParticipations?: Prisma.ChoreParticipantUncheckedCreateNestedManyWithoutUserInput
+  choreAssignments?: Prisma.ChoreAssignmentUncheckedCreateNestedManyWithoutUserInput
+  choreAssignmentsClosed?: Prisma.ChoreAssignmentUncheckedCreateNestedManyWithoutClosedByInput
+  choreReviews?: Prisma.ChoreReviewUncheckedCreateNestedManyWithoutReviewerInput
+  choreFinesOwed?: Prisma.ChoreFineUncheckedCreateNestedManyWithoutPayerInput
+  choreFinesVoided?: Prisma.ChoreFineUncheckedCreateNestedManyWithoutVoidedByInput
+  choreFineShares?: Prisma.ChoreFineShareUncheckedCreateNestedManyWithoutRecipientInput
+  chorePausesStarted?: Prisma.ChorePauseUncheckedCreateNestedManyWithoutPausedByInput
+  chorePausesEnded?: Prisma.ChorePauseUncheckedCreateNestedManyWithoutResumedByInput
+}
+
+export type UserCreateOrConnectWithoutAnonymousMessageQuotasInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutAnonymousMessageQuotasInput, Prisma.UserUncheckedCreateWithoutAnonymousMessageQuotasInput>
+}
+
+export type UserUpsertWithoutAnonymousMessageQuotasInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutAnonymousMessageQuotasInput, Prisma.UserUncheckedUpdateWithoutAnonymousMessageQuotasInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutAnonymousMessageQuotasInput, Prisma.UserUncheckedCreateWithoutAnonymousMessageQuotasInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutAnonymousMessageQuotasInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutAnonymousMessageQuotasInput, Prisma.UserUncheckedUpdateWithoutAnonymousMessageQuotasInput>
+}
+
+export type UserUpdateWithoutAnonymousMessageQuotasInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  groupsCreated?: Prisma.GroupUpdateManyWithoutCreatedByNestedInput
+  groupMemberships?: Prisma.GroupMemberUpdateManyWithoutUserNestedInput
+  expensesPaid?: Prisma.ExpenseUpdateManyWithoutPaidByNestedInput
+  expenseSplits?: Prisma.ExpenseSplitUpdateManyWithoutUserNestedInput
+  choresCreated?: Prisma.ChoreUpdateManyWithoutCreatedByNestedInput
+  choreParticipations?: Prisma.ChoreParticipantUpdateManyWithoutUserNestedInput
+  choreAssignments?: Prisma.ChoreAssignmentUpdateManyWithoutUserNestedInput
+  choreAssignmentsClosed?: Prisma.ChoreAssignmentUpdateManyWithoutClosedByNestedInput
+  choreReviews?: Prisma.ChoreReviewUpdateManyWithoutReviewerNestedInput
+  choreFinesOwed?: Prisma.ChoreFineUpdateManyWithoutPayerNestedInput
+  choreFinesVoided?: Prisma.ChoreFineUpdateManyWithoutVoidedByNestedInput
+  choreFineShares?: Prisma.ChoreFineShareUpdateManyWithoutRecipientNestedInput
+  chorePausesStarted?: Prisma.ChorePauseUpdateManyWithoutPausedByNestedInput
+  chorePausesEnded?: Prisma.ChorePauseUpdateManyWithoutResumedByNestedInput
+}
+
+export type UserUncheckedUpdateWithoutAnonymousMessageQuotasInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  groupsCreated?: Prisma.GroupUncheckedUpdateManyWithoutCreatedByNestedInput
+  groupMemberships?: Prisma.GroupMemberUncheckedUpdateManyWithoutUserNestedInput
+  expensesPaid?: Prisma.ExpenseUncheckedUpdateManyWithoutPaidByNestedInput
+  expenseSplits?: Prisma.ExpenseSplitUncheckedUpdateManyWithoutUserNestedInput
+  choresCreated?: Prisma.ChoreUncheckedUpdateManyWithoutCreatedByNestedInput
+  choreParticipations?: Prisma.ChoreParticipantUncheckedUpdateManyWithoutUserNestedInput
+  choreAssignments?: Prisma.ChoreAssignmentUncheckedUpdateManyWithoutUserNestedInput
+  choreAssignmentsClosed?: Prisma.ChoreAssignmentUncheckedUpdateManyWithoutClosedByNestedInput
+  choreReviews?: Prisma.ChoreReviewUncheckedUpdateManyWithoutReviewerNestedInput
+  choreFinesOwed?: Prisma.ChoreFineUncheckedUpdateManyWithoutPayerNestedInput
+  choreFinesVoided?: Prisma.ChoreFineUncheckedUpdateManyWithoutVoidedByNestedInput
+  choreFineShares?: Prisma.ChoreFineShareUncheckedUpdateManyWithoutRecipientNestedInput
+  chorePausesStarted?: Prisma.ChorePauseUncheckedUpdateManyWithoutPausedByNestedInput
+  chorePausesEnded?: Prisma.ChorePauseUncheckedUpdateManyWithoutResumedByNestedInput
 }
 
 
@@ -2359,6 +2556,7 @@ export type UserCountOutputType = {
   choreFineShares: number
   chorePausesStarted: number
   chorePausesEnded: number
+  anonymousMessageQuotas: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2376,6 +2574,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   choreFineShares?: boolean | UserCountOutputTypeCountChoreFineSharesArgs
   chorePausesStarted?: boolean | UserCountOutputTypeCountChorePausesStartedArgs
   chorePausesEnded?: boolean | UserCountOutputTypeCountChorePausesEndedArgs
+  anonymousMessageQuotas?: boolean | UserCountOutputTypeCountAnonymousMessageQuotasArgs
 }
 
 /**
@@ -2486,6 +2685,13 @@ export type UserCountOutputTypeCountChorePausesEndedArgs<ExtArgs extends runtime
   where?: Prisma.ChorePauseWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountAnonymousMessageQuotasArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AnonymousMessageQuotaWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -2511,6 +2717,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   choreFineShares?: boolean | Prisma.User$choreFineSharesArgs<ExtArgs>
   chorePausesStarted?: boolean | Prisma.User$chorePausesStartedArgs<ExtArgs>
   chorePausesEnded?: boolean | Prisma.User$chorePausesEndedArgs<ExtArgs>
+  anonymousMessageQuotas?: boolean | Prisma.User$anonymousMessageQuotasArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -2566,6 +2773,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   choreFineShares?: boolean | Prisma.User$choreFineSharesArgs<ExtArgs>
   chorePausesStarted?: boolean | Prisma.User$chorePausesStartedArgs<ExtArgs>
   chorePausesEnded?: boolean | Prisma.User$chorePausesEndedArgs<ExtArgs>
+  anonymousMessageQuotas?: boolean | Prisma.User$anonymousMessageQuotasArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -2588,6 +2796,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     choreFineShares: Prisma.$ChoreFineSharePayload<ExtArgs>[]
     chorePausesStarted: Prisma.$ChorePausePayload<ExtArgs>[]
     chorePausesEnded: Prisma.$ChorePausePayload<ExtArgs>[]
+    anonymousMessageQuotas: Prisma.$AnonymousMessageQuotaPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -3007,6 +3216,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   choreFineShares<T extends Prisma.User$choreFineSharesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$choreFineSharesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ChoreFineSharePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   chorePausesStarted<T extends Prisma.User$chorePausesStartedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$chorePausesStartedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ChorePausePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   chorePausesEnded<T extends Prisma.User$chorePausesEndedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$chorePausesEndedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ChorePausePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  anonymousMessageQuotas<T extends Prisma.User$anonymousMessageQuotasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$anonymousMessageQuotasArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AnonymousMessageQuotaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3771,6 +3981,30 @@ export type User$chorePausesEndedArgs<ExtArgs extends runtime.Types.Extensions.I
   take?: number
   skip?: number
   distinct?: Prisma.ChorePauseScalarFieldEnum | Prisma.ChorePauseScalarFieldEnum[]
+}
+
+/**
+ * User.anonymousMessageQuotas
+ */
+export type User$anonymousMessageQuotasArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AnonymousMessageQuota
+   */
+  select?: Prisma.AnonymousMessageQuotaSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the AnonymousMessageQuota
+   */
+  omit?: Prisma.AnonymousMessageQuotaOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AnonymousMessageQuotaInclude<ExtArgs> | null
+  where?: Prisma.AnonymousMessageQuotaWhereInput
+  orderBy?: Prisma.AnonymousMessageQuotaOrderByWithRelationInput | Prisma.AnonymousMessageQuotaOrderByWithRelationInput[]
+  cursor?: Prisma.AnonymousMessageQuotaWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AnonymousMessageQuotaScalarFieldEnum | Prisma.AnonymousMessageQuotaScalarFieldEnum[]
 }
 
 /**

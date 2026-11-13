@@ -2,6 +2,8 @@ import { GroupRole, Prisma } from "../../generated/prisma/client";
 import { prisma } from "../../utils/prisma";
 import { AppError } from "../../utils/AppError";
 import { assertGroupActive } from "../group/group.lifecycle";
+import { runSerializable } from "../../utils/transaction";
+import { localDateString } from "../../utils/timezone";
 import type {
   CreateAnonymousMessageInput,
   ListAnonymousMessagesQuery,
@@ -28,17 +30,47 @@ async function requireMember(userId: string, groupId: string): Promise<GroupRole
   return membership.role;
 }
 
+export const DAILY_MESSAGE_LIMIT = 3;
+
+/**
+ * Counts the post against the member's daily quota (group-local day) and
+ * creates the message in one transaction, so a rejected post never counts.
+ */
 export async function createMessage(
   authUserId: string,
   groupId: string,
   input: CreateAnonymousMessageInput,
 ): Promise<AnonymousMessageItem> {
   await requireMember(authUserId, groupId);
-  await assertGroupActive(prisma, groupId);
 
-  return prisma.anonymousMessage.create({
-    data: { groupId, content: input.content },
-    select: messageSelect,
+  return runSerializable(async (tx) => {
+    await assertGroupActive(tx, groupId);
+    const { timezone } = await tx.group.findUniqueOrThrow({
+      where: { id: groupId },
+      select: { timezone: true },
+    });
+    const day = localDateString(new Date(), timezone);
+    const key = { userId: authUserId, groupId };
+
+    // Keep no posting history beyond today.
+    await tx.anonymousMessageQuota.deleteMany({ where: { ...key, day: { not: day } } });
+    const { count } = await tx.anonymousMessageQuota.upsert({
+      where: { userId_groupId_day: { ...key, day } },
+      create: { ...key, day, count: 1 },
+      update: { count: { increment: 1 } },
+      select: { count: true },
+    });
+    if (count > DAILY_MESSAGE_LIMIT) {
+      throw new AppError(
+        429,
+        `You can post at most ${DAILY_MESSAGE_LIMIT} anonymous messages per day`,
+      );
+    }
+
+    return tx.anonymousMessage.create({
+      data: { groupId, content: input.content },
+      select: messageSelect,
+    });
   });
 }
 

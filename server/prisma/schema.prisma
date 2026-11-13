@@ -44,6 +44,8 @@ model User {
   chorePausesStarted     ChorePause[]       @relation("ChorePausedBy")
   chorePausesEnded       ChorePause[]       @relation("ChoreResumedBy")
 
+  anonymousMessageQuotas AnonymousMessageQuota[]
+
   @@map("users")
 }
 
@@ -74,7 +76,8 @@ model Group {
   chores         Chore[]
   chorePauses    ChorePause[]
 
-  anonymousMessages AnonymousMessage[]
+  anonymousMessages      AnonymousMessage[]
+  anonymousMessageQuotas AnonymousMessageQuota[]
 
   @@index([createdById])
   @@map("groups")
@@ -392,4 +395,21 @@ model AnonymousMessage {
 
   @@index([groupId, createdAt])
   @@map("anonymous_messages")
+}
+
+// Per-member daily post counter. Never references a message and has no
+// timestamps, so it cannot be used to work out who wrote what. Only the
+// current day's row is kept; older rows are deleted on the next post.
+model AnonymousMessageQuota {
+  userId  String
+  groupId String
+  day     String // "YYYY-MM-DD" in the group's timezone
+  count   Int
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  group Group @relation(fields: [groupId], references: [id], onDelete: Cascade)
+
+  @@id([userId, groupId, day])
+  @@index([groupId])
+  @@map("anonymous_message_quotas")
 }
