@@ -27,7 +27,8 @@ export default function GroupAnonymousMessagesPage() {
   });
   const create = useCreateAnonymousMessage(group.id);
   const remove = useDeleteAnonymousMessage(group.id);
-  const canDelete = isOwner(group.role) && !group.isArchived;
+  const canModerate = isOwner(group.role) && !group.isArchived;
+  const canDelete = (isMine: boolean) => !group.isArchived && (isMine || canModerate);
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -112,7 +113,7 @@ export default function GroupAnonymousMessagesPage() {
                 Anonymous · {new Date(message.createdAt).toLocaleString()}
               </p>
             </div>
-            {canDelete && (
+            {canDelete(message.isMine) && (
               <Button
                 variant="ghost"
                 size="icon-sm"

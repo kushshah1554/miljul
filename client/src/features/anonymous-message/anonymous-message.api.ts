@@ -6,6 +6,7 @@ export interface AnonymousMessage {
   id: string;
   content: string;
   createdAt: string;
+  isMine: boolean; // true only for messages the caller posted
 }
 
 interface MessagesPayload {
@@ -35,7 +36,7 @@ export function listMessages(groupId: string, query: ListMessagesQuery = {}) {
   });
 }
 
-/** DELETE /api/groups/:groupId/anonymous-messages/:messageId — OWNER */
+/** DELETE /api/groups/:groupId/anonymous-messages/:messageId — OWNER (any message) or the author */
 export function deleteMessage(groupId: string, messageId: string) {
   return apiDelete(`${messagesUrl(groupId)}/${messageId}`);
 }

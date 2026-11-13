@@ -42,6 +42,10 @@ const schema = z.object({
   CLOUDINARY_CLOUD_NAME: z.string().min(1, "CLOUDINARY_CLOUD_NAME is required"),
   CLOUDINARY_API_KEY: z.string().min(1, "CLOUDINARY_API_KEY is required"),
   CLOUDINARY_API_SECRET: z.string().min(1, "CLOUDINARY_API_SECRET is required"),
+
+  // Signs anonymous-message author hashes. Changing it makes members unable
+  // to delete their existing messages (the owner still can).
+  ANON_MESSAGE_SECRET: z.string().min(32, "ANON_MESSAGE_SECRET must be at least 32 characters"),
 });
 
 export type Env = z.infer<typeof schema>;

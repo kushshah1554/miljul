@@ -29,6 +29,7 @@ export type AnonymousMessageMinAggregateOutputType = {
   groupId: string | null
   content: string | null
   createdAt: Date | null
+  authorHash: string | null
 }
 
 export type AnonymousMessageMaxAggregateOutputType = {
@@ -36,6 +37,7 @@ export type AnonymousMessageMaxAggregateOutputType = {
   groupId: string | null
   content: string | null
   createdAt: Date | null
+  authorHash: string | null
 }
 
 export type AnonymousMessageCountAggregateOutputType = {
@@ -43,6 +45,7 @@ export type AnonymousMessageCountAggregateOutputType = {
   groupId: number
   content: number
   createdAt: number
+  authorHash: number
   _all: number
 }
 
@@ -52,6 +55,7 @@ export type AnonymousMessageMinAggregateInputType = {
   groupId?: true
   content?: true
   createdAt?: true
+  authorHash?: true
 }
 
 export type AnonymousMessageMaxAggregateInputType = {
@@ -59,6 +63,7 @@ export type AnonymousMessageMaxAggregateInputType = {
   groupId?: true
   content?: true
   createdAt?: true
+  authorHash?: true
 }
 
 export type AnonymousMessageCountAggregateInputType = {
@@ -66,6 +71,7 @@ export type AnonymousMessageCountAggregateInputType = {
   groupId?: true
   content?: true
   createdAt?: true
+  authorHash?: true
   _all?: true
 }
 
@@ -146,6 +152,7 @@ export type AnonymousMessageGroupByOutputType = {
   groupId: string
   content: string
   createdAt: Date
+  authorHash: string | null
   _count: AnonymousMessageCountAggregateOutputType | null
   _min: AnonymousMessageMinAggregateOutputType | null
   _max: AnonymousMessageMaxAggregateOutputType | null
@@ -174,6 +181,7 @@ export type AnonymousMessageWhereInput = {
   groupId?: Prisma.StringFilter<"AnonymousMessage"> | string
   content?: Prisma.StringFilter<"AnonymousMessage"> | string
   createdAt?: Prisma.DateTimeFilter<"AnonymousMessage"> | Date | string
+  authorHash?: Prisma.StringNullableFilter<"AnonymousMessage"> | string | null
   group?: Prisma.XOR<Prisma.GroupScalarRelationFilter, Prisma.GroupWhereInput>
 }
 
@@ -182,6 +190,7 @@ export type AnonymousMessageOrderByWithRelationInput = {
   groupId?: Prisma.SortOrder
   content?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  authorHash?: Prisma.SortOrderInput | Prisma.SortOrder
   group?: Prisma.GroupOrderByWithRelationInput
 }
 
@@ -193,6 +202,7 @@ export type AnonymousMessageWhereUniqueInput = Prisma.AtLeast<{
   groupId?: Prisma.StringFilter<"AnonymousMessage"> | string
   content?: Prisma.StringFilter<"AnonymousMessage"> | string
   createdAt?: Prisma.DateTimeFilter<"AnonymousMessage"> | Date | string
+  authorHash?: Prisma.StringNullableFilter<"AnonymousMessage"> | string | null
   group?: Prisma.XOR<Prisma.GroupScalarRelationFilter, Prisma.GroupWhereInput>
 }, "id">
 
@@ -201,6 +211,7 @@ export type AnonymousMessageOrderByWithAggregationInput = {
   groupId?: Prisma.SortOrder
   content?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  authorHash?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.AnonymousMessageCountOrderByAggregateInput
   _max?: Prisma.AnonymousMessageMaxOrderByAggregateInput
   _min?: Prisma.AnonymousMessageMinOrderByAggregateInput
@@ -214,12 +225,14 @@ export type AnonymousMessageScalarWhereWithAggregatesInput = {
   groupId?: Prisma.StringWithAggregatesFilter<"AnonymousMessage"> | string
   content?: Prisma.StringWithAggregatesFilter<"AnonymousMessage"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"AnonymousMessage"> | Date | string
+  authorHash?: Prisma.StringNullableWithAggregatesFilter<"AnonymousMessage"> | string | null
 }
 
 export type AnonymousMessageCreateInput = {
   id?: string
   content: string
   createdAt?: Date | string
+  authorHash?: string | null
   group: Prisma.GroupCreateNestedOneWithoutAnonymousMessagesInput
 }
 
@@ -228,12 +241,14 @@ export type AnonymousMessageUncheckedCreateInput = {
   groupId: string
   content: string
   createdAt?: Date | string
+  authorHash?: string | null
 }
 
 export type AnonymousMessageUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  authorHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   group?: Prisma.GroupUpdateOneRequiredWithoutAnonymousMessagesNestedInput
 }
 
@@ -242,6 +257,7 @@ export type AnonymousMessageUncheckedUpdateInput = {
   groupId?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  authorHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type AnonymousMessageCreateManyInput = {
@@ -249,12 +265,14 @@ export type AnonymousMessageCreateManyInput = {
   groupId: string
   content: string
   createdAt?: Date | string
+  authorHash?: string | null
 }
 
 export type AnonymousMessageUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  authorHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type AnonymousMessageUncheckedUpdateManyInput = {
@@ -262,6 +280,7 @@ export type AnonymousMessageUncheckedUpdateManyInput = {
   groupId?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  authorHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type AnonymousMessageListRelationFilter = {
@@ -279,6 +298,7 @@ export type AnonymousMessageCountOrderByAggregateInput = {
   groupId?: Prisma.SortOrder
   content?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  authorHash?: Prisma.SortOrder
 }
 
 export type AnonymousMessageMaxOrderByAggregateInput = {
@@ -286,6 +306,7 @@ export type AnonymousMessageMaxOrderByAggregateInput = {
   groupId?: Prisma.SortOrder
   content?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  authorHash?: Prisma.SortOrder
 }
 
 export type AnonymousMessageMinOrderByAggregateInput = {
@@ -293,6 +314,7 @@ export type AnonymousMessageMinOrderByAggregateInput = {
   groupId?: Prisma.SortOrder
   content?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  authorHash?: Prisma.SortOrder
 }
 
 export type AnonymousMessageCreateNestedManyWithoutGroupInput = {
@@ -341,12 +363,14 @@ export type AnonymousMessageCreateWithoutGroupInput = {
   id?: string
   content: string
   createdAt?: Date | string
+  authorHash?: string | null
 }
 
 export type AnonymousMessageUncheckedCreateWithoutGroupInput = {
   id?: string
   content: string
   createdAt?: Date | string
+  authorHash?: string | null
 }
 
 export type AnonymousMessageCreateOrConnectWithoutGroupInput = {
@@ -383,30 +407,35 @@ export type AnonymousMessageScalarWhereInput = {
   groupId?: Prisma.StringFilter<"AnonymousMessage"> | string
   content?: Prisma.StringFilter<"AnonymousMessage"> | string
   createdAt?: Prisma.DateTimeFilter<"AnonymousMessage"> | Date | string
+  authorHash?: Prisma.StringNullableFilter<"AnonymousMessage"> | string | null
 }
 
 export type AnonymousMessageCreateManyGroupInput = {
   id?: string
   content: string
   createdAt?: Date | string
+  authorHash?: string | null
 }
 
 export type AnonymousMessageUpdateWithoutGroupInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  authorHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type AnonymousMessageUncheckedUpdateWithoutGroupInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  authorHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type AnonymousMessageUncheckedUpdateManyWithoutGroupInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  authorHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -416,6 +445,7 @@ export type AnonymousMessageSelect<ExtArgs extends runtime.Types.Extensions.Inte
   groupId?: boolean
   content?: boolean
   createdAt?: boolean
+  authorHash?: boolean
   group?: boolean | Prisma.GroupDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["anonymousMessage"]>
 
@@ -424,6 +454,7 @@ export type AnonymousMessageSelectCreateManyAndReturn<ExtArgs extends runtime.Ty
   groupId?: boolean
   content?: boolean
   createdAt?: boolean
+  authorHash?: boolean
   group?: boolean | Prisma.GroupDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["anonymousMessage"]>
 
@@ -432,6 +463,7 @@ export type AnonymousMessageSelectUpdateManyAndReturn<ExtArgs extends runtime.Ty
   groupId?: boolean
   content?: boolean
   createdAt?: boolean
+  authorHash?: boolean
   group?: boolean | Prisma.GroupDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["anonymousMessage"]>
 
@@ -440,9 +472,10 @@ export type AnonymousMessageSelectScalar = {
   groupId?: boolean
   content?: boolean
   createdAt?: boolean
+  authorHash?: boolean
 }
 
-export type AnonymousMessageOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "groupId" | "content" | "createdAt", ExtArgs["result"]["anonymousMessage"]>
+export type AnonymousMessageOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "groupId" | "content" | "createdAt" | "authorHash", ExtArgs["result"]["anonymousMessage"]>
 export type AnonymousMessageInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   group?: boolean | Prisma.GroupDefaultArgs<ExtArgs>
 }
@@ -463,6 +496,7 @@ export type $AnonymousMessagePayload<ExtArgs extends runtime.Types.Extensions.In
     groupId: string
     content: string
     createdAt: Date
+    authorHash: string | null
   }, ExtArgs["result"]["anonymousMessage"]>
   composites: {}
 }
@@ -891,6 +925,7 @@ export interface AnonymousMessageFieldRefs {
   readonly groupId: Prisma.FieldRef<"AnonymousMessage", 'String'>
   readonly content: Prisma.FieldRef<"AnonymousMessage", 'String'>
   readonly createdAt: Prisma.FieldRef<"AnonymousMessage", 'DateTime'>
+  readonly authorHash: Prisma.FieldRef<"AnonymousMessage", 'String'>
 }
     
 

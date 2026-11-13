@@ -390,6 +390,9 @@ model AnonymousMessage {
   groupId   String
   content   String
   createdAt DateTime @default(now())
+  // HMAC(server secret, "userId:messageId"): lets the author prove ownership
+  // without storing who they are. Per-message, so it can't group messages by author.
+  authorHash String?
 
   group Group @relation(fields: [groupId], references: [id], onDelete: Cascade)
 

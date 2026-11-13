@@ -1,6 +1,9 @@
+import { createHmac, timingSafeEqual } from "node:crypto";
 import { GroupRole, Prisma } from "../../generated/prisma/client";
 import { prisma } from "../../utils/prisma";
 import { AppError } from "../../utils/AppError";
+import { requireFound } from "../../utils/helpers";
+import { env } from "../../config/env";
 import { assertGroupActive } from "../group/group.lifecycle";
 import { runSerializable } from "../../utils/transaction";
 import { localDateString } from "../../utils/timezone";
@@ -9,16 +12,42 @@ import type {
   ListAnonymousMessagesQuery,
 } from "./anonymous-message.validation";
 
-// The author is never stored or returned: membership is checked, then forgotten.
+// The author is never stored or returned. Only a keyed hash is kept, and the
+// client just learns `isMine` for its own messages.
 const messageSelect = {
   id: true,
   content: true,
   createdAt: true,
+  authorHash: true,
 } as const satisfies Prisma.AnonymousMessageSelect;
 
-export type AnonymousMessageItem = Prisma.AnonymousMessageGetPayload<{
-  select: typeof messageSelect;
-}>;
+export type AnonymousMessageItem = {
+  id: string;
+  content: string;
+  createdAt: Date;
+  isMine: boolean;
+};
+
+export function hashAuthor(userId: string, messageId: string): string {
+  return createHmac("sha256", env.ANON_MESSAGE_SECRET)
+    .update(`${userId}:${messageId}`)
+    .digest("hex");
+}
+
+function isAuthor(userId: string, message: { id: string; authorHash: string | null }) {
+  if (!message.authorHash) return false; // posted before author hashes existed
+  const expected = Buffer.from(hashAuthor(userId, message.id));
+  const actual = Buffer.from(message.authorHash);
+  return actual.length === expected.length && timingSafeEqual(actual, expected);
+}
+
+function toItem(
+  userId: string,
+  message: Prisma.AnonymousMessageGetPayload<{ select: typeof messageSelect }>,
+): AnonymousMessageItem {
+  const { authorHash: _hash, ...rest } = message;
+  return { ...rest, isMine: isAuthor(userId, message) };
+}
 
 /** 404 for non-members and unknown groups alike, so existence is not disclosed. */
 async function requireMember(userId: string, groupId: string): Promise<GroupRole> {
@@ -67,10 +96,17 @@ export async function createMessage(
       );
     }
 
-    return tx.anonymousMessage.create({
+    // The hash needs the message id, so it is set right after insert.
+    const { id } = await tx.anonymousMessage.create({
       data: { groupId, content: input.content },
+      select: { id: true },
+    });
+    const message = await tx.anonymousMessage.update({
+      where: { id },
+      data: { authorHash: hashAuthor(authUserId, id) },
       select: messageSelect,
     });
+    return toItem(authUserId, message);
   });
 }
 
@@ -93,23 +129,28 @@ export async function listMessages(
     prisma.anonymousMessage.count({ where }),
   ]);
 
-  return { messages, total, page, limit };
+  return { messages: messages.map((m) => toItem(authUserId, m)), total, page, limit };
 }
 
-/** Owner-only moderation: with no author on record, only the owner can remove a message. */
+/** The owner can delete any message; a member only the ones they posted. */
 export async function deleteMessage(
   authUserId: string,
   groupId: string,
   messageId: string,
 ): Promise<void> {
   const role = await requireMember(authUserId, groupId);
-  if (role !== GroupRole.OWNER) {
-    throw new AppError(403, "Only the group owner can delete messages");
-  }
   await assertGroupActive(prisma, groupId);
 
-  const { count } = await prisma.anonymousMessage.deleteMany({
-    where: { id: messageId, groupId },
-  });
-  if (count === 0) throw new AppError(404, "Message not found");
+  const message = requireFound(
+    await prisma.anonymousMessage.findFirst({
+      where: { id: messageId, groupId },
+      select: { id: true, authorHash: true },
+    }),
+    "Message not found",
+  );
+  if (role !== GroupRole.OWNER && !isAuthor(authUserId, message)) {
+    throw new AppError(403, "You can only delete your own messages");
+  }
+
+  await prisma.anonymousMessage.deleteMany({ where: { id: messageId, groupId } });
 }

@@ -290,7 +290,8 @@ export const AnonymousMessageScalarFieldEnum = {
   id: 'id',
   groupId: 'groupId',
   content: 'content',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  authorHash: 'authorHash'
 } as const
 
 export type AnonymousMessageScalarFieldEnum = (typeof AnonymousMessageScalarFieldEnum)[keyof typeof AnonymousMessageScalarFieldEnum]
