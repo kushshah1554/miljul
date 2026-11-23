@@ -76,7 +76,7 @@ export default function GroupAnonymousMessagesPage() {
             value={content}
             onChange={(e) => setContent(e.target.value)}
             placeholder="Write your message…"
-            className="w-full resize-y rounded-xl border border-input bg-background px-3 py-2 text-base shadow-xs outline-none transition-colors placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 md:text-sm"
+            className="w-full resize-y rounded-xl border border-input bg-background px-3 py-2 text-base shadow-xs outline-none transition-colors placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 md:pointer-fine:text-sm"
           />
           <div className="flex items-center justify-between gap-2">
             <span className="text-xs text-muted-foreground">

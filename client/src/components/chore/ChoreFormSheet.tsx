@@ -11,6 +11,7 @@ import { Plus, X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import { DatePicker } from "@/components/ui/date-picker";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -264,7 +265,13 @@ function CreateChoreForm({
         <Label htmlFor="chore-start">
           First turn starts <span className="font-normal text-muted-foreground">(default today)</span>
         </Label>
-        <Input id="chore-start" type="date" {...register("startDate")} />
+        <Controller
+          control={control}
+          name="startDate"
+          render={({ field }) => (
+            <DatePicker id="chore-start" value={field.value} onChange={field.onChange} onBlur={field.onBlur} />
+          )}
+        />
       </div>
 
       <fieldset className="space-y-3">

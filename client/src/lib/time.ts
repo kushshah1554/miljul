@@ -63,3 +63,14 @@ export function isValidTimezone(timeZone: string) {
     return false;
   }
 }
+
+/** "2026-10-28" → local midnight (a bare date string would parse as UTC) */
+export function inputToDate(value: string) {
+  return new Date(`${value}T00:00:00`);
+}
+
+/** Local day of `date` → "2026-10-28" */
+export function dateToInput(date: Date) {
+  const pad = (n: number) => String(n).padStart(2, "0");
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
+}

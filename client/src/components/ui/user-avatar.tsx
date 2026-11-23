@@ -12,7 +12,7 @@ export function UserAvatar({
   fallbackClassName?: string;
 }) {
   return (
-    <Avatar className={cn("size-11", className)}>
+    <Avatar className={cn("size-8", className)}>
       {/* Google's image host can refuse requests that send a referrer */}
       <AvatarImage src={user?.profileUrl ?? undefined} alt="" referrerPolicy="no-referrer" />
       <AvatarFallback className={cn("bg-background font-semibold", fallbackClassName)}>

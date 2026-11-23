@@ -10,6 +10,7 @@
 /* ─── Design tokens ─────────────────────────────────────────────────────────── */
 /* Soft "smart home" look: grey page, white rounded frame, grey cards, navy accents */
 :root {
+  color-scheme: light;
   --page-from:           oklch(0.94 0.002 270);   /* page behind the frame */
   --page-to:             oklch(0.82 0.003 270);
   --glow-from:           oklch(0.91 0.022 275);   /* lavender → cream highlight card */
@@ -205,4 +206,22 @@
 }
 .theme-icon-spin {
   animation: theme-icon-spin 0.48s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* ─── Native time pickers on touch devices (icon + placeholder come from Input) ── */
+@media (pointer: coarse) {
+  input:is([type="time"], [type="datetime-local"]) {
+    appearance: none; /* drops Android's edge-hugging arrow and iOS's auto width/height */
+  }
+  input:is([type="time"], [type="datetime-local"])::-webkit-calendar-picker-indicator {
+    display: none;
+  }
+  input:is([type="time"], [type="datetime-local"])::-webkit-date-and-time-value {
+    text-align: left; /* iOS centers it */
+  }
+  input[data-empty],
+  input[data-empty]::-webkit-date-and-time-value,
+  input[data-empty]::-webkit-datetime-edit {
+    color: transparent;
+  }
 }

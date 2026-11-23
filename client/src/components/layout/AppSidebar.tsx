@@ -329,7 +329,7 @@ function UserMenu({
           >
             <UserAvatar
               user={user}
-              className="size-12"
+              className="size-9"
               fallbackClassName="bg-primary text-base text-primary-foreground"
             />
           </span>

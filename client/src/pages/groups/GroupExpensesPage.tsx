@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Plus, X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { DatePicker } from "@/components/ui/date-picker";
 import { Label } from "@/components/ui/label";
 import { Pagination } from "@/components/ui/pagination";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -63,24 +63,24 @@ export default function GroupExpensesPage() {
         <div className="ml-auto flex flex-wrap items-end gap-2">
           <div className="space-y-1">
             <Label htmlFor="expense-from" className="text-xs">From</Label>
-            <Input
+            <DatePicker
               id="expense-from"
-              type="date"
-              className="w-36"
+              placeholder="From date"
+              className="w-40"
               value={from}
               max={to || undefined}
-              onChange={(e) => setFrom(e.target.value)}
+              onChange={setFrom}
             />
           </div>
           <div className="space-y-1">
             <Label htmlFor="expense-to" className="text-xs">To</Label>
-            <Input
+            <DatePicker
               id="expense-to"
-              type="date"
-              className="w-36"
+              placeholder="To date"
+              className="w-40"
               value={to}
               min={from || undefined}
-              onChange={(e) => setTo(e.target.value)}
+              onChange={setTo}
             />
           </div>
           {(from || to) && (
