@@ -92,7 +92,7 @@ function DatePicker({
               day: "p-0",
               day_button:
                 "size-9 rounded-full text-sm outline-none hover:bg-accent focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-40",
-              today: "font-bold",
+              today: "font-extrabold text-success",
               selected: "[&>button]:bg-primary [&>button]:text-primary-foreground",
               hidden: "invisible",
             }}
