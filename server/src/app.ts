@@ -14,6 +14,7 @@ import { choreRouter } from "./modules/chore/chore.routes";
 import { choreAssignmentRouter } from "./modules/chore-assignment/chore-assignment.routes";
 import { choreFineRouter } from "./modules/chore-fine/chore-fine.routes";
 import { anonymousMessageRouter } from "./modules/anonymous-message/anonymous-message.routes";
+import { dashboardRouter } from "./modules/dashboard/dashboard.routes";
 import { ok } from "./utils/envelope";
 import { env } from "./config/env";
 
@@ -39,6 +40,9 @@ export function mainEntryFunction() {
 
   //Users
   app.use("/api/users", userRouter);
+
+  //Dashboard
+  app.use("/api/dashboard", dashboardRouter);
 
   //Groups
   app.use("/api/groups", groupRouter);
