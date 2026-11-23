@@ -1,14 +1,14 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { Prisma } from "../../generated/prisma/client";
-import { getDashboard } from "./dashboard.service";
+import { getDashboard, getGroupLeaderboard, getGroupOverview } from "./dashboard.service";
 
 const { prismaMock } = vi.hoisted(() => ({
   prismaMock: {
-    user: { findUnique: vi.fn() },
-    groupMember: { count: vi.fn() },
-    expense: { aggregate: vi.fn() },
-    choreFineShare: { aggregate: vi.fn() },
-    choreAssignment: { count: vi.fn(), fields: { deadlineAt: "deadlineAt" } },
+    user: { findUnique: vi.fn(), findMany: vi.fn() },
+    groupMember: { count: vi.fn(), findUnique: vi.fn() },
+    expense: { aggregate: vi.fn(), groupBy: vi.fn() },
+    choreFineShare: { aggregate: vi.fn(), findMany: vi.fn() },
+    choreAssignment: { count: vi.fn(), groupBy: vi.fn(), fields: { deadlineAt: "deadlineAt" } },
   },
 }));
 vi.mock("../../utils/prisma", () => ({ prisma: prismaMock }));
@@ -62,5 +62,77 @@ describe("getDashboard", () => {
     for (const [{ where }] of prismaMock.choreFineShare.aggregate.mock.calls) {
       expect(where.fine).toMatchObject({ payerId: "u1", status: "ACTIVE" });
     }
+  });
+});
+
+describe("group overview and leaderboard", () => {
+  const D = (v: string) => new Prisma.Decimal(v);
+
+  beforeEach(() => {
+    prismaMock.groupMember.findUnique.mockResolvedValue({
+      group: { createdAt: new Date("2025-03-01T00:00:00Z"), timezone },
+    });
+  });
+
+  it("rejects non-members before reading anything", async () => {
+    prismaMock.groupMember.findUnique.mockResolvedValue(null);
+
+    await expect(getGroupOverview("u1", "g1", {}, NOW)).rejects.toMatchObject({ statusCode: 404 });
+    await expect(getGroupLeaderboard("u1", "g1", {}, NOW)).rejects.toMatchObject({ statusCode: 404 });
+    expect(prismaMock.expense.aggregate).not.toHaveBeenCalled();
+    expect(prismaMock.expense.groupBy).not.toHaveBeenCalled();
+  });
+
+  it("limits every overview query to the group, for me and for everyone", async () => {
+    const result = await getGroupOverview("u1", "g1", {}, NOW);
+
+    expect(result).toMatchObject({ year: 2026, years: [2026, 2025] });
+    const expenses = prismaMock.expense.aggregate.mock.calls.map(([a]) => a.where);
+    const fines = prismaMock.choreFineShare.aggregate.mock.calls.map(([a]) => a.where.fine);
+    const chores = prismaMock.choreAssignment.count.mock.calls.map(([a]) => a.where);
+    expect(expenses.every((w) => w.groupId === "g1")).toBe(true);
+    expect(fines.every((w) => w.assignment.chore.groupId === "g1")).toBe(true);
+    expect(chores.every((w) => w.chore.groupId === "g1")).toBe(true);
+    for (const users of [expenses.map((w) => w.paidById), fines.map((w) => w.payerId), chores.map((w) => w.userId)]) {
+      expect(users.filter((u) => u === "u1")).toHaveLength(3);
+      expect(users.filter((u) => u === undefined)).toHaveLength(3);
+    }
+  });
+
+  it("merges the totals per member for one month", async () => {
+    prismaMock.expense.groupBy.mockResolvedValue([{ paidById: "a", _sum: { amount: D("10") } }]);
+    prismaMock.choreFineShare.findMany.mockResolvedValue([
+      { amount: D("20"), fine: { payerId: "b" } },
+      { amount: D("20.5"), fine: { payerId: "b" } },
+    ]);
+    prismaMock.choreAssignment.groupBy
+      .mockResolvedValueOnce([{ userId: "b", _count: { _all: 2 } }]) // late
+      .mockResolvedValueOnce([]) // rejected
+      .mockResolvedValueOnce([{ userId: "a", _count: { _all: 4 } }]); // approved
+    const a = { id: "a", name: "A", profileUrl: null };
+    const b = { id: "b", name: "B", profileUrl: null };
+    prismaMock.user.findMany.mockResolvedValue([a, b]);
+
+    const result = await getGroupLeaderboard("u1", "g1", { year: 2025, month: 12 }, NOW);
+
+    expect(result.members).toEqual([
+      { user: a, spent: "10.00", fines: "0.00", late: 0, rejected: 0, approved: 4 },
+      { user: b, spent: "0.00", fines: "40.50", late: 2, rejected: 0, approved: 0 },
+    ]);
+    expect(result.months).toHaveLength(12);
+    expect(prismaMock.user.findMany.mock.calls[0]![0].where.id.in).toEqual(["a", "b"]);
+    expect(prismaMock.expense.groupBy.mock.calls[0]![0].where.createdAt).toEqual({
+      gte: new Date("2025-11-30T18:15:00Z"),
+      lt: new Date("2025-12-31T18:15:00Z"),
+    });
+  });
+
+  it("offers only the months so far in the current year", async () => {
+    prismaMock.expense.groupBy.mockResolvedValue([]);
+    prismaMock.choreFineShare.findMany.mockResolvedValue([]);
+    prismaMock.choreAssignment.groupBy.mockResolvedValue([]);
+    prismaMock.user.findMany.mockResolvedValue([]);
+
+    expect((await getGroupLeaderboard("u1", "g1", {}, NOW)).months).toEqual([1]);
   });
 });

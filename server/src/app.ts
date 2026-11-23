@@ -14,7 +14,7 @@ import { choreRouter } from "./modules/chore/chore.routes";
 import { choreAssignmentRouter } from "./modules/chore-assignment/chore-assignment.routes";
 import { choreFineRouter } from "./modules/chore-fine/chore-fine.routes";
 import { anonymousMessageRouter } from "./modules/anonymous-message/anonymous-message.routes";
-import { dashboardRouter } from "./modules/dashboard/dashboard.routes";
+import { dashboardRouter, groupDashboardRouter } from "./modules/dashboard/dashboard.routes";
 import { ok } from "./utils/envelope";
 import { env } from "./config/env";
 
@@ -60,6 +60,9 @@ export function mainEntryFunction() {
   app.use("/api/groups", choreRouter);
   app.use("/api/groups", choreAssignmentRouter);
   app.use("/api/groups", choreFineRouter);
+
+  //Group overview and leaderboard (subresources of groups)
+  app.use("/api/groups", groupDashboardRouter);
 
   //Anonymous messages (subresource of groups)
   app.use("/api/groups", anonymousMessageRouter);

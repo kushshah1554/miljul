@@ -34,7 +34,8 @@ export default function GroupLayout() {
             </p>
           )}
 
-          <Outlet context={group} />
+          {/* key: switching groups must not show the previous group's data or filters */}
+          <Outlet key={group.id} context={group} />
         </>
       )}
     </div>
