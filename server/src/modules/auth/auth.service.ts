@@ -13,6 +13,8 @@ import {
 } from "./token.service";
 
 const SALT_ROUNDS = 10;
+// Compared when there is no account, so response time does not reveal which emails exist
+const DUMMY_HASH = bcrypt.hashSync("no-such-account", SALT_ROUNDS);
 
 export type AuthResult = {
   user: AuthUser;
@@ -68,12 +70,8 @@ export async function login(input: LoginInput): Promise<AuthResult> {
 
   const user = await prisma.user.findUnique({ where: { email } });
   // Google-only accounts have no password
-  if (!user?.password) {
-    throw new AppError(401, "Invalid email or password");
-  }
-
-  const valid = await bcrypt.compare(input.password, user.password);
-  if (!valid) {
+  const valid = await bcrypt.compare(input.password, user?.password ?? DUMMY_HASH);
+  if (!user?.password || !valid) {
     throw new AppError(401, "Invalid email or password");
   }
 
