@@ -6,6 +6,7 @@ import { DatePicker } from "@/components/ui/date-picker";
 import { Label } from "@/components/ui/label";
 import { Pagination } from "@/components/ui/pagination";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Tabs, TabsList, TabsPanels } from "@/components/ui/tabs";
 import { UserAvatar } from "@/components/ui/user-avatar";
 import { ExpenseDetailSheet } from "@/components/expense/ExpenseDetailSheet";
 import { ExpenseFormSheet } from "@/components/expense/ExpenseFormSheet";
@@ -17,6 +18,11 @@ import type { ExpenseDetail } from "@/lib/types";
 import { useCurrentGroup } from "@/pages/groups/GroupLayout";
 
 type Scope = "all" | "mine";
+
+const TABS: Array<{ value: Scope; label: string }> = [
+  { value: "all", label: "All" },
+  { value: "mine", label: "Mine" },
+];
 
 const PAGE_SIZE = 8;
 
@@ -48,65 +54,60 @@ export default function GroupExpensesPage() {
         )}
       </div>
 
-      <div className="flex flex-wrap items-end gap-2">
-        {(["all", "mine"] as const).map((tab) => (
-          <Button
-            key={tab}
-            size="sm"
-            variant={scope === tab ? "default" : "outline"}
-            onClick={() => setScope(tab)}
-          >
-            {tab === "all" ? "All" : "Mine"}
-          </Button>
-        ))}
+      <Tabs items={TABS} value={scope} onValueChange={setScope} className="space-y-3">
+        <div className="flex flex-wrap items-end gap-2">
+          <TabsList label="Which expenses" className="bg-background" />
 
-        <div className="ml-auto flex flex-wrap items-end gap-2">
-          <div className="space-y-1">
-            <Label htmlFor="expense-from" className="text-xs">From</Label>
-            <DatePicker
-              id="expense-from"
-              placeholder="From date"
-              className="w-40"
-              value={from}
-              max={to || undefined}
-              onChange={setFrom}
-            />
+          <div className="ml-auto flex flex-wrap items-end gap-2">
+            <div className="space-y-1">
+              <Label htmlFor="expense-from" className="text-xs">From</Label>
+              <DatePicker
+                id="expense-from"
+                placeholder="From date"
+                className="w-40"
+                value={from}
+                max={to || undefined}
+                onChange={setFrom}
+              />
+            </div>
+            <div className="space-y-1">
+              <Label htmlFor="expense-to" className="text-xs">To</Label>
+              <DatePicker
+                id="expense-to"
+                placeholder="To date"
+                className="w-40"
+                value={to}
+                min={from || undefined}
+                onChange={setTo}
+              />
+            </div>
+            {(from || to) && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => {
+                  setFrom("");
+                  setTo("");
+                }}
+              >
+                <X /> Clear
+              </Button>
+            )}
           </div>
-          <div className="space-y-1">
-            <Label htmlFor="expense-to" className="text-xs">To</Label>
-            <DatePicker
-              id="expense-to"
-              placeholder="To date"
-              className="w-40"
-              value={to}
-              min={from || undefined}
-              onChange={setTo}
-            />
-          </div>
-          {(from || to) && (
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => {
-                setFrom("");
-                setTo("");
-              }}
-            >
-              <X /> Clear
-            </Button>
-          )}
         </div>
-      </div>
 
-      {/* key: a new scope or date range remounts the list, resetting it to page 1 */}
-      <ExpenseList
-        key={`${scope}|${from}|${to}`}
-        groupId={group.id}
-        scope={scope}
-        range={dateRange(from, to)}
-        filtered={!!(from || to)}
-        onSelect={setViewingId}
-      />
+        <TabsPanels className="space-y-3">
+          {/* key: a new scope or date range remounts the list, resetting it to page 1 */}
+          <ExpenseList
+            key={`${scope}|${from}|${to}`}
+            groupId={group.id}
+            scope={scope}
+            range={dateRange(from, to)}
+            filtered={!!(from || to)}
+            onSelect={setViewingId}
+          />
+        </TabsPanels>
+      </Tabs>
 
       <ExpenseDetailSheet
         groupId={group.id}

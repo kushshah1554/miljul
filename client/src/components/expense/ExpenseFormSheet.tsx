@@ -1,4 +1,4 @@
-import { Controller, useForm, useWatch } from "react-hook-form";
+import { Controller, useController, useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Button } from "@/components/ui/button";
@@ -14,6 +14,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
+import { Tabs, TabsList, TabsPanels } from "@/components/ui/tabs";
 
 import { useAuthStore } from "@/features/auth/authStore";
 import type { CreateExpenseBody } from "@/features/expense/expense.api";
@@ -22,6 +23,11 @@ import { useCreateExpense, useUpdateExpense } from "@/features/expense/useExpens
 import { useMembers } from "@/features/member/useMembers";
 import { fromCents, splitEqually, toCents } from "@/lib/money";
 import type { ExpenseDetail, GroupMemberRecord } from "@/lib/types";
+
+const SPLIT_TABS: Array<{ value: ExpenseFormValues["splitMode"]; label: string }> = [
+  { value: "equal", label: "Equally" },
+  { value: "custom", label: "Custom" },
+];
 
 /** Add a new expense, or edit `expense` when given (owner only on the server). */
 export function ExpenseFormSheet({
@@ -141,7 +147,7 @@ function ExpenseForm({
     defaultValues: defaultValues(members, myUserId, expense),
   });
 
-  const splitMode = useWatch({ control, name: "splitMode" });
+  const { field: splitModeField } = useController({ control, name: "splitMode" });
   const amount = useWatch({ control, name: "amount" });
   const splits = useWatch({ control, name: "splits" });
 
@@ -218,70 +224,60 @@ function ExpenseForm({
       </div>
 
       <fieldset className="space-y-3">
-        <div className="flex items-center justify-between gap-2">
-          <legend className="text-sm font-medium">Split</legend>
-          <Controller
-            control={control}
-            name="splitMode"
-            render={({ field }) => (
-              <div className="flex gap-1">
-                {(["equal", "custom"] as const).map((mode) => (
-                  <Button
-                    key={mode}
-                    type="button"
-                    size="sm"
-                    variant={field.value === mode ? "default" : "outline"}
-                    onClick={() => field.onChange(mode)}
-                    className="capitalize"
-                  >
-                    {mode === "equal" ? "Equally" : "Custom"}
-                  </Button>
-                ))}
-              </div>
-            )}
-          />
-        </div>
+        <Tabs
+          items={SPLIT_TABS}
+          value={splitModeField.value}
+          onValueChange={splitModeField.onChange}
+          className="space-y-3"
+        >
+          <div className="flex items-center justify-between gap-2">
+            <legend className="text-sm font-medium">Split</legend>
+            <TabsList label="How to split" />
+          </div>
 
-        <ul className="space-y-2">
-          {members.map((m, i) => {
-            const included = splits[i]?.included;
-            const share = included ? equalShares[shareIndex++] : undefined;
-            return (
-              <li key={m.userId} className="flex items-center gap-3">
-                <Controller
-                  control={control}
-                  name={`splits.${i}.included`}
-                  render={({ field }) => (
-                    <Checkbox
-                      id={`split-${m.userId}`}
-                      checked={field.value}
-                      onCheckedChange={(checked) => field.onChange(checked === true)}
+          <TabsPanels>
+            <ul className="space-y-2">
+              {members.map((m, i) => {
+                const included = splits[i]?.included;
+                const share = included ? equalShares[shareIndex++] : undefined;
+                return (
+                  <li key={m.userId} className="flex items-center gap-3">
+                    <Controller
+                      control={control}
+                      name={`splits.${i}.included`}
+                      render={({ field }) => (
+                        <Checkbox
+                          id={`split-${m.userId}`}
+                          checked={field.value}
+                          onCheckedChange={(checked) => field.onChange(checked === true)}
+                        />
+                      )}
                     />
-                  )}
-                />
-                <Label htmlFor={`split-${m.userId}`} className="min-w-0 flex-1 truncate font-normal">
-                  {m.user.name}
-                  {m.userId === myUserId ? " (you)" : ""}
-                </Label>
-                {splitMode === "custom" ? (
-                  <Input
-                    className="w-28"
-                    inputMode="decimal"
-                    placeholder="0.00"
-                    disabled={!included}
-                    aria-label={`${m.user.name}'s share`}
-                    aria-invalid={!!errors.splits?.[i]?.amount}
-                    {...register(`splits.${i}.amount`)}
-                  />
-                ) : (
-                  <span className="w-28 text-right font-mono text-sm text-muted-foreground">
-                    {share !== undefined ? fromCents(share) : "—"}
-                  </span>
-                )}
-              </li>
-            );
-          })}
-        </ul>
+                    <Label htmlFor={`split-${m.userId}`} className="min-w-0 flex-1 truncate font-normal">
+                      {m.user.name}
+                      {m.userId === myUserId ? " (you)" : ""}
+                    </Label>
+                    {splitModeField.value === "custom" ? (
+                      <Input
+                        className="w-28"
+                        inputMode="decimal"
+                        placeholder="0.00"
+                        disabled={!included}
+                        aria-label={`${m.user.name}'s share`}
+                        aria-invalid={!!errors.splits?.[i]?.amount}
+                        {...register(`splits.${i}.amount`)}
+                      />
+                    ) : (
+                      <span className="w-28 text-right font-mono text-sm text-muted-foreground">
+                        {share !== undefined ? fromCents(share) : "—"}
+                      </span>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+          </TabsPanels>
+        </Tabs>
         {splitsError && <p className="text-sm text-destructive">{splitsError}</p>}
       </fieldset>
 

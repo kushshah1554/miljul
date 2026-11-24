@@ -44,45 +44,51 @@ export function StatCards({
 }) {
   return (
     <div
-      className={cn("space-y-4 transition-opacity", isLoading && "opacity-60")}
+      className={cn("transition-opacity", isLoading && "opacity-60")}
       aria-busy={isLoading}
     >
-      <div className="grid gap-4 md:grid-cols-2">
-        <MoneyCard title="Money spent" icon={Receipt} year={data.year} totals={data.spent} />
-        <MoneyCard
-          title="Fines"
-          icon={TriangleAlert}
-          iconClass="text-destructive"
-          year={data.year}
-          totals={data.fines}
-        />
-      </div>
-
-      <section className="surface space-y-4">
-        <h2 className="text-lg font-semibold">Chores in {data.year}</h2>
-        <dl className="grid gap-3 sm:grid-cols-3">
-          <ChoreTile
-            label="Approved"
-            hint="On time, no fine"
-            value={data.chores.approved}
-            icon={CircleCheck}
-            iconClass="text-success"
-          />
-          <ChoreTile
-            label="Late"
-            hint="Done after the deadline"
-            value={data.chores.late}
-            icon={Clock}
-          />
-          <ChoreTile
-            label="Rejected"
-            hint="Work not accepted"
-            value={data.chores.rejected}
-            icon={CircleX}
+      {/* key: a new year replays the entrance animation */}
+      <div
+        key={data.year}
+        className="animate-in space-y-4 duration-300 ease-out fade-in zoom-in-98 motion-reduce:animate-none"
+      >
+        <div className="grid gap-4 md:grid-cols-2">
+          <MoneyCard title="Money spent" icon={Receipt} year={data.year} totals={data.spent} />
+          <MoneyCard
+            title="Fines"
+            icon={TriangleAlert}
             iconClass="text-destructive"
+            year={data.year}
+            totals={data.fines}
           />
-        </dl>
-      </section>
+        </div>
+
+        <section className="surface space-y-4">
+          <h2 className="text-lg font-semibold">Chores in {data.year}</h2>
+          <dl className="grid gap-3 sm:grid-cols-3">
+            <ChoreTile
+              label="Approved"
+              hint="On time, no fine"
+              value={data.chores.approved}
+              icon={CircleCheck}
+              iconClass="text-success"
+            />
+            <ChoreTile
+              label="Late"
+              hint="Done after the deadline"
+              value={data.chores.late}
+              icon={Clock}
+            />
+            <ChoreTile
+              label="Rejected"
+              hint="Work not accepted"
+              value={data.chores.rejected}
+              icon={CircleX}
+              iconClass="text-destructive"
+            />
+          </dl>
+        </section>
+      </div>
     </div>
   );
 }

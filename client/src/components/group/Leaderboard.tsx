@@ -90,13 +90,18 @@ export function Leaderboard({
       </div>
 
       {ranked.length === 0 && (
-        <p className="text-sm text-muted-foreground">Nothing to rank in {period}.</p>
+        <p className="animate-in text-sm text-muted-foreground duration-300 fade-in motion-reduce:animate-none">Nothing to rank in {period}.</p>
       )}
-      <ol className="space-y-2" aria-label={`${label} in ${period}`}>
-        {ranked.map((m) => {
+      {/* key: a new ranking or period replays the row animations */}
+      <ol key={`${board}|${period}`} className="space-y-2" aria-label={`${label} in ${period}`}>
+        {ranked.map((m, i) => {
           const rank = 1 + ranked.filter((other) => other.amount > m.amount).length;
           return (
-            <li key={m.user.id} className="flex items-center gap-3 rounded-2xl bg-background p-3">
+            <li
+              key={m.user.id}
+              className="flex animate-in items-center gap-3 rounded-2xl bg-background p-3 duration-300 ease-out fill-mode-both fade-in slide-in-from-bottom-3 motion-reduce:animate-none"
+              style={{ animationDelay: `${Math.min(i, 8) * 50}ms` }}
+            >
               <span
                 className={cn(
                   "flex size-8 shrink-0 items-center justify-center rounded-full text-sm font-bold",
@@ -118,7 +123,7 @@ export function Leaderboard({
                 </div>
                 <div className="h-1.5 overflow-hidden rounded-full bg-muted" aria-hidden>
                   <div
-                    className="h-full rounded-full bg-primary"
+                    className="h-full animate-in rounded-full bg-primary duration-700 ease-out slide-in-from-left-full motion-reduce:animate-none"
                     style={{ width: `${(m.amount / top) * 100}%` }}
                   />
                 </div>

@@ -1,12 +1,11 @@
 import { useState } from "react";
 import { CalendarDays, Trophy, User, Users } from "lucide-react";
-import { Tabs } from "radix-ui";
 import { StatCards, YearSelect } from "@/components/dashboard/DashboardStats";
 import { Leaderboard } from "@/components/group/Leaderboard";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Tabs, TabsContent, TabsList } from "@/components/ui/tabs";
 import { useGroupLeaderboard, useGroupOverview } from "@/features/group-overview/useGroupOverview";
-import { cn } from "@/lib/utils";
 import { useCurrentGroup } from "@/pages/groups/GroupLayout";
 
 const TABS = [
@@ -17,22 +16,11 @@ const TABS = [
 
 type Tab = (typeof TABS)[number]["value"];
 
-const tabIndex = (tab: Tab) => TABS.findIndex((t) => t.value === tab);
-
 export default function GroupOverviewPage() {
   const group = useCurrentGroup();
   const [year, setYear] = useState<number>(); // undefined = current year
   const [month, setMonth] = useState<number>(); // undefined = whole year
-  const [{ tab, forward }, setTab] = useState<{ tab: Tab; forward: boolean }>({
-    tab: "mine",
-    forward: true,
-  });
-  // New content slides in from the side of the tab that was clicked
-  const contentClass = cn(
-    "rounded-3xl outline-none focus-visible:ring-3 focus-visible:ring-ring/50",
-    "animate-in fade-in duration-300 ease-out motion-reduce:animate-none",
-    forward ? "slide-in-from-right-4" : "slide-in-from-left-4",
-  );
+  const [tab, setTab] = useState<Tab>("mine");
   const overview = useGroupOverview(group.id, year);
   const { data } = overview;
 
@@ -66,34 +54,9 @@ export default function GroupOverviewPage() {
       {overview.isError && <LoadError error={overview.error} onRetry={() => overview.refetch()} />}
 
       {data && (
-        <Tabs.Root
-          value={tab}
-          onValueChange={(next) =>
-            setTab({ tab: next as Tab, forward: tabIndex(next as Tab) > tabIndex(tab) })
-          }
-          className="space-y-4"
-        >
+        <Tabs items={TABS} value={tab} onValueChange={setTab} className="space-y-4">
           <div className="flex flex-wrap items-center justify-between gap-3">
-            <Tabs.List
-              aria-label="Whose totals"
-              className="relative grid w-full grid-cols-3 rounded-full bg-card p-1 sm:w-auto"
-            >
-              {/* Pill that slides under the active tab; equal columns make each step its own width */}
-              <span
-                aria-hidden
-                className="absolute inset-y-1 left-1 w-[calc((100%-0.5rem)/3)] rounded-full bg-primary transition-transform duration-300 ease-out motion-reduce:transition-none"
-                style={{ transform: `translateX(${tabIndex(tab) * 100}%)` }}
-              />
-              {TABS.map(({ value, label, icon: Icon }) => (
-                <Tabs.Trigger
-                  key={value}
-                  value={value}
-                  className="relative flex h-9 items-center justify-center gap-1.5 rounded-full px-2 text-sm whitespace-nowrap font-medium text-muted-foreground outline-none transition-colors duration-300 hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50 data-[state=active]:text-primary-foreground sm:px-4"
-                >
-                  <Icon className="hidden size-4 sm:block" aria-hidden /> {label}
-                </Tabs.Trigger>
-              ))}
-            </Tabs.List>
+            <TabsList label="Whose totals" className="w-full sm:w-fit" />
             <YearSelect
               year={year ?? data.year}
               years={data.years}
@@ -105,22 +68,22 @@ export default function GroupOverviewPage() {
           </div>
 
           {(["mine", "group"] as const).map((tab) => (
-            <Tabs.Content key={tab} value={tab} className={contentClass}>
+            <TabsContent key={tab} value={tab}>
               <StatCards
                 data={{ year: data.year, ...data[tab] }}
                 isLoading={overview.isPlaceholderData}
               />
-            </Tabs.Content>
+            </TabsContent>
           ))}
-          <Tabs.Content value="leaderboard" className={contentClass}>
+          <TabsContent value="leaderboard">
             <LeaderboardTab
               groupId={group.id}
               year={year ?? data.year}
               month={month}
               onMonthChange={setMonth}
             />
-          </Tabs.Content>
-        </Tabs.Root>
+          </TabsContent>
+        </Tabs>
       )}
     </div>
   );
