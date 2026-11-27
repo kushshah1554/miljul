@@ -9,6 +9,7 @@ import { ChoreFormSheet } from "@/components/chore/ChoreFormSheet";
 import { PauseHistory } from "@/components/chore/PauseHistory";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Tabs, TabsList, TabsPanels } from "@/components/ui/tabs";
 
 import { useMyAssignments } from "@/features/chore-assignment/useChoreAssignments";
 import { useChores } from "@/features/chore/useChores";
@@ -19,6 +20,11 @@ import type { ChoreSummary } from "@/lib/types";
 import { useCurrentGroup } from "@/pages/groups/GroupLayout";
 
 type Tab = "active" | "archived";
+
+const TABS: Array<{ value: Tab; label: string }> = [
+  { value: "active", label: "Current" },
+  { value: "archived", label: "Archived" },
+];
 
 export default function GroupChoresPage() {
   const group = useCurrentGroup();
@@ -66,38 +72,31 @@ export default function GroupChoresPage() {
           )}
         </div>
 
-        <div className="flex gap-2">
-          {(["active", "archived"] as const).map((t) => (
-            <Button
-              key={t}
-              size="sm"
-              variant={tab === t ? "default" : "outline"}
-              onClick={() => setTab(t)}
-            >
-              {t === "active" ? "Current" : "Archived"}
-            </Button>
-          ))}
-        </div>
+        <Tabs items={TABS} value={tab} onValueChange={setTab} className="space-y-3">
+          <TabsList label="Chore status" className="bg-background" />
 
-        {chores.isPending && (
-          <div className="space-y-2">
-            {Array.from({ length: 3 }, (_, i) => (
-              <Skeleton key={i} className="h-14 w-full" />
-            ))}
-          </div>
-        )}
-        {chores.isError && <p className="text-sm text-destructive">{chores.error.message}</p>}
-        {chores.data?.chores.length === 0 && (
-          <p className="text-sm text-muted-foreground">
-            {tab === "archived" ? "No archived chores." : "No chores yet."}
-          </p>
-        )}
+          <TabsPanels className="space-y-3">
+            {chores.isPending && (
+              <div className="space-y-2">
+                {Array.from({ length: 3 }, (_, i) => (
+                  <Skeleton key={i} className="h-14 w-full" />
+                ))}
+              </div>
+            )}
+            {chores.isError && <p className="text-sm text-destructive">{chores.error.message}</p>}
+            {chores.data?.chores.length === 0 && (
+              <p className="text-sm text-muted-foreground">
+                {tab === "archived" ? "No archived chores." : "No chores yet."}
+              </p>
+            )}
 
-        <ul className="space-y-1">
-          {chores.data?.chores.map((chore) => (
-            <ChoreRow key={chore.id} chore={chore} timeZone={tz} />
-          ))}
-        </ul>
+            <ul className="space-y-1">
+              {chores.data?.chores.map((chore) => (
+                <ChoreRow key={chore.id} chore={chore} timeZone={tz} />
+              ))}
+            </ul>
+          </TabsPanels>
+        </Tabs>
       </section>
 
       <PauseHistory groupId={group.id} timeZone={tz} choreNames={choreNames} />

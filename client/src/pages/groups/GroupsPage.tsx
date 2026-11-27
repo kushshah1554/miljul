@@ -7,6 +7,7 @@ import { Archive, Plus, Users, LogIn } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Tabs, TabsList, TabsPanels } from "@/components/ui/tabs";
 
 import {
   groupFormSchema,
@@ -21,7 +22,11 @@ import {
 } from "@/features/group/useGroups";
 import type { GroupStatus } from "@/features/group/group.api";
 
-const STATUS_TABS: GroupStatus[] = ["active", "archived", "all"];
+const STATUS_TABS: Array<{ value: GroupStatus; label: string }> = [
+  { value: "active", label: "Active" },
+  { value: "archived", label: "Archived" },
+  { value: "all", label: "All" },
+];
 
 export default function GroupsPage() {
   const [status, setStatus] = useState<GroupStatus>("active");
@@ -33,65 +38,57 @@ export default function GroupsPage() {
 
       <div className="grid gap-8 md:grid-cols-[1fr_320px]">
         {/* Group list */}
-        <section className="space-y-4">
-          <div className="flex flex-wrap gap-2">
-            {STATUS_TABS.map((tab) => (
-              <Button
-                key={tab}
-                size="sm"
-                variant={status === tab ? "default" : "outline"}
-                onClick={() => setStatus(tab)}
-                className="capitalize"
-              >
-                {tab}
-              </Button>
-            ))}
-          </div>
+        <section>
+          <Tabs items={STATUS_TABS} value={status} onValueChange={setStatus} className="space-y-4">
+            <TabsList label="Group status" />
 
-          {isPending && (
-            <p className="text-muted-foreground">Loading groups…</p>
-          )}
-          {isError && <p className="text-destructive">{error.message}</p>}
-          {groups?.length === 0 && (
-            <p className="text-muted-foreground">
-              No {status === "all" ? "" : status} groups yet.
-            </p>
-          )}
+            <TabsPanels className="space-y-4">
+              {isPending && (
+                <p className="text-muted-foreground">Loading groups…</p>
+              )}
+              {isError && <p className="text-destructive">{error.message}</p>}
+              {groups?.length === 0 && (
+                <p className="text-muted-foreground">
+                  No {status === "all" ? "" : status} groups yet.
+                </p>
+              )}
 
-          <ul className="space-y-3">
-            {groups?.map((group) => (
-              <li key={group.id}>
-                <Link
-                  to={`/groups/${group.id}`}
-                  className="block surface transition-shadow hover:shadow-lg hover:shadow-black/5"
-                >
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="min-w-0">
-                      <h2 className="text-lg font-semibold truncate">{group.name}</h2>
-                      {group.description && (
-                        <p className="text-sm text-muted-foreground line-clamp-2">
-                          {group.description}
-                        </p>
-                      )}
-                    </div>
-                    <div className="flex shrink-0 items-center gap-3 text-xs text-muted-foreground">
-                      {group.isArchived && (
-                        <span className="flex items-center gap-1">
-                          <Archive className="size-3.5" /> Archived
-                        </span>
-                      )}
-                      <span className="flex items-center gap-1">
-                        <Users className="size-3.5" /> {group.memberCount}
-                      </span>
-                      <span className="rounded-full bg-background px-3 py-1 font-semibold">
-                        {group.role}
-                      </span>
-                    </div>
-                  </div>
-                </Link>
-              </li>
-            ))}
-          </ul>
+              <ul className="space-y-3">
+                {groups?.map((group) => (
+                  <li key={group.id}>
+                    <Link
+                      to={`/groups/${group.id}`}
+                      className="block surface transition-shadow hover:shadow-lg hover:shadow-black/5"
+                    >
+                      <div className="flex items-start justify-between gap-4">
+                        <div className="min-w-0">
+                          <h2 className="text-lg font-semibold truncate">{group.name}</h2>
+                          {group.description && (
+                            <p className="text-sm text-muted-foreground line-clamp-2">
+                              {group.description}
+                            </p>
+                          )}
+                        </div>
+                        <div className="flex shrink-0 items-center gap-3 text-xs text-muted-foreground">
+                          {group.isArchived && (
+                            <span className="flex items-center gap-1">
+                              <Archive className="size-3.5" /> Archived
+                            </span>
+                          )}
+                          <span className="flex items-center gap-1">
+                            <Users className="size-3.5" /> {group.memberCount}
+                          </span>
+                          <span className="rounded-full bg-background px-3 py-1 font-semibold">
+                            {group.role}
+                          </span>
+                        </div>
+                      </div>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </TabsPanels>
+          </Tabs>
         </section>
 
         <aside className="space-y-6">

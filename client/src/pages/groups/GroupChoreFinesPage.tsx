@@ -6,6 +6,7 @@ import { ReasonForm } from "@/components/chore/ReasonForm";
 import { Button } from "@/components/ui/button";
 import { Pagination } from "@/components/ui/pagination";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Tabs, TabsList, TabsPanels } from "@/components/ui/tabs";
 import { UserAvatar } from "@/components/ui/user-avatar";
 
 import { useAuthStore } from "@/features/auth/authStore";
@@ -26,6 +27,12 @@ function netTone(net: string) {
 const PAGE_SIZE = 8;
 
 type Scope = "all" | "owe" | "owed";
+
+const TABS: Array<{ value: Scope; label: string }> = [
+  { value: "all", label: "All" },
+  { value: "owe", label: "I pay" },
+  { value: "owed", label: "I receive" },
+];
 
 export default function GroupChoreFinesPage() {
   const group = useCurrentGroup();
@@ -90,41 +97,30 @@ export default function GroupChoreFinesPage() {
 
       <section className="surface space-y-3">
         <h2 className="text-lg font-semibold">Fines</h2>
-        <div className="flex flex-wrap gap-2">
-          {(
-            [
-              ["all", "All"],
-              ["owe", "I pay"],
-              ["owed", "I receive"],
-            ] as const
-          ).map(([value, label]) => (
+        <Tabs items={TABS} value={scope} onValueChange={setScope} className="space-y-3">
+          <div className="flex flex-wrap items-center gap-2">
+            <TabsList label="Which fines" className="bg-background" />
             <Button
-              key={value}
               size="sm"
-              variant={scope === value ? "default" : "outline"}
-              onClick={() => setScope(value)}
+              variant={showVoided ? "default" : "outline"}
+              className="ml-auto"
+              aria-pressed={showVoided}
+              onClick={() => setShowVoided((v) => !v)}
             >
-              {label}
+              Include voided
             </Button>
-          ))}
-          <Button
-            size="sm"
-            variant={showVoided ? "default" : "outline"}
-            className="ml-auto"
-            aria-pressed={showVoided}
-            onClick={() => setShowVoided((v) => !v)}
-          >
-            Include voided
-          </Button>
-        </div>
+          </div>
 
-        {/* key: a new filter remounts the list, resetting it to page 1 */}
-        <FineList
-          key={`${scope}|${showVoided}`}
-          group={group}
-          query={query}
-          onOpenAssignment={setViewing}
-        />
+          <TabsPanels className="space-y-3">
+            {/* key: a new filter remounts the list, resetting it to page 1 */}
+            <FineList
+              key={`${scope}|${showVoided}`}
+              group={group}
+              query={query}
+              onOpenAssignment={setViewing}
+            />
+          </TabsPanels>
+        </Tabs>
       </section>
 
       <AssignmentSheet group={group} target={viewing} onClose={() => setViewing(null)} />

@@ -27,7 +27,7 @@ export function signAccessToken(user: AuthUser): string {
 
 export function verifyAccessToken(token: string): AccessTokenPayload {
   try {
-    const decoded = jwt.verify(token, env.JWT_SECRET);
+    const decoded = jwt.verify(token, env.JWT_SECRET, { algorithms: ["HS256"] });
 
     if (typeof decoded === "string" || !decoded.sub) {
       throw new AppError(401, "Invalid access token");
@@ -58,7 +58,7 @@ export function signRefreshToken(userId: string): { token: string; jti: string }
 
 export function verifyRefreshToken(token: string): RefreshTokenPayload {
   try {
-    const decoded = jwt.verify(token, env.JWT_REFRESH_SECRET);
+    const decoded = jwt.verify(token, env.JWT_REFRESH_SECRET, { algorithms: ["HS256"] });
 
     if (typeof decoded === "string" || !decoded.sub || !decoded.jti) {
       throw new AppError(401, "Invalid refresh token");

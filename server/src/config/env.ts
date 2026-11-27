@@ -7,6 +7,8 @@ const schema = z.object({
     .default("development"),
   PORT: z.coerce.number().int().positive().default(5000),
   //   DATABASE_URL: z.string().url(),
+  // 0 = no proxy (local). See DEPLOYMENT.md for Render.
+  TRUST_PROXY_HOPS: z.coerce.number().int().min(0).max(10).default(0),
   LOG_LEVEL: z
     .enum(["trace", "debug", "info", "warn", "error", "fatal"])
     .default("info"),
@@ -15,8 +17,8 @@ const schema = z.object({
     .default("http://localhost:5173")
     .transform((v) => v.split(",").map((o) => o.trim())),
 
-  JWT_SECRET: z.string().min(1, "JWT_SECRET is required"),
-  JWT_REFRESH_SECRET: z.string().min(1, "JWT_REFRESH_SECRET is required"),
+  JWT_SECRET: z.string().min(32, "JWT_SECRET must be at least 32 characters"),
+  JWT_REFRESH_SECRET: z.string().min(32, "JWT_REFRESH_SECRET must be at least 32 characters"),
   ACCESS_TOKEN_TTL: z.string().default("15m"),
   REFRESH_TOKEN_TTL_DAYS: z.coerce.number().int().positive().default(7),
   // postgresql
@@ -46,6 +48,10 @@ const schema = z.object({
   // Signs anonymous-message author hashes. Changing it makes members unable
   // to delete their existing messages (the owner still can).
   ANON_MESSAGE_SECRET: z.string().min(32, "ANON_MESSAGE_SECRET must be at least 32 characters"),
+}).refine((e) => e.JWT_SECRET !== e.JWT_REFRESH_SECRET, {
+  // With one shared secret a refresh token would also pass as an access token
+  message: "JWT_SECRET and JWT_REFRESH_SECRET must be different",
+  path: ["JWT_REFRESH_SECRET"],
 });
 
 export type Env = z.infer<typeof schema>;

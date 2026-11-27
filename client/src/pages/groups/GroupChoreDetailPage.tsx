@@ -10,7 +10,6 @@ import {
   Pencil,
   Play,
 } from "lucide-react";
-import { Tabs } from "radix-ui";
 
 import { AssignmentRow } from "@/components/chore/AssignmentRow";
 import { AssignmentSheet, type AssignmentRef } from "@/components/chore/AssignmentSheet";
@@ -24,6 +23,7 @@ import { ReasonForm } from "@/components/chore/ReasonForm";
 import { Button } from "@/components/ui/button";
 import { Pagination } from "@/components/ui/pagination";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Tabs, TabsContent, TabsList, TabsPanels } from "@/components/ui/tabs";
 import { UserAvatar } from "@/components/ui/user-avatar";
 
 import { useAuthStore } from "@/features/auth/authStore";
@@ -63,7 +63,9 @@ export default function GroupChoreDetailPage() {
 
 type OwnerAction = "pause" | "archive" | null;
 
-const TABS = ["Turn", "Cycle", "Participants", "Checklist", "History", "Pause history"];
+const TABS = ["Turn", "Cycle", "Participants", "Checklist", "History", "Pause history"].map(
+  (tab) => ({ value: tab, label: tab }),
+);
 
 function ChoreView({ group, chore }: { group: Group; chore: ChoreDetail }) {
   const myUserId = useAuthStore((s) => s.user?.id ?? "");
@@ -196,18 +198,15 @@ function ChoreView({ group, chore }: { group: Group; chore: ChoreDetail }) {
         )}
       </section>
 
-      <Tabs.Root value={tab} onValueChange={setSelectedTab} className="space-y-5">
-        <Tabs.List aria-label="Chore details" className="flex flex-wrap gap-2">
-          {TABS.filter((t) => !archived || t !== "Cycle").map((t) => (
-            <Tabs.Trigger key={t} value={t} asChild>
-              <Button size="sm" variant={tab === t ? "default" : "outline"}>
-                {t}
-              </Button>
-            </Tabs.Trigger>
-          ))}
-        </Tabs.List>
+      <Tabs
+        items={TABS.filter((t) => !archived || t.value !== "Cycle")}
+        value={tab}
+        onValueChange={setSelectedTab}
+        className="space-y-5"
+      >
+        <TabsList label="Chore details" />
 
-        <Tabs.Content value="Turn" className="space-y-5">
+        <TabsContent value="Turn" className="space-y-5">
           <section className="surface space-y-3">
             <h2 className="text-lg font-semibold">Current turn</h2>
             {current ? (
@@ -271,9 +270,9 @@ function ChoreView({ group, chore }: { group: Group; chore: ChoreDetail }) {
               </p>
             </section>
           )}
-        </Tabs.Content>
+        </TabsContent>
 
-        <Tabs.Content value="Cycle">
+        <TabsContent value="Cycle">
           <ChoreQueueCard
             groupId={group.id}
             chore={chore}
@@ -281,9 +280,9 @@ function ChoreView({ group, chore }: { group: Group; chore: ChoreDetail }) {
             canManage={manage}
             timeZone={tz}
           />
-        </Tabs.Content>
+        </TabsContent>
 
-        <Tabs.Content value="Participants">
+        <TabsContent value="Participants">
           <ChoreParticipantsCard
             groupId={group.id}
             chore={chore}
@@ -291,9 +290,9 @@ function ChoreView({ group, chore }: { group: Group; chore: ChoreDetail }) {
             canManage={manage}
             timeZone={tz}
           />
-        </Tabs.Content>
+        </TabsContent>
 
-        <Tabs.Content value="Checklist">
+        <TabsContent value="Checklist">
           <section className="surface space-y-3">
             <div className="flex items-center justify-between gap-2">
               <h2 className="text-lg font-semibold">Checklist</h2>
@@ -315,16 +314,16 @@ function ChoreView({ group, chore }: { group: Group; chore: ChoreDetail }) {
               ))}
             </ul>
           </section>
-        </Tabs.Content>
+        </TabsContent>
 
-        <Tabs.Content value="History">
+        <TabsContent value="History">
           <HistoryCard group={group} chore={chore} nameOf={nameOf} onSelect={open} />
-        </Tabs.Content>
+        </TabsContent>
 
-        <Tabs.Content value="Pause history">
+        <TabsContent value="Pause history">
           <PauseHistory groupId={group.id} choreId={chore.id} timeZone={tz} />
-        </Tabs.Content>
-      </Tabs.Root>
+        </TabsContent>
+      </Tabs>
 
       <ChoreFormSheet groupId={group.id} open={editing} onOpenChange={setEditing} chore={chore} />
       <ChecklistSheet
@@ -340,28 +339,52 @@ function ChoreView({ group, chore }: { group: Group; chore: ChoreDetail }) {
 }
 
 const PAGE_SIZE = 8;
-const FILTERS: Array<{ label: string; status?: ChoreAssignmentStatus; overdue?: true }> = [
-  { label: "All" },
-  { label: "Overdue", overdue: true },
-  { label: "Done", status: "APPROVED" },
-  { label: "Rejected", status: "REJECTED" },
-  { label: "Skipped", status: "SKIPPED" },
+const FILTERS: Array<{
+  value: string;
+  label: string;
+  status?: ChoreAssignmentStatus;
+  overdue?: true;
+}> = [
+  { value: "all", label: "All" },
+  { value: "overdue", label: "Overdue", overdue: true },
+  { value: "done", label: "Done", status: "APPROVED" },
+  { value: "rejected", label: "Rejected", status: "REJECTED" },
+  { value: "skipped", label: "Skipped", status: "SKIPPED" },
 ];
 
-function HistoryCard({
-  group,
-  chore,
-  nameOf,
-  onSelect,
-}: {
+interface HistoryProps {
   group: Group;
   chore: ChoreDetail;
   nameOf: (userId: string) => string;
   onSelect: (assignmentId: string) => void;
-}) {
-  const [filter, setFilter] = useState(0);
+}
+
+function HistoryCard(props: HistoryProps) {
+  const [filter, setFilter] = useState("all");
+
+  return (
+    <section className="surface space-y-3">
+      <h2 className="text-lg font-semibold">History</h2>
+      <Tabs items={FILTERS} value={filter} onValueChange={setFilter} className="space-y-3">
+        <TabsList label="Filter turns" className="bg-background" />
+        <TabsPanels className="space-y-3">
+          <HistoryList {...props} filter={filter} />
+        </TabsPanels>
+      </Tabs>
+    </section>
+  );
+}
+
+/** Remounted per filter (TabsPanels), which also resets it to page 1. */
+function HistoryList({
+  group,
+  chore,
+  nameOf,
+  onSelect,
+  filter,
+}: HistoryProps & { filter: string }) {
   const [page, setPage] = useState(1);
-  const { status, overdue } = FILTERS[filter];
+  const { status, overdue } = FILTERS.find((f) => f.value === filter) ?? FILTERS[0];
   const { data, isPending, isError, error, isPlaceholderData } = useChoreAssignments(
     group.id,
     chore.id,
@@ -369,24 +392,7 @@ function HistoryCard({
   );
 
   return (
-    <section className="surface space-y-3">
-      <h2 className="text-lg font-semibold">History</h2>
-      <div className="flex flex-wrap gap-2">
-        {FILTERS.map((f, i) => (
-          <Button
-            key={f.label}
-            size="sm"
-            variant={filter === i ? "default" : "outline"}
-            onClick={() => {
-              setFilter(i);
-              setPage(1);
-            }}
-          >
-            {f.label}
-          </Button>
-        ))}
-      </div>
-
+    <>
       {isPending && <Skeleton className="h-24 w-full" />}
       {isError && <p className="text-sm text-destructive">{error.message}</p>}
       {data?.assignments.length === 0 && (
@@ -413,6 +419,6 @@ function HistoryCard({
           disabled={isPlaceholderData}
         />
       )}
-    </section>
+    </>
   );
 }
